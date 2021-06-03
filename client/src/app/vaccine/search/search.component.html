@@ -1,0 +1,20 @@
+<mat-card align="center">
+  <mat-card-header>
+    <mat-card-title>Check your nearest vaccination center and slots availability</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-horizontal-stepper labelPosition="bottom" #stepper (selectionChange)="clearResetOnChange($event)"
+      (click)="clearResetOnClick($event)">
+      <mat-step [stepControl]="searchDistrictForm" [editable]="isEditable">
+        <ng-template matStepLabel id="mat1">Search by District</ng-template>
+        <app-search-by-district [searchDistrictForm]="searchDistrictForm" [getDate]="getDate()" (emittedEvent)="receivedEvent($event)"></app-search-by-district>
+      </mat-step>
+      <mat-step [stepControl]="searchPinForm" [editable]="isEditable">
+        <ng-template matStepLabel>Search by Pin</ng-template>
+        <app-search-by-pin [searchPinForm]="searchPinForm" [getDate]="getDate()" (emittedEvent)="receivedEvent($event)"></app-search-by-pin>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+  <mat-card-actions></mat-card-actions>
+  <mat-card-footer></mat-card-footer>
+</mat-card>

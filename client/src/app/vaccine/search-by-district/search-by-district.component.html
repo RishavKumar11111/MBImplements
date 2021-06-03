@@ -1,0 +1,37 @@
+<form [formGroup]="searchDistrictForm" #searchDistrictFormID novalidate autocomplete="off" role="form">
+  <mat-form-field appearance="fill">
+    <mat-label>State</mat-label>
+    <mat-select formControlName="selectedState" placeholder="Select State" (focus)="addValidators($event)"
+      (selectionChange)="getDistricts()" required>
+      <mat-option disabled>Select State</mat-option>
+      <mat-option *ngFor="let state of states" [value]="state">
+        {{state.state_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="sdf.selectedState.hasError('required')">Please choose a State</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>District</mat-label>
+    <mat-select formControlName="selectedDistrict" placeholder="Select District" (focus)="addValidators($event)"
+      required>
+      <mat-option disabled>Select District</mat-option>
+      <mat-option *ngFor="let district of districts" [value]="district">
+        {{district.district_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="sdf.selectedDistrict.hasError('required')">Please choose a District</mat-error>
+  </mat-form-field>
+  <div class="btn-div">
+    <button mat-raised-button mat-button [disabled]="loading == true" (click)="clearResetOnChange($event)" color="warn">Reset</button>
+    <button mat-raised-button color="primary"
+      [disabled]="searchDistrictForm.status == 'INVALID' || sdf.selectedDistrict.value == '' || loading == true"
+      (click)="getSlotAvailabilityByDistrictForWeek()">
+      <span matTooltipPosition="below"
+        [matTooltip]="searchDistrictForm.status == 'INVALID' || sdf.selectedDistrict.value == '' ? 'Please select a District.' : ''">
+        <span *ngIf="loading == true" class="spinner-border spinner-border-sm mr-1"></span>
+        Get Slot Availability
+      </span>
+    </button>
+    <button mat-raised-button mat-button matStepperNext color="accent" [disabled]="loading == true">Next</button>
+  </div>
+</form>

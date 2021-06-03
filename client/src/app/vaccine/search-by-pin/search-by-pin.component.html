@@ -1,0 +1,23 @@
+<form [formGroup]="searchPinForm" #searchPinFormID novalidate autocomplete="off" role="form">
+  <mat-form-field>
+    <mat-label>Pin</mat-label>
+    <input matInput formControlName="enteredPin" numbersOnly minlength="6" maxlength="6" placeholder="Enter Pin"
+      (focus)="addValidators($event)" (keypress)="keyPress($event)" required>
+    <mat-error *ngIf="spf.enteredPin.hasError('required')">Please enter a Pin</mat-error>
+    <mat-error *ngIf="spf.enteredPin.hasError('minlength') || spf.enteredPin.hasError('maxlength')">Pin must
+      contain 6 characters</mat-error>
+  </mat-form-field>
+  <div class="btn-div">
+    <button mat-raised-button mat-button matStepperPrevious color="accent" [disabled]="loading == true">Back</button>
+    <button mat-raised-button color="primary"
+      [disabled]="searchPinForm.status == 'INVALID' || spf.enteredPin.value == '' || loading == true"
+      (click)="getSlotAvailabilityByPinForWeek()">
+      <span matTooltipPosition="below"
+        [matTooltip]="searchPinForm.status == 'INVALID' || spf.enteredPin.value == '' ? 'Please enter a Pin.' : ''">
+        <span *ngIf="loading == true" class="spinner-border spinner-border-sm mr-1"></span>
+        Get Slot Availability
+      </span>
+    </button>
+    <button mat-raised-button mat-button [disabled]="loading == true" (click)="clearResetOnChange($event)" color="warn">Reset</button>
+  </div>
+</form>

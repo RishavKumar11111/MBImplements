@@ -1,0 +1,44 @@
+mat-card {
+  margin: 15vh 10vw;
+  background: #cddc39;
+}
+
+mat-horizontal-stepper {
+  background: #f9fbe7;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  display: inline-flex !important;
+}
+
+mat-form-field {
+  margin: 1vh 1vw;
+  width: 25vw;
+}
+
+button {
+  margin: 1vh 1vw;
+}
+
+@media screen and (max-width: 480px) {
+  mat-card {
+    margin: 0;
+    height: 100vh;
+  }
+
+  mat-horizontal-stepper {
+    height: 75vh;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header-container {
+    display: flex !important;
+  }
+
+  mat-form-field {
+    margin: 10vh 1vw;
+  }
+
+  .btn-div {
+    margin: 3vh 0;
+  }
+}

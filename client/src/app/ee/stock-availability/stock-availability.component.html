@@ -1,0 +1,74 @@
+<form (ngSubmit)="onSubmit()" #stockAvailabilityForm="ngForm" novalidate autocomplete="off" role="form">
+  <div class="main-card mb-3 card">
+    <div class="card-header">
+      <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>Select District
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <div class="row">
+        <div class="form-group col-md-3"></div>
+        <div class="form-group col-md-6">
+          <label for="ddlDistrict" class="control-label">District <span class="text-danger">*</span></label>
+          <select class="form-control" id="ddlDistrict" [(ngModel)]="selectedDistrict" name="district"
+            #district="ngModel" (change)="loadImplementStockDetails();" required>
+            <option value="" disabled>---Select District---</option>
+            <option *ngFor="let x of districtList" [ngValue]="x">{{x.DistrictName}}
+            </option>
+          </select>
+          <div [hidden]="district.valid || district.pristine" class="alert alert-danger">
+            District is required
+          </div>
+        </div>
+        <div class="form-group col-md-3"></div>
+      </div>
+    </div>
+    <div class="d-block text-right card-footer"></div>
+  </div>
+  <div class="main-card mb-3 card" *ngIf="implementStockList.length > 0">
+    <div class="card-header">
+      <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>Enter the amount of surplus stocks available
+    </div>
+    <div class="card-body">
+      <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Total</th>
+            <th>{{ totalAvailableSurplusStocks }}</th>
+          </tr>
+          <tr>
+            <th>Serial No.</th>
+            <th>Implement</th>
+            <th>Total No. of Available Surplus Stocks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of implementStockList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ x.ImplementName }}</td>
+            <td>
+              <input type="text" class="form-control" placeholder="Enter No. of Available Surplus Stocks"
+                id="availableSurplusStocks[{{i}}]" name="availableSurplusStocks[{{i}}]"
+                [(ngModel)]="x.EnteredAvailableSurplusStocks" [disabled]="x.Status == 0"
+                (ngModelChange)="calculateTotalAvailableSurplusStocks();" (keypress)="keyPress($event)"
+                numbersOnly minlength="1" maxlength="4">
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th>Total</th>
+            <th>{{ totalAvailableSurplusStocks }}</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="d-block text-right card-footer">
+      <button *ngIf="!submitted || foundNULL" type="submit" id="submit" class="btn btn-success"
+        [disabled]="!stockAvailabilityForm.form.valid">Submit</button>
+      <!-- <button *ngIf="submitted" type="submit" id="update" class="btn btn-info"
+        [disabled]="!stockAvailabilityForm.form.valid">Update</button> -->
+    </div>
+  </div>
+</form>
