@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DistrictTargetComponent } from './district-target/district-target.component';
-import { ImplementPriceComponent } from './implement-price/implement-price.component';
+import { AddModifyImplementTargetComponent } from './add-modify-implement-target/add-modify-implement-target.component';
+import { AddModifyImplementPriceComponent } from './add-modify-implement-price/add-modify-implement-price.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
@@ -16,12 +16,12 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: 'districtTarget',
-    component: DistrictTargetComponent
+    path: 'addModifyImplementTarget',
+    component: AddModifyImplementTargetComponent
   },
   {
-    path: 'implementPrice',
-    component: ImplementPriceComponent
+    path: 'addModifyImplementPrice',
+    component: AddModifyImplementPriceComponent
   },
   {
     path: 'changePassword',

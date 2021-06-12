@@ -8,15 +8,15 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DistrictTargetComponent } from './district-target/district-target.component';
-import { ImplementPriceComponent } from './implement-price/implement-price.component';
+import { AddModifyImplementTargetComponent } from './add-modify-implement-target/add-modify-implement-target.component';
+import { AddModifyImplementPriceComponent } from './add-modify-implement-price/add-modify-implement-price.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DistrictTargetComponent,
-    ImplementPriceComponent,
+    AddModifyImplementTargetComponent,
+    AddModifyImplementPriceComponent,
     ChangePasswordComponent
   ],
   imports: [

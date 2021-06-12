@@ -1,0 +1,109 @@
+<div class="main-card mb-3 card">
+  <div class="card-header">
+    <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>Select the Financial Year, select / enter the Implement & enter it's Price
+  </div>
+  <form [formGroup]="addModifyImplementPriceForm" #addModifyImplementPriceFormID (ngSubmit)="onSubmit()" novalidate
+    autocomplete="off" role="form">
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="ddlFinancialYear" class="control-label">Financial Year <span class="text-danger">*</span></label>
+          <select class="form-control" id="ddlFinancialYear" formControlName="selectedFinancialYear"
+            (change)="populateImplements();">
+            <option value="" disabled>---Select Financial Year---</option>
+            <option *ngFor="let x of financialYears" [ngValue]="x">{{x}}
+            </option>
+          </select>
+          <div *ngIf="selectedFinancialYear.invalid && (selectedFinancialYear.dirty || selectedFinancialYear.touched)"
+            class="alert alert-danger">
+            <div *ngIf="selectedFinancialYear.errors.required">
+              Financial Year is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-4" *ngIf="!showImplementText">
+          <label for="ddlImplement" class="control-label">Implement <span class="text-danger">*</span></label>
+          <select class="form-control" id="ddlImplement" formControlName="selectedImplement"
+            (change)="populateImplementCost();">
+            <option value="" disabled>---Select Implement---</option>
+            <option *ngFor="let x of implementDetailsList" [ngValue]="x">{{x.ImplementName}}
+            </option>
+          </select>
+          <div *ngIf="selectedImplement.invalid && (selectedImplement.dirty || selectedImplement.touched)" class="alert alert-danger">
+            <div *ngIf="selectedImplement.errors.required">
+              Implement is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-4" *ngIf="showImplementText">
+          <label for="txtImplement" class="control-label">Implement <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Implement" id="txtImplement"
+            formControlName="enteredImplement" (keypress)="keyPress($event)" minlength="1" maxlength="300">
+            <div *ngIf="enteredImplement.invalid && (enteredImplement.dirty || enteredImplement.touched)" class="alert alert-danger">
+              <div *ngIf="enteredImplement.errors.required">
+                Implement is required
+              </div>
+              <div *ngIf="enteredImplement.errors.pattern">
+                Implement must contain characters within (a-z), (A-Z), (0-9) and (space , @, %, &, *, (, ), -, +, /, <, >, ,, .)
+              </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="txtPrice" class="control-label">Price <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><b>₹</b></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Enter Price" id="txtPrice"
+              formControlName="enteredPrice" (keypress)="keyPress($event)" appDecimalOnlyUptoTwoDigits minlength="1"
+              maxlength="10">
+          </div>
+          <div *ngIf="enteredPrice.invalid && (enteredPrice.dirty || enteredPrice.touched)" class="alert alert-danger">
+            <div *ngIf="enteredPrice.errors.required">
+              Price is required
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-block text-right card-footer">
+      <button type="button" class="btn btn-primary" *ngIf="!showImplementText" (click)="implementConditionalValidation('add')">Add a New implement</button>
+      <button type="button" class="btn btn-primary" *ngIf="showImplementText" (click)="implementConditionalValidation('select')">Select an existing implement</button>
+      &nbsp;|&nbsp;
+      <button *ngIf="showImplementText" [disabled]="!addModifyImplementPriceForm.valid" type="submit" id="submit"
+        class="btn btn-success">Submit</button>
+      <button *ngIf="!showImplementText" [disabled]="!addModifyImplementPriceForm.valid" type="submit" id="update"
+        class="btn btn-info">Update</button>
+    </div>
+  </form>
+</div>
+<div class="main-card mb-3 card" *ngIf="implementPriceListFinancialYearWise.length > 0">
+  <div class="card-header">
+    <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>List of Implements' Price Financial Year-wise
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"></h5>
+    <div *ngFor="let x of implementPriceListFinancialYearWise">
+      <strong>Financial Year: {{ x.FinancialYear }}</strong>
+      <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Serial No.</th>
+            <th>Implement</th>
+            <th>Price (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let y of x.ImplementDetails; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ y.ImplementName }}</td>
+            <td>{{ y.Cost == null ? 'N/A' : y.Cost }}</td>
+          </tr>
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="d-block text-right card-footer"></div>
+</div>

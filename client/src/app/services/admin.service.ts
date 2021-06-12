@@ -17,18 +17,18 @@ export class AdminService {
     return this.http.get(`${serverURL}/admin/getFinancialYear`);
   }
 
-  getDistrictTargets(implementID: any, financialYear: any): Observable<any> {
-    return this.http.get(`${serverURL}/admin/getDistrictTargets/${implementID}/${financialYear}`);
+  getImplementTargets(implementID: any, financialYear: any): Observable<any> {
+    return this.http.get(`${serverURL}/admin/getImplementTargets/${implementID}/${financialYear}`);
   }
 
-  submitDistrictTarget(data: any): Observable<any> {
-    return this.http.post(`${serverURL}/admin/submitDistrictTarget`, data, {
+  submitImplementTarget(data: any): Observable<any> {
+    return this.http.post(`${serverURL}/admin/submitImplementTarget`, data, {
       withCredentials: true
     });
   }
 
-  updateDistrictTarget(data: any): Observable<any> {
-    return this.http.post(`${serverURL}/admin/updateDistrictTarget`, data, {
+  updateImplementTarget(data: any): Observable<any> {
+    return this.http.post(`${serverURL}/admin/updateImplementTarget`, data, {
       withCredentials: true
     });
   }

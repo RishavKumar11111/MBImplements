@@ -1,7 +1,7 @@
 <form [formGroup]="searchPinForm" #searchPinFormID novalidate autocomplete="off" role="form">
   <mat-form-field>
     <mat-label>Pin</mat-label>
-    <input matInput formControlName="enteredPin" numbersOnly minlength="6" maxlength="6" placeholder="Enter Pin"
+    <input matInput formControlName="enteredPin" appNumbersOnly minlength="6" maxlength="6" placeholder="Enter Pin"
       (focus)="addValidators($event)" (keypress)="keyPress($event)" required>
     <mat-error *ngIf="spf.enteredPin.hasError('required')">Please enter a Pin</mat-error>
     <mat-error *ngIf="spf.enteredPin.hasError('minlength') || spf.enteredPin.hasError('maxlength')">Pin must

@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
-import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'login',
     loadChildren: () => import('./auth/auth.module').then((module) => module.AuthModule)
   },
   {

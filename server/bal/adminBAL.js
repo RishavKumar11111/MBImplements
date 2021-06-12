@@ -4,9 +4,16 @@ const adminDAL = require('../dal/adminDAL');
 
 const parser = new UAParser();
 
+const getFinancialYear = () => {
+  const today = new Date();
+  const financialYear = (today.getMonth() + 1) <= 3 ? `${today.getFullYear() - 1}-${today.getFullYear().toString().substr(2, 3)}` : `${today.getFullYear()}-${(today.getFullYear() + 1).toString().substr(2, 3)}`;
+  return financialYear;
+};
+
 exports.getAllImplements = async (req, res) => {
   try {
-    const result = await adminDAL.getAllImplements();
+    const financialYear = getFinancialYear();
+    const result = await adminDAL.getAllImplements(financialYear);
     res.send(result);
   } catch (e) {
     res.status(500).send(e);
@@ -24,9 +31,9 @@ exports.getFinancialYear = (req, res) => {
   res.send(years);
 };
 
-exports.getDistrictTargets = async (req, res) => {
+exports.getImplementTargets = async (req, res) => {
   try {
-    const result = await adminDAL.getDistrictTargets(req.params);
+    const result = await adminDAL.getImplementTargets(req.params);
     res.send(result);
   } catch (e) {
     res.status(500).send(e);
@@ -39,7 +46,7 @@ const getURL = (req) => {
   return fullURL;
 };
 
-exports.submitDistrictTarget = async (req, res) => {
+exports.submitImplementTarget = async (req, res) => {
   try {
     const array = [];
     for (let i = 0; i < req.body.length; i++) {
@@ -48,8 +55,8 @@ exports.submitDistrictTarget = async (req, res) => {
       req.body[i].DateTime = 'now()';
       array.push(Object.values(req.body[i]));
     }
-    const result = await adminDAL.submitDistrictTarget(array);
-    adminDAL.addActivityLog('/submitDistrictTarget', 'INSERT', 'POST', req.session.userID, ip.address(), getURL(req), req.device.type.toUpperCase(), `${parser.setUA(req.headers['user-agent']).getOS().name} ${parser.setUA(req.headers['user-agent']).getOS().version}`, `${parser.setUA(req.headers['user-agent']).getBrowser().name} ${parser.setUA(req.headers['user-agent']).getBrowser().version}`);
+    const result = await adminDAL.submitImplementTarget(array);
+    adminDAL.addActivityLog('/submitImplementTarget', 'INSERT', 'POST', req.session.userID, ip.address(), getURL(req), req.device.type.toUpperCase(), `${parser.setUA(req.headers['user-agent']).getOS().name} ${parser.setUA(req.headers['user-agent']).getOS().version}`, `${parser.setUA(req.headers['user-agent']).getBrowser().name} ${parser.setUA(req.headers['user-agent']).getBrowser().version}`);
     res.send(result);
   } catch (e) {
     res.status(500).send(e);
@@ -57,7 +64,7 @@ exports.submitDistrictTarget = async (req, res) => {
   }
 };
 
-exports.updateDistrictTarget = async (req, res) => {
+exports.updateImplementTarget = async (req, res) => {
   try {
     const array = [];
     for (let i = 0; i < req.body.length; i++) {
@@ -66,8 +73,8 @@ exports.updateDistrictTarget = async (req, res) => {
       req.body[i].DateTime = 'now()';
       array.push(Object.values(req.body[i]));
     }
-    const result = await adminDAL.updateDistrictTarget(array);
-    adminDAL.addActivityLog('/updateDistrictTarget', 'UPDATE', 'POST', req.session.userID, ip.address(), getURL(req), req.device.type.toUpperCase(), `${parser.setUA(req.headers['user-agent']).getOS().name} ${parser.setUA(req.headers['user-agent']).getOS().version}`, `${parser.setUA(req.headers['user-agent']).getBrowser().name} ${parser.setUA(req.headers['user-agent']).getBrowser().version}`);
+    const result = await adminDAL.updateImplementTarget(array);
+    adminDAL.addActivityLog('/updateImplementTarget', 'UPDATE', 'POST', req.session.userID, ip.address(), getURL(req), req.device.type.toUpperCase(), `${parser.setUA(req.headers['user-agent']).getOS().name} ${parser.setUA(req.headers['user-agent']).getOS().version}`, `${parser.setUA(req.headers['user-agent']).getBrowser().name} ${parser.setUA(req.headers['user-agent']).getBrowser().version}`);
     res.send(result);
   } catch (e) {
     res.status(500).send(e);
@@ -85,21 +92,17 @@ exports.getAllImplementPrices = async (req, res) => {
   }
 };
 
-const getFinancialYear = () => {
-  const today = new Date();
-  const financialYear = (today.getMonth() + 1) <= 3 ? `${today.getFullYear() - 1}-${today.getFullYear().toString().substr(2, 3)}` : `${today.getFullYear()}-${(today.getFullYear() + 1).toString().substr(2, 3)}`;
-  return financialYear;
-};
-
 exports.submitImplementPrice = async (req, res) => {
   try {
     const obj = {
-      ImplementID: req.body.selectedImplement.ImplementID,
+      ImplementName: req.body.enteredImplement,
       Cost: req.body.enteredPrice,
+      FinancialYear: req.body.selectedFinancialYear,
+      SubsidyPercentage: 50,
       DateTime: 'now()',
       IPAddress: ip.address(),
-      FinancialYear: getFinancialYear(),
-      UserID: req.session.userID
+      UserID: req.session.userID,
+      Status: null
     };
     const result = await adminDAL.submitImplementPrice(obj);
     adminDAL.addActivityLog('/submitImplementPrice', 'UPDATE', 'POST', req.session.userID, ip.address(), getURL(req), req.device.type.toUpperCase(), `${parser.setUA(req.headers['user-agent']).getOS().name} ${parser.setUA(req.headers['user-agent']).getOS().version}`, `${parser.setUA(req.headers['user-agent']).getBrowser().name} ${parser.setUA(req.headers['user-agent']).getBrowser().version}`);
@@ -115,9 +118,9 @@ exports.updateImplementPrice = async (req, res) => {
     const obj = {
       ImplementID: req.body.selectedImplement.ImplementID,
       Cost: req.body.enteredPrice,
+      FinancialYear: req.body.selectedFinancialYear,
       DateTime: 'now()',
       IPAddress: ip.address(),
-      FinancialYear: getFinancialYear(),
       UserID: req.session.userID
     };
     const result = await adminDAL.updateImplementPrice(obj);

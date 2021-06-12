@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { StockAvailabilityComponent } from './stock-availability/stock-availability.component';
-import { StockInitialisationComponent } from './stock-initialisation/stock-initialisation.component';
+import { AddAvailableStockComponent } from './add-available-stock/add-available-stock.component';
+import { InitialiseStockComponent } from './initialise-stock/initialise-stock.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
@@ -16,12 +16,12 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: 'stockAvailability',
-    component: StockAvailabilityComponent
+    path: 'addAvailableStock',
+    component: AddAvailableStockComponent
   },
   {
-    path: 'stockInitialisation',
-    component: StockInitialisationComponent
+    path: 'initialiseStock',
+    component: InitialiseStockComponent
   },
   {
     path: 'changePassword',

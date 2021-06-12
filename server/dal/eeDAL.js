@@ -4,9 +4,9 @@ const pool = require('../config/dbConfig');
 exports.addActivityLog = async (action, attack, mode, userID, ipAddress, url, deviceType, os, browser) => {
   const client = await pool.connect().catch((err) => { console.log(`Unable to connect to the database: ${err}`); });
   try {
-    const text = `insert into "ActivityLog" ("IPAddress", "UserID", "URL", "DeviceType", "OS", "Browser", "DateTime", "Action", "Attack", "Mode") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+    const query = `insert into "ActivityLog" ("IPAddress", "UserID", "URL", "DeviceType", "OS", "Browser", "DateTime", "Action", "Attack", "Mode") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
     const values = [ipAddress, userID, url, deviceType, os, browser, 'now()', action, attack, mode];
-    await client.query(text, values);
+    await client.query(query, values);
   } catch (e) {
     console.log(`Oops! An error occurred: ${e}`);
   } finally {
@@ -17,9 +17,9 @@ exports.addActivityLog = async (action, attack, mode, userID, ipAddress, url, de
 exports.getEEDistricts = (userID) => new Promise(async (resolve, reject) => {
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
-    const text = `select a."DistrictCode", "DistrictName", "PDSDistrictName" from "EEDistrictMapping" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" where "EEUserID" = $1`;
+    const query = `select a."DistrictCode", "DistrictName", "PDSDistrictName" from "EEDistrictMapping" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" where "EEUserID" = $1`;
     const values = [userID];
-    const response = await client.query(text, values);
+    const response = await client.query(query, values);
     resolve(response.rows);
   } catch (e) {
     reject(new Error(`Oops! An error occurred: ${e}`));
@@ -28,12 +28,12 @@ exports.getEEDistricts = (userID) => new Promise(async (resolve, reject) => {
   }
 });
 
-exports.getImplementStockDetails = ({ districtCode }, userID) => new Promise(async (resolve, reject) => {
+exports.getImplementStockDetails = ({ districtCode }, userID, financialYear) => new Promise(async (resolve, reject) => {
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
-    const text = `select "DistrictCode", "DistrictName", a."ImplementID", "ImplementName", "EnteredAvailableSurplusStocks", "Status" from "Implement" a left join (select a."DistrictCode", "DistrictName", a."ImplementID", count("StockSerialNo") "EnteredAvailableSurplusStocks", "Status" from "StockInitialisation" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" inner join "Implement" c on a."ImplementID" = c."ImplementID" where a."DistrictCode" = $1 and a."UserID" = $2 group by a."DistrictCode", "DistrictName", a."ImplementID", "Status") b on a."ImplementID" = b."ImplementID" order by "ImplementName"`;
-    const values = [districtCode, userID];
-    const response = await client.query(text, values);
+    const query = `select "DistrictCode", "DistrictName", a."ImplementID", "ImplementName", "EnteredAvailableSurplusStocks", b."Status" from "Implement" a left join (select a."DistrictCode", "DistrictName", a."ImplementID", count("StockSerialNo") "EnteredAvailableSurplusStocks", a."Status" from "StockInitialisation" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" inner join "Implement" c on a."ImplementID" = c."ImplementID" where a."DistrictCode" = $1 and a."UserID" = $2 group by a."DistrictCode", "DistrictName", a."ImplementID", a."Status") b on a."ImplementID" = b."ImplementID" where "FinancialYear" = $3 and a."Status" = true order by "ImplementName"`;
+    const values = [districtCode, userID, financialYear];
+    const response = await client.query(query, values);
     resolve(response.rows);
   } catch (e) {
     reject(new Error(`Oops! An error occurred: ${e}`));
@@ -64,9 +64,9 @@ exports.submitStockAvailability = (data) => new Promise(async (resolve, reject) 
 exports.getBlocks = ({ districtCode }) => new Promise(async (resolve, reject) => {
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
-    const text = `select "BlockCode", "BlockName" from "LGDBlock" where "DistrictCode" = $1`;
+    const query = `select "BlockCode", "BlockName" from "LGDBlock" where "DistrictCode" = $1`;
     const values = [districtCode];
-    const response = await client.query(text, values);
+    const response = await client.query(query, values);
     resolve(response.rows);
   } catch (e) {
     reject(new Error(`Oops! An error occurred: ${e}`));
@@ -78,9 +78,9 @@ exports.getBlocks = ({ districtCode }) => new Promise(async (resolve, reject) =>
 exports.getImplementsStockSerialNos = ({ districtCode }, userID) => new Promise(async (resolve, reject) => {
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
-    const text = `select a."ImplementID", "ImplementName", "StockSerialNo" from "StockInitialisation" a inner join "Implement" b on a."ImplementID" = b."ImplementID" where "DistrictCode" = $1 and a."UserID" = $2 and "BlockCode" is null`;
+    const query = `select a."ImplementID", "ImplementName", "StockSerialNo" from "StockInitialisation" a inner join "Implement" b on a."ImplementID" = b."ImplementID" where "DistrictCode" = $1 and a."UserID" = $2 and "BlockCode" is null order by "ImplementName", "StockSerialNo"`;
     const values = [districtCode, userID];
-    const response = await client.query(text, values);
+    const response = await client.query(query, values);
     resolve(response.rows);
   } catch (e) {
     reject(new Error(`Oops! An error occurred: ${e}`));
@@ -101,7 +101,7 @@ exports.submitStockInitialisation = (obj, array) => new Promise(async (resolve, 
     const values3 = [obj.BlockCode, obj.InitialisationDateTime, obj.DistrictCode, obj.UserID];
     const response3 = await client.query(query3, values3);
     if (response3.rowCount === array.length) {
-      const query4 = `select a."ImplementID", "ImplementName", "StockSerialNo" from "StockInitialisation" a inner join "Implement" b on a."ImplementID" = b."ImplementID" where "DistrictCode" = $1 and a."UserID" = $2 and "BlockCode" is null`;
+      const query4 = `select a."ImplementID", "ImplementName", "StockSerialNo" from "StockInitialisation" a inner join "Implement" b on a."ImplementID" = b."ImplementID" where "DistrictCode" = $1 and a."UserID" = $2 and "BlockCode" is null order by "ImplementName", "StockSerialNo"`;
       const values4 = [obj.DistrictCode, obj.UserID];
       const response4 = await client.query(query4, values4);
       await client.query('commit');

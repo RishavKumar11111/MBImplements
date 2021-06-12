@@ -12,7 +12,6 @@ import { BackButtonDisableModule } from 'angular-disable-browser-back-button';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AuthModule } from './auth/auth.module';
-import { HomeModule } from './home/home.module';
 import { AdminModule } from './admin/admin.module';
 import { EeModule } from './ee/ee.module';
 import { VaccineModule } from './vaccine/vaccine.module';
@@ -48,8 +47,8 @@ import { ThemeSettingComponent } from './layout/theme-setting/theme-setting.comp
     HttpClientModule,
     ToastrModule.forRoot({
       closeButton: true,
-      timeOut: 30000,
-      extendedTimeOut: 30000,
+      timeOut: 10000,
+      extendedTimeOut: 10000,
       enableHtml: true,
       progressBar: true
     }),
@@ -59,7 +58,6 @@ import { ThemeSettingComponent } from './layout/theme-setting/theme-setting.comp
     // RxReactiveFormsModule,
     AppRoutingModule,
     AuthModule,
-    HomeModule,
     AdminModule,
     EeModule,
     VaccineModule

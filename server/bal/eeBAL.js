@@ -14,9 +14,16 @@ exports.getEEDistricts = async (req, res) => {
   }
 };
 
+const getFinancialYear = () => {
+  const today = new Date();
+  const financialYear = (today.getMonth() + 1) <= 3 ? `${today.getFullYear() - 1}-${today.getFullYear().toString().substr(2, 3)}` : `${today.getFullYear()}-${(today.getFullYear() + 1).toString().substr(2, 3)}`;
+  return financialYear;
+};
+
 exports.getImplementStockDetails = async (req, res) => {
   try {
-    const result = await eeDAL.getImplementStockDetails(req.params, req.session.userID);
+    const financialYear = getFinancialYear();
+    const result = await eeDAL.getImplementStockDetails(req.params, req.session.userID, financialYear);
     res.send(result);
   } catch (e) {
     res.status(500).send(e);
@@ -27,12 +34,6 @@ exports.getImplementStockDetails = async (req, res) => {
 const getURL = (req) => {
   const fullURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   return fullURL;
-};
-
-const getFinancialYear = () => {
-  const today = new Date();
-  const financialYear = (today.getMonth() + 1) <= 3 ? `${today.getFullYear() - 1}-${today.getFullYear().toString().substr(2, 3)}` : `${today.getFullYear()}-${(today.getFullYear() + 1).toString().substr(2, 3)}`;
-  return financialYear;
 };
 
 exports.submitStockAvailability = async (req, res) => {

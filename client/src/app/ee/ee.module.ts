@@ -9,15 +9,15 @@ import { SharedModule } from '../shared/shared.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-import { StockInitialisationComponent } from './stock-initialisation/stock-initialisation.component';
-import { StockAvailabilityComponent } from './stock-availability/stock-availability.component';
+import { AddAvailableStockComponent } from './add-available-stock/add-available-stock.component';
+import { InitialiseStockComponent } from './initialise-stock/initialise-stock.component';
 
 @NgModule({
   declarations: [
-    StockInitialisationComponent,
     DashboardComponent,
     ChangePasswordComponent,
-    StockAvailabilityComponent
+    AddAvailableStockComponent,
+    InitialiseStockComponent
   ],
   imports: [
     CommonModule,

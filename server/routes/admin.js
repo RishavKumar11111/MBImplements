@@ -5,9 +5,9 @@ const adminBAL = require('../bal/adminBAL');
 
 router.get('/getAllImplements', adminBAL.getAllImplements);
 router.get('/getFinancialYear', adminBAL.getFinancialYear);
-router.get('/getDistrictTargets/:implementID/:financialYear', adminBAL.getDistrictTargets);
-router.post('/submitDistrictTarget', adminBAL.submitDistrictTarget);
-router.post('/updateDistrictTarget', adminBAL.updateDistrictTarget);
+router.get('/getImplementTargets/:implementID/:financialYear', adminBAL.getImplementTargets);
+router.post('/submitImplementTarget', adminBAL.submitImplementTarget);
+router.post('/updateImplementTarget', adminBAL.updateImplementTarget);
 router.get('/getAllImplementPrices', adminBAL.getAllImplementPrices);
 router.post('/submitImplementPrice', adminBAL.submitImplementPrice);
 router.post('/updateImplementPrice', adminBAL.updateImplementPrice);

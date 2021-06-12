@@ -1,0 +1,88 @@
+<form (ngSubmit)="onSubmit()" #initialiseStockForm="ngForm" novalidate autocomplete="off" role="form">
+  <div class="main-card mb-3 card">
+    <div class="card-header">
+      <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>Select District & Block
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="ddlDistrict" class="control-label">District <span class="text-danger">*</span></label>
+          <select class="form-control" id="ddlDistrict" [(ngModel)]="selectedDistrict" name="district"
+            #district="ngModel" (change)="populateBlocks(); populateImplementsStockSerialNos();" required>
+            <option value="" disabled>---Select District---</option>
+            <option *ngFor="let x of districtList" [ngValue]="x">{{x.DistrictName}}
+            </option>
+          </select>
+          <div [hidden]="district.valid || district.pristine" class="alert alert-danger">
+            District is required
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="ddlBlock" class="control-label">Block <span class="text-danger">*</span></label>
+          <select class="form-control" id="ddlBlock" [(ngModel)]="selectedBlock" name="block" #block="ngModel" required>
+            <option value="" disabled>---Select Block---</option>
+            <option *ngFor="let x of blockList" [ngValue]="x">{{x.BlockName}}
+            </option>
+          </select>
+          <div [hidden]="block.valid || block.pristine" class="alert alert-danger">
+            Block is required
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-block text-right card-footer"></div>
+  </div>
+  <div class="main-card mb-3 card" *ngIf="implementStockSerialNoList.length > 0">
+    <div class="card-header">
+      <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>Select the Stock Serial No. of Implements
+      Block-wise
+    </div>
+    <div class="card-body">
+      <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Serial No.</th>
+            <th>Implement</th>
+            <th>Serial Nos. of the Stocks</th>
+            <th>
+              <div class="custom-checkbox custom-control">
+                <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input"
+                  [(ngModel)]="masterSelected" name="chkbx" value="all" (change)="checkUncheckAll();">
+                <label class="custom-control-label" for="exampleCustomCheckbox">Select / Unselect All</label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let x of implementStockSerialNoList; let i = index;">
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ x.ImplementName }}</td>
+            </tr>
+            <tr *ngFor="let y of x.StocksSerialNos; let i = index;">
+              <td></td>
+              <td></td>
+              <td>{{ y.StockSerialNo }}</td>
+              <td>
+                <div class="custom-checkbox custom-control">
+                  <input type="checkbox" id="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}" class="custom-control-input"
+                    [(ngModel)]="y.isSelected" name="chkbx{{ y.ImplementID }}{{ i + 1 }}" value="y.StockSerialNo"
+                    (change)="isAllSelected();">
+                  <label class="custom-control-label" for="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"></label>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+    <div class="d-block text-right card-footer">
+      <button *ngIf="!submitted" type="submit" id="submit" class="btn btn-success"
+        [disabled]="!initialiseStockForm.form.valid">Submit</button>
+      <!-- <button *ngIf="submitted" type="submit" id="update" class="btn btn-info"
+        [disabled]="!initialiseStockForm.form.valid">Update</button> -->
+    </div>
+  </div>
+</form>

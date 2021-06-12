@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AuthRoutingModule } from './auth-routing.module';
 
+import { SharedModule } from '../shared/shared.module';
+
 import { LoginComponent } from './login/login.component';
 import { CaptchaComponent } from './captcha/captcha.component';
 
@@ -20,7 +22,8 @@ import { CaptchaComponent } from './captcha/captcha.component';
     ReactiveFormsModule,
     HttpClientModule,
     // NgxCaptchaModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    SharedModule
   ],
   exports: [CaptchaComponent]
 })
