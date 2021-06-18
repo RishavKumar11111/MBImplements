@@ -17,15 +17,16 @@ export class InitialiseStockComponent implements OnInit {
   selectedDistrict: any;
   blockList: Array<{ BlockCode: number, BlockName: string }>;
   selectedBlock: any;
-  implementStockSerialNoList: any;
+  implementStockSerialNoList: Array<any>;
   masterSelected: boolean;
   checkedList: any;
   submitted: boolean;
 
   constructor(
-    private toastr: ToastrService,
     private eeService: EeService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {
     this.title = 'Initialise Stocks';
     this.breadcrumbs = ['Initialise Stocks', 'Initialisation of the surplus stocks district-wise and block-wise'];
@@ -34,6 +35,7 @@ export class InitialiseStockComponent implements OnInit {
     this.selectedDistrict = '';
     this.selectedBlock = '';
     this.implementStockSerialNoList = [];
+    this.checkedList = [];
     this.masterSelected = false;
     this.submitted = false;
   }

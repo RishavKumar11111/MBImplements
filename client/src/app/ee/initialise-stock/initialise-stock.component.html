@@ -14,8 +14,10 @@
             <option *ngFor="let x of districtList" [ngValue]="x">{{x.DistrictName}}
             </option>
           </select>
-          <div [hidden]="district.valid || district.pristine" class="alert alert-danger">
-            District is required
+          <div *ngIf="district.invalid && (district.dirty || district.touched)" class="alert alert-danger">
+            <div *ngIf="district.errors?.required">
+              District is required
+            </div>
           </div>
         </div>
         <div class="form-group col-md-6">
@@ -25,8 +27,10 @@
             <option *ngFor="let x of blockList" [ngValue]="x">{{x.BlockName}}
             </option>
           </select>
-          <div [hidden]="block.valid || block.pristine" class="alert alert-danger">
-            Block is required
+          <div *ngIf="block.invalid && (block.dirty || block.touched)" class="alert alert-danger">
+            <div *ngIf="block.errors?.required">
+              Block is required
+            </div>
           </div>
         </div>
       </div>
@@ -67,7 +71,7 @@
               <td>
                 <div class="custom-checkbox custom-control">
                   <input type="checkbox" id="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}" class="custom-control-input"
-                    [(ngModel)]="y.isSelected" name="chkbx{{ y.ImplementID }}{{ i + 1 }}" value="y.StockSerialNo"
+                    [(ngModel)]="y.isSelected" name="chkbx{{ y.ImplementID }}{{ i + 1 }}" value="{{ y.StockSerialNo }}"
                     (change)="isAllSelected();">
                   <label class="custom-control-label" for="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"></label>
                 </div>

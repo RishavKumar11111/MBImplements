@@ -79,7 +79,7 @@ exports.updateImplementTarget = (data) => new Promise(async (resolve, reject) =>
     await client.query(query2);
     const query3 = format(`insert into "ImplementTargetTemp" ("DistrictCode", "Normal", "SCP", "TASP", "ImplementID", "FinancialYear", "IPAddress", "UserID", "DateTime") values %L returning *`, data);
     await client.query(query3);
-    const query4 = `update "ImplementTarget" dt set "Normal" = dtt."Normal", "SCP" = dtt."SCP", "TASP" = dtt."TASP", "DateTime" = dtt."DateTime", "IPAddress" = dtt."IPAddress", "UserID" = dtt."UserID" from "ImplementTargetTemp" dtt where dt."DistrictCode" = dtt."DistrictCode" and dt."ImplementID" = dtt."ImplementID" and dt."FinancialYear" = dtt."FinancialYear" returning *`;
+    const query4 = `update "ImplementTarget" it set "Normal" = itt."Normal", "SCP" = itt."SCP", "TASP" = itt."TASP", "DateTime" = itt."DateTime", "IPAddress" = itt."IPAddress", "UserID" = itt."UserID" from "ImplementTargetTemp" itt where it."DistrictCode" = itt."DistrictCode" and it."ImplementID" = itt."ImplementID" and it."FinancialYear" = itt."FinancialYear" returning *`;
     const response4 = await client.query(query4);
     await client.query('commit');
     resolve(response4.rows);
@@ -94,7 +94,7 @@ exports.updateImplementTarget = (data) => new Promise(async (resolve, reject) =>
 exports.getAllImplementPrices = () => new Promise(async (resolve, reject) => {
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
-    const response = await client.query(`select "ImplementID", "ImplementName", "Cost", "FinancialYear" from "Implement" order by "ImplementName"`);
+    const response = await client.query(`select "ImplementID", "ImplementName", "Cost", "FinancialYear", "Status" from "Implement" order by "ImplementName"`);
     resolve(response.rows);
   } catch (e) {
     reject(new Error(`Oops! An error occurred: ${e}`));
@@ -139,6 +139,27 @@ exports.updateImplementPrice = (data) => new Promise(async (resolve, reject) => 
     const response2 = await client.query(query2, values2);
     await client.query('commit');
     resolve(response2.rows);
+  } catch (e) {
+    await client.query('rollback');
+    reject(new Error(`Oops! An error occurred: ${e}`));
+  } finally {
+    client.release();
+  }
+});
+
+exports.submitActivatedImplements = (data) => new Promise(async (resolve, reject) => {
+  console.log(data);
+  const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
+  try {
+    await client.query('begin');
+    const query1 = `drop table if exists "ImplementTemp"; create temp table "ImplementTemp" ("ImplementID" integer not null, "Status" boolean not null, "DateTime" timestamp without time zone not null, "IPAddress" inet not null, "UserID" character varying(50) not null, constraint "ImplementTemp_pkey" primary key ("ImplementID"))`;
+    await client.query(query1);
+    const query2 = format(`insert into "ImplementTemp" ("ImplementID", "Status", "IPAddress", "UserID", "DateTime") values %L returning *`, data);
+    await client.query(query2);
+    const query3 = `update "Implement" i set "Status" = it."Status", "DateTime" = it."DateTime", "IPAddress" = it."IPAddress", "UserID" = it."UserID" from "ImplementTemp" it where i."ImplementID" = it."ImplementID" returning *`;
+    const response3 = await client.query(query3);
+    await client.query('commit');
+    resolve(response3.rows);
   } catch (e) {
     await client.query('rollback');
     reject(new Error(`Oops! An error occurred: ${e}`));

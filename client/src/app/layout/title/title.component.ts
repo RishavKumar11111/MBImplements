@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { LayoutService } from '../../services/layout.service';
 
 @Component({
@@ -10,7 +12,11 @@ export class TitleComponent implements OnInit {
   title: string;
   breadcrumbs: Array<string>;
 
-  constructor(private layoutService: LayoutService) {
+  constructor(
+    private layoutService: LayoutService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
+  ) {
     this.title = '';
     this.breadcrumbs = [];
   }

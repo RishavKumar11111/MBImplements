@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { serverURL } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class LayoutService {
   private breadcrumbsSubject: BehaviorSubject<Array<string>> = new BehaviorSubject(this.breadcrumbs);
   public currentBreadcrumbs: Observable<Array<string>>;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
     this.currentTitle = this.titleSubject.asObservable();
     this.currentBreadcrumbs = this.breadcrumbsSubject.asObservable();
   }

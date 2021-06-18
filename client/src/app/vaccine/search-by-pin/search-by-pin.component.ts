@@ -21,6 +21,7 @@ export class SearchByPinComponent implements OnInit {
   constructor(
     private vaccineService: VaccineService,
     private toastr: ToastrService,
+    private fb: FormBuilder,
     private router: Router
   ) {
     this.loading = false;

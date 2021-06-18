@@ -131,3 +131,21 @@ exports.updateImplementPrice = async (req, res) => {
     throw e;
   }
 };
+
+exports.submitActivatedImplements = async (req, res) => {
+  try {
+    const array = [];
+    for (let i = 0; i < req.body.length; i++) {
+      req.body[i].IPAddress = ip.address();
+      req.body[i].UserID = req.session.userID;
+      req.body[i].DateTime = 'now()';
+      array.push(Object.values(req.body[i]));
+    }
+    const result = await adminDAL.submitActivatedImplements(array);
+    adminDAL.addActivityLog('/submitActivatedImplements', 'UPDATE', 'POST', req.session.userID, ip.address(), getURL(req), req.device.type.toUpperCase(), `${parser.setUA(req.headers['user-agent']).getOS().name} ${parser.setUA(req.headers['user-agent']).getOS().version}`, `${parser.setUA(req.headers['user-agent']).getBrowser().name} ${parser.setUA(req.headers['user-agent']).getBrowser().version}`);
+    res.send(result);
+  } catch (e) {
+    res.status(500).send(e);
+    throw e;
+  }
+};

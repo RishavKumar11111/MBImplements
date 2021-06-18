@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LayoutService } from 'src/app/services/layout.service';
 import { AuthService } from '../../services/auth.service';
 // import { CookieService } from 'ngx-cookie-service';
 
@@ -14,7 +16,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private layoutService: LayoutService,
     private toastr: ToastrService,
+    private fb: FormBuilder,
     private router: Router
     // private cookieService: CookieService
   ) {

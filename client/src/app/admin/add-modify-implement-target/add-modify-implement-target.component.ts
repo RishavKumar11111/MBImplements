@@ -16,7 +16,7 @@ export class AddModifyImplementTargetComponent implements OnInit {
   implementList: Array<{ ImplementID: number, ImplementName: string }>;
   financialYears: Array<string>;
   implementTargetList: Array<any>;
-  selectedFinancialYear: string;
+  selectedFinancialYear: any;
   submitted: boolean;
   btnID: string;
   selectedImplement: any;
@@ -28,10 +28,11 @@ export class AddModifyImplementTargetComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private layoutService: LayoutService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {
-    this.title = 'Add / Modify Implement\'s Target';
-    this.breadcrumbs = ['Add / Modify Implement\'s Target', 'Target entry for Implements District-wise, Financial Year-wise and Category-wise'];
+    this.title = 'Add or Modify Implement\'s Target';
+    this.breadcrumbs = ['Add or Modify Implement\'s Target', 'Target entry for Implements District-wise, Financial Year-wise and Category-wise'];
     this.implementList = [];
     this.financialYears = [];
     this.implementTargetList = [];

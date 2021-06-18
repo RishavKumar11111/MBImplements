@@ -14,9 +14,10 @@ export class ChangePasswordComponent implements OnInit {
   breadcrumbs: Array<string>;
 
   constructor(
-    private toastr: ToastrService,
     private eeService: EeService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {
     this.title = 'Change Password';
     this.breadcrumbs = ['Change Password', 'Change Password'];

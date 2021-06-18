@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { EeService } from '../../services/ee.service';
 import { LayoutService } from '../../services/layout.service';
 
@@ -13,9 +14,10 @@ export class DashboardComponent implements OnInit {
   breadcrumbs: Array<string>;
 
   constructor(
-    private toastr: ToastrService,
     private eeService: EeService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {
     this.title = 'Dashboard';
     this.breadcrumbs = ['Dashboard', 'Dashboard'];

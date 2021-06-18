@@ -16,10 +16,16 @@ import { HomeModule } from './home/home.module';
 // import { CookieService } from 'ngx-cookie-service';
 
 import { AppComponent } from './app.component';
+import { LayoutComponent } from './layout/layout.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LayoutComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

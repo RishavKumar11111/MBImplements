@@ -22,9 +22,10 @@ export class AddAvailableStockComponent implements OnInit {
   foundNULL: boolean;
 
   constructor(
-    private toastr: ToastrService,
     private eeService: EeService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {
     this.title = 'Add Available Stocks';
     this.breadcrumbs = ['Add Available Stocks', 'Entry of the surplus stocks district-wise and implement-wise'];

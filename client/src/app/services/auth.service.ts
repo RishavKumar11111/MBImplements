@@ -10,7 +10,9 @@ export class AuthService {
   // captchSource = new BehaviorSubject(null);
   // captchStatus = this.captchSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   // setCaptchaStatus(code: any) {
   //   this.captchSource.next(code);

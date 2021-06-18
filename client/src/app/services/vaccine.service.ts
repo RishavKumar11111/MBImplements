@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { serverURL } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class VaccineService {
   private arraySource: BehaviorSubject<Array<object>> = new BehaviorSubject(this.array);
   public currentArray: Observable<Array<object>>;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
     this.currentArray = this.arraySource.asObservable();
   }
 

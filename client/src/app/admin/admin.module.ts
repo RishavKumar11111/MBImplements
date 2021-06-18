@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddModifyImplementTargetComponent } from './add-modify-implement-target/add-modify-implement-target.component';
 import { AddModifyImplementPriceComponent } from './add-modify-implement-price/add-modify-implement-price.component';
+import { ActivateImplementComponent } from './activate-implement/activate-implement.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     DashboardComponent,
     AddModifyImplementTargetComponent,
     AddModifyImplementPriceComponent,
+    ActivateImplementComponent,
     ChangePasswordComponent
   ],
   imports: [

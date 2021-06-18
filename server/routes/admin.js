@@ -11,5 +11,6 @@ router.post('/updateImplementTarget', adminBAL.updateImplementTarget);
 router.get('/getAllImplementPrices', adminBAL.getAllImplementPrices);
 router.post('/submitImplementPrice', adminBAL.submitImplementPrice);
 router.post('/updateImplementPrice', adminBAL.updateImplementPrice);
+router.post('/submitActivatedImplements', adminBAL.submitActivatedImplements);
 
 module.exports = router;

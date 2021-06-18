@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddModifyImplementTargetComponent } from './add-modify-implement-target/add-modify-implement-target.component';
 import { AddModifyImplementPriceComponent } from './add-modify-implement-price/add-modify-implement-price.component';
+import { ActivateImplementComponent } from './activate-implement/activate-implement.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'addModifyImplementPrice',
     component: AddModifyImplementPriceComponent
+  },
+  {
+    path: 'activateImplement',
+    component: ActivateImplementComponent
   },
   {
     path: 'changePassword',

@@ -14,8 +14,10 @@
             <option *ngFor="let x of implementList" [ngValue]="x">{{x.ImplementName}}
             </option>
           </select>
-          <div [hidden]="implement.valid || implement.pristine" class="alert alert-danger">
-            Implement is required
+          <div *ngIf="implement.invalid && (implement.dirty || implement.touched)" class="alert alert-danger">
+            <div *ngIf="implement.errors?.required">
+              Implement is required
+            </div>
           </div>
         </div>
         <div class="form-group col-md-6">
@@ -26,8 +28,10 @@
             <option *ngFor="let x of financialYears" [ngValue]="x">{{x}}
             </option>
           </select>
-          <div [hidden]="financialYear.valid || financialYear.pristine" class="alert alert-danger">
-            Financial Year is required
+          <div *ngIf="financialYear.invalid && (financialYear.dirty || financialYear.touched)" class="alert alert-danger">
+            <div *ngIf="financialYear.errors?.required">
+              Financial Year is required
+            </div>
           </div>
         </div>
       </div>

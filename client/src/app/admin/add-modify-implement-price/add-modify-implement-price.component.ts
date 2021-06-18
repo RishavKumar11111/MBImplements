@@ -33,8 +33,8 @@ export class AddModifyImplementPriceComponent implements OnInit {
     this.implementDetailsList = [];
     this.implementPriceListFinancialYearWise = [];
     this.btnID = '';
-    this.title = 'Add / Modify Implement\'s Price';
-    this.breadcrumbs = ['Add / Modify Implement\'s Price', 'Price entry of Implements Financial Year-wise'];
+    this.title = 'Add or Modify Implement\'s Price';
+    this.breadcrumbs = ['Add or Modify Implement\'s Price', 'Price entry of Implements Financial Year-wise'];
     this.financialYears = [];
     this.showImplementText = false;
 
@@ -193,7 +193,7 @@ export class AddModifyImplementPriceComponent implements OnInit {
         }
       }
     } else {
-      this.toastr.warning(`Please select / enter the Implement, Financial Year and price.`);
+      this.toastr.warning(`Please select or enter the Implement, Financial Year and price.`);
     }
   }
 }

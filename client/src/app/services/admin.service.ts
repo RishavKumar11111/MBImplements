@@ -7,7 +7,9 @@ import { serverURL } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AdminService {
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getAllImplements(): Observable<any> {
     return this.http.get(`${serverURL}/admin/getAllImplements`);
@@ -45,6 +47,12 @@ export class AdminService {
 
   updateImplementPrice(data: any): Observable<any> {
     return this.http.post(`${serverURL}/admin/updateImplementPrice`, data, {
+      withCredentials: true
+    });
+  }
+
+  submitActivatedImplements(data: any): Observable<any> {
+    return this.http.post(`${serverURL}/admin/submitActivatedImplements`, data, {
       withCredentials: true
     });
   }

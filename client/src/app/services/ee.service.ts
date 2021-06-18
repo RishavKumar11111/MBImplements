@@ -7,7 +7,9 @@ import { serverURL } from '../../environments/environment';
   providedIn: 'root'
 })
 export class EeService {
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getEEDistricts(): Observable<any> {
     return this.http.get(`${serverURL}/ee/getEEDistricts`, {

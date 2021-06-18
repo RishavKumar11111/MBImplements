@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormArray, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 // import { RxwebValidators, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { sha512 } from 'js-sha512';
 import * as $ from 'jquery';
