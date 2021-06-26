@@ -25,15 +25,15 @@ export class VaccineService {
     return this.http.get(`https://cdn-api.co-vin.in/api/v2/admin/location/states`);
   }
 
-  getDistricts(state_id: any): Observable<any> {
+  getDistricts(state_id: number): Observable<any> {
     return this.http.get(`https://cdn-api.co-vin.in/api/v2/admin/location/districts/${state_id}`);
   }
 
-  getSlotAvailabilityByDistrictForWeek(districtID: any, date: any): Observable<any> {
+  getSlotAvailabilityByDistrictForWeek(districtID: number, date: any): Observable<any> {
     return this.http.get(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=${districtID}&date=${date}`);
   }
 
-  getSlotAvailabilityByPinForWeek(pinCode: any, date: any): Observable<any> {
+  getSlotAvailabilityByPinForWeek(pinCode: number, date: any): Observable<any> {
     return this.http.get(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=${pinCode}&date=${date}`);
   }
 }

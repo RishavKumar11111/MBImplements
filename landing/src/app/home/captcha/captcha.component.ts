@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { HomeService } from '../../services/home.service';
 
 @Component({
   selector: 'app-captcha',
@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CaptchaComponent implements OnChanges {
   constructor(
-    private authService: AuthService,
+    private homeService: HomeService,
     private toastr: ToastrService,
     private fb: FormBuilder
   ) { }
@@ -67,7 +67,7 @@ export class CaptchaComponent implements OnChanges {
   }
 
   generateCaptchaAndSalt() {
-    this.authService.generateCaptchaAndSalt(this.config.type, this.config.length).subscribe((result: any) => {
+    this.homeService.generateCaptchaAndSalt(this.config.type, this.config.length).subscribe((result: any) => {
       this.captchaSaltResult = result;
       this.generatedSalt.emit(this.captchaSaltResult.salt);
       const captchaCanvas: any = document.getElementById('captchaCanvas');
@@ -76,7 +76,7 @@ export class CaptchaComponent implements OnChanges {
       ctx.fillRect(0, 0, captchaCanvas.width, captchaCanvas.height);
       ctx.beginPath();
       captchaCanvas.style.letterSpacing = `${1}px`;
-      captchaCanvas.style.width = `${50}%`;
+      captchaCanvas.style.width = `${30}%`;
       captchaCanvas.style.height = `${7}vh`;
       ctx.font = `${this.config.font.size} ${this.config.font.family}`;
       ctx.fillStyle = this.config.font.color;
@@ -111,7 +111,7 @@ export class CaptchaComponent implements OnChanges {
     });
   }
 
-  keyPress(event: KeyboardEvent) {
+  keyDown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.getEnteredCaptchaValue();
     }

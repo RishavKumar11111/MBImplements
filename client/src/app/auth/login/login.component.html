@@ -51,7 +51,7 @@
         <app-captcha [config]="captchaConfig" #captchaFormID (generatedSalt)="generatedSalt($event)"
           (enteredCaptcha)="enteredCaptcha($event)" (keypress)="keyPress($event)"></app-captcha>
         <div class="forgot-password">
-          <a href="#" class="txt1">Forgot Password</a><span class="txt1">?</span>
+          <a routerLink="" class="txt1">Forgot Password</a><span class="txt1">?</span>
         </div>
         <div class="container-login100-form-btn">
           <button type="submit" class="login100-form-btn" [disabled]="loading">
@@ -59,10 +59,13 @@
           </button>
         </div>
         <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        <div style="text-align: center;">
+          <a href="http://localhost:3600" class="txt1">Back to Home</a>
+        </div>
         <!-- <div class="signup">
           <div class="txt2">
             Don't have an account?
-            <a href="#" class="txt1">Sign up</a>
+            <a routerLink="" class="txt1">Sign up</a>
           </div>
         </div> -->
       </form>

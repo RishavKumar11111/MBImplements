@@ -15,7 +15,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 import { VaccineRoutingModule } from './vaccine-routing.module';
+
 import { SharedModule } from '../shared/shared.module';
 
 import { SearchComponent } from './search/search.component';
@@ -39,7 +43,6 @@ import { SlotAvailabilityByCentresComponent } from './slot-availability-by-centr
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    VaccineRoutingModule,
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
@@ -52,6 +55,9 @@ import { SlotAvailabilityByCentresComponent } from './slot-availability-by-centr
     MatIconModule,
     MatTableModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
+    MatExpansionModule,
+    VaccineRoutingModule,
     SharedModule
   ]
 })

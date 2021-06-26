@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LayoutService } from 'src/app/services/layout.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,9 @@ export class HeaderComponent implements OnInit {
   // counter: number;
 
   constructor(
+    private layoutService: LayoutService,
+    private toastr: ToastrService,
+    private fb: FormBuilder,
     private scroller: ViewportScroller,
     private router: Router
   ) {

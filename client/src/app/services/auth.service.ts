@@ -39,7 +39,7 @@ export class AuthService {
     return true;
   }
 
-  generateCaptchaAndSalt(type: any, length: any): Observable<any> {
+  generateCaptchaAndSalt(type: number, length: number): Observable<any> {
     return this.http.get(`${serverURL}/auth/generateCaptchaAndSalt/${type}/${length}`, {
       withCredentials: true
     });

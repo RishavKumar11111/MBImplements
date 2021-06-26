@@ -51,7 +51,7 @@
             <td>
               <input type="text" class="form-control" placeholder="Enter No. of Available Surplus Stocks"
                 id="availableSurplusStocks[{{i}}]" name="availableSurplusStocks[{{i}}]"
-                [(ngModel)]="x.EnteredAvailableSurplusStocks" [disabled]="x.Status == 0"
+                [(ngModel)]="x.EnteredAvailableSurplusStocks" [disabled]="x.Status === 0"
                 (ngModelChange)="calculateTotalAvailableSurplusStocks();" (keypress)="keyPress($event)"
                 appNumbersOnly minlength="1" maxlength="4">
             </td>

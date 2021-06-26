@@ -1,5 +1,5 @@
 <form [formGroup]="searchPinForm" #searchPinFormID novalidate autocomplete="off" role="form">
-  <mat-form-field>
+  <mat-form-field appearance="fill">
     <mat-label>Pin</mat-label>
     <input matInput formControlName="enteredPin" appNumbersOnly minlength="6" maxlength="6" placeholder="Enter Pin"
       (focus)="addValidators($event)" (keypress)="keyPress($event)" required>
@@ -8,16 +8,17 @@
       contain 6 characters</mat-error>
   </mat-form-field>
   <div class="btn-div">
-    <button mat-raised-button mat-button matStepperPrevious color="accent" [disabled]="loading == true">Back</button>
-    <button mat-raised-button color="primary"
-      [disabled]="searchPinForm.status == 'INVALID' || spf.enteredPin.value == '' || loading == true"
+    <button mat-raised-button mat-button color="accent" matStepperPrevious [disabled]="loading">Back</button>
+    <button mat-raised-button mat-button color="primary"
+      [disabled]="searchPinForm.status === 'INVALID' || spf.enteredPin.value === '' || loading"
       (click)="getSlotAvailabilityByPinForWeek()">
       <span matTooltipPosition="below"
-        [matTooltip]="searchPinForm.status == 'INVALID' || spf.enteredPin.value == '' ? 'Please enter a Pin.' : ''">
-        <span *ngIf="loading == true" class="spinner-border spinner-border-sm mr-1"></span>
+        [matTooltip]="searchPinForm.status === 'INVALID' || spf.enteredPin.value === '' ? 'Please enter a Pin.' : ''">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         Get Slot Availability
       </span>
     </button>
-    <button mat-raised-button mat-button [disabled]="loading == true" (click)="clearResetOnChange($event)" color="warn">Reset</button>
+    <button mat-raised-button mat-button color="warn" [disabled]="loading"
+      (click)="clearResetOnChange($event)">Reset</button>
   </div>
 </form>

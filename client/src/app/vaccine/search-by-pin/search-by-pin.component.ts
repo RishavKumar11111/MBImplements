@@ -45,7 +45,7 @@ export class SearchByPinComponent implements OnInit {
 
   addValidators(e: any) {
     if (e.target.nextSibling.innerText.includes('Pin')) {
-      if (this.spf.enteredPin.errors == null) {
+      if (this.spf.enteredPin.errors === null) {
         this.spf.enteredPin.setValidators([Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
         this.spf.enteredPin.updateValueAndValidity();
       }
@@ -82,7 +82,7 @@ export class SearchByPinComponent implements OnInit {
           this.vaccineService.changeMessage(dateAvailableSlots);
           this.router.navigate(['slotAvailability']);
         } else {
-          this.toastr.warning(`No slots are available in this area.\n<a href="">Click here to get notified when a slot is available.</a>`);
+          this.toastr.warning(`No slots are available in this area.\n<a href="javascript:void(0);">Click here to get notified when a slot is available.</a>`);
         }
       }, (error) => this.toastr.error(error.statusText, error.status));
       this.spf.enteredPin.enable();

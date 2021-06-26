@@ -22,16 +22,17 @@
     <mat-error *ngIf="sdf.selectedDistrict.hasError('required')">Please choose a District</mat-error>
   </mat-form-field>
   <div class="btn-div">
-    <button mat-raised-button mat-button [disabled]="loading == true" (click)="clearResetOnChange($event)" color="warn">Reset</button>
-    <button mat-raised-button color="primary"
-      [disabled]="searchDistrictForm.status == 'INVALID' || sdf.selectedDistrict.value == '' || loading == true"
+    <button mat-raised-button mat-button color="warn" [disabled]="loading"
+      (click)="clearResetOnChange($event)">Reset</button>
+    <button mat-raised-button mat-button color="primary"
+      [disabled]="searchDistrictForm.status === 'INVALID' || sdf.selectedDistrict.value === '' || loading"
       (click)="getSlotAvailabilityByDistrictForWeek()">
       <span matTooltipPosition="below"
-        [matTooltip]="searchDistrictForm.status == 'INVALID' || sdf.selectedDistrict.value == '' ? 'Please select a District.' : ''">
-        <span *ngIf="loading == true" class="spinner-border spinner-border-sm mr-1"></span>
+        [matTooltip]="searchDistrictForm.status === 'INVALID' || sdf.selectedDistrict.value === '' ? 'Please select a District.' : ''">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
         Get Slot Availability
       </span>
     </button>
-    <button mat-raised-button mat-button matStepperNext color="accent" [disabled]="loading == true">Next</button>
+    <button mat-raised-button mat-button color="accent" matStepperNext [disabled]="loading">Next</button>
   </div>
 </form>

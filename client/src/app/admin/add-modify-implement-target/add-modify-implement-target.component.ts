@@ -95,9 +95,9 @@ export class AddModifyImplementTargetComponent implements OnInit {
   }
 
   calculateTotalDistrictWise(x: any) {
-    const normal: number = (x.Normal === undefined || x.Normal == null || x.Normal === '') ? 0 : Number.isNaN(parseInt(x.Normal.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.Normal.toString().replace(/[^0-9]*/g, ''), 10);
-    const scp: number = (x.SCP === undefined || x.SCP == null || x.SCP === '') ? 0 : Number.isNaN(parseInt(x.SCP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.SCP.toString().replace(/[^0-9]*/g, ''), 10);
-    const tasp: number = (x.TASP === undefined || x.TASP == null || x.TASP === '') ? 0 : Number.isNaN(parseInt(x.TASP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.TASP.toString().replace(/[^0-9]*/g, ''), 10);
+    const normal: number = (x.Normal === undefined || x.Normal === null || x.Normal === '') ? 0 : Number.isNaN(parseInt(x.Normal.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.Normal.toString().replace(/[^0-9]*/g, ''), 10);
+    const scp: number = (x.SCP === undefined || x.SCP === null || x.SCP === '') ? 0 : Number.isNaN(parseInt(x.SCP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.SCP.toString().replace(/[^0-9]*/g, ''), 10);
+    const tasp: number = (x.TASP === undefined || x.TASP === null || x.TASP === '') ? 0 : Number.isNaN(parseInt(x.TASP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.TASP.toString().replace(/[^0-9]*/g, ''), 10);
     x.TotalDistrictWise = normal + scp + tasp;
   }
 
@@ -108,8 +108,8 @@ export class AddModifyImplementTargetComponent implements OnInit {
         this.totalNormal += Number.isNaN(parseInt(this.implementTargetList[i].Normal.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].Normal.toString().replace(/[^0-9]*/g, ''), 10);
       }
     }
-    const scp: number = (this.totalSCP === undefined || this.totalSCP == null || this.totalSCP === '') ? 0 : this.totalSCP;
-    const tasp: number = (this.totalTASP === undefined || this.totalTASP == null || this.totalTASP === '') ? 0 : this.totalTASP;
+    const scp: number = (this.totalSCP === undefined || this.totalSCP === null || this.totalSCP === '') ? 0 : this.totalSCP;
+    const tasp: number = (this.totalTASP === undefined || this.totalTASP === null || this.totalTASP === '') ? 0 : this.totalTASP;
     this.grandTotal = this.totalNormal + scp + tasp;
   }
 
@@ -120,8 +120,8 @@ export class AddModifyImplementTargetComponent implements OnInit {
         this.totalSCP += Number.isNaN(parseInt(this.implementTargetList[i].SCP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].SCP.toString().replace(/[^0-9]*/g, ''), 10);
       }
     }
-    const normal: number = (this.totalNormal === undefined || this.totalNormal == null || this.totalNormal === '') ? 0 : this.totalNormal;
-    const tasp: number = (this.totalTASP === undefined || this.totalTASP == null || this.totalTASP === '') ? 0 : this.totalTASP;
+    const normal: number = (this.totalNormal === undefined || this.totalNormal === null || this.totalNormal === '') ? 0 : this.totalNormal;
+    const tasp: number = (this.totalTASP === undefined || this.totalTASP === null || this.totalTASP === '') ? 0 : this.totalTASP;
     this.grandTotal = normal + this.totalSCP + tasp;
   }
 
@@ -132,8 +132,8 @@ export class AddModifyImplementTargetComponent implements OnInit {
         this.totalTASP += Number.isNaN(parseInt(this.implementTargetList[i].TASP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].TASP.toString().replace(/[^0-9]*/g, ''), 10);
       }
     }
-    const normal: number = (this.totalNormal === undefined || this.totalNormal == null || this.totalNormal === '') ? 0 : this.totalNormal;
-    const scp: number = (this.totalSCP === undefined || this.totalSCP == null || this.totalSCP === '') ? 0 : this.totalSCP;
+    const normal: number = (this.totalNormal === undefined || this.totalNormal === null || this.totalNormal === '') ? 0 : this.totalNormal;
+    const scp: number = (this.totalSCP === undefined || this.totalSCP === null || this.totalSCP === '') ? 0 : this.totalSCP;
     this.grandTotal = normal + scp + this.totalTASP;
   }
 
@@ -171,9 +171,9 @@ export class AddModifyImplementTargetComponent implements OnInit {
 
   onSubmit() {
     if (this.selectedImplement !== undefined && this.selectedImplement !== null && this.selectedImplement !== '' && this.selectedFinancialYear !== undefined && this.selectedFinancialYear !== null && this.selectedFinancialYear !== '') {
-      const normal: number = (this.totalNormal === undefined || this.totalNormal == null || this.totalNormal === '') ? 0 : this.totalNormal;
-      const scp: number = (this.totalSCP === undefined || this.totalSCP == null || this.totalSCP === '') ? 0 : this.totalSCP;
-      const tasp: number = (this.totalTASP === undefined || this.totalTASP == null || this.totalTASP === '') ? 0 : this.totalTASP;
+      const normal: number = (this.totalNormal === undefined || this.totalNormal === null || this.totalNormal === '') ? 0 : this.totalNormal;
+      const scp: number = (this.totalSCP === undefined || this.totalSCP === null || this.totalSCP === '') ? 0 : this.totalSCP;
+      const tasp: number = (this.totalTASP === undefined || this.totalTASP === null || this.totalTASP === '') ? 0 : this.totalTASP;
       this.grandTotal = normal + scp + tasp;
       if (this.grandTotal !== 0) {
         const dl: any = [];
@@ -189,9 +189,9 @@ export class AddModifyImplementTargetComponent implements OnInit {
           delete this.implementTargetList[i].DateTime;
           delete this.implementTargetList[i].IPAddress;
           delete this.implementTargetList[i].UserID;
-          this.implementTargetList[i].Normal = (!('Normal' in this.implementTargetList[i]) || this.implementTargetList[i].Normal == null) ? 0 : Number.isNaN(parseInt(this.implementTargetList[i].Normal.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].Normal.toString().replace(/[^0-9]*/g, ''), 10);
-          this.implementTargetList[i].SCP = (!('SCP' in this.implementTargetList[i]) || this.implementTargetList[i].SCP == null) ? 0 : Number.isNaN(parseInt(this.implementTargetList[i].SCP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].SCP.toString().replace(/[^0-9]*/g, ''), 10);
-          this.implementTargetList[i].TASP = (!('TASP' in this.implementTargetList[i]) || this.implementTargetList[i].TASP == null) ? 0 : Number.isNaN(parseInt(this.implementTargetList[i].TASP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].TASP.toString().replace(/[^0-9]*/g, ''), 10);
+          this.implementTargetList[i].Normal = (!('Normal' in this.implementTargetList[i]) || this.implementTargetList[i].Normal === null) ? 0 : Number.isNaN(parseInt(this.implementTargetList[i].Normal.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].Normal.toString().replace(/[^0-9]*/g, ''), 10);
+          this.implementTargetList[i].SCP = (!('SCP' in this.implementTargetList[i]) || this.implementTargetList[i].SCP === null) ? 0 : Number.isNaN(parseInt(this.implementTargetList[i].SCP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].SCP.toString().replace(/[^0-9]*/g, ''), 10);
+          this.implementTargetList[i].TASP = (!('TASP' in this.implementTargetList[i]) || this.implementTargetList[i].TASP === null) ? 0 : Number.isNaN(parseInt(this.implementTargetList[i].TASP.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementTargetList[i].TASP.toString().replace(/[^0-9]*/g, ''), 10);
           this.implementTargetList[i].ImplementID = this.selectedImplement.ImplementID;
           this.implementTargetList[i].FinancialYear = this.selectedFinancialYear;
         }

@@ -46,7 +46,7 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 const corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: ['http://localhost:3600', 'http://localhost:4200'],
   methods: 'GET, POST',
   credentials: true
 };
@@ -54,10 +54,18 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(xFrameOptions());
 app.use(device.capture());
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
-app.use(bodyParser.json({ limit: '100mb' }));
-app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+app.use(express.json({
+  limit: '100mb'
+}));
+app.use(express.urlencoded({
+  limit: '100mb', extended: true
+}));
+app.use(bodyParser.json({
+  limit: '100mb'
+}));
+app.use(bodyParser.urlencoded({
+  limit: '100mb', extended: true
+}));
 app.disable('x-powered-by');
 
 // static paths
@@ -65,7 +73,9 @@ app.use('/public', express.static('public'));
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser(crypto.randomBytes(64).toString('hex')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'favicon.ico')));
@@ -89,7 +99,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get('env') === 'development' ? err : {
+  };
   // render the error page
   res.status(err.status || 500);
   // res.render('error');

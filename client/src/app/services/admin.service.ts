@@ -19,7 +19,7 @@ export class AdminService {
     return this.http.get(`${serverURL}/admin/getFinancialYear`);
   }
 
-  getImplementTargets(implementID: any, financialYear: any): Observable<any> {
+  getImplementTargets(implementID: number, financialYear: string): Observable<any> {
     return this.http.get(`${serverURL}/admin/getImplementTargets/${implementID}/${financialYear}`);
   }
 

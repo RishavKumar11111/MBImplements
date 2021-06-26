@@ -17,7 +17,7 @@ export class EeService {
     });
   }
 
-  getImplementStockDetails(districtCode: any): Observable<any> {
+  getImplementStockDetails(districtCode: number): Observable<any> {
     return this.http.get(`${serverURL}/ee/getImplementStockDetails/${districtCode}`, {
       withCredentials: true
     });
@@ -29,13 +29,13 @@ export class EeService {
     });
   }
 
-  getImplementsStockSerialNos(districtCode: any): Observable<any> {
+  getImplementsStockSerialNos(districtCode: number): Observable<any> {
     return this.http.get(`${serverURL}/ee/getImplementsStockSerialNos/${districtCode}`, {
       withCredentials: true
     });
   }
 
-  getBlocks(districtCode: any): Observable<any> {
+  getBlocks(districtCode: number): Observable<any> {
     return this.http.get(`${serverURL}/ee/getBlocks/${districtCode}`);
   }
 

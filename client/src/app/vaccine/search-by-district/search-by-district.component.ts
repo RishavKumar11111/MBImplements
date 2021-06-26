@@ -42,12 +42,12 @@ export class SearchByDistrictComponent implements OnInit {
 
   addValidators(e: any) {
     if (e.target.innerText.includes('State')) {
-      if (this.sdf.selectedState.errors == null) {
+      if (this.sdf.selectedState.errors === null) {
         this.sdf.selectedState.setValidators([Validators.required]);
         this.sdf.selectedState.updateValueAndValidity();
       }
     } else if (e.target.innerText.includes('District')) {
-      if (this.sdf.selectedDistrict.errors == null) {
+      if (this.sdf.selectedDistrict.errors === null) {
         this.sdf.selectedDistrict.setValidators([Validators.required]);
         this.sdf.selectedDistrict.updateValueAndValidity();
       }
@@ -100,7 +100,7 @@ export class SearchByDistrictComponent implements OnInit {
           this.vaccineService.changeMessage(dateAvailableSlots);
           this.router.navigate(['slotAvailability']);
         } else {
-          this.toastr.warning(`No slots are available in this area.\n<a href="">Click here to get notified when a slot is available.</a>`);
+          this.toastr.warning(`No slots are available in this area.\n<a href="javascript:void(0);">Click here to get notified when a slot is available.</a>`);
         }
       }, (error) => this.toastr.error(error.statusText, error.status));
       this.sdf.selectedState.enable();

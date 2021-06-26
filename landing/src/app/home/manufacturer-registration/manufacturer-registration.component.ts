@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
+import { STEP_STATE } from '@angular/cdk/stepper';
+import { HomeService } from 'src/app/services/home.service';
 
 @Component({
   selector: 'app-manufacturer-registration',
@@ -8,8 +10,18 @@ import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@ang
   styleUrls: ['./manufacturer-registration.component.css']
 })
 export class ManufacturerRegistrationComponent implements OnInit {
-  constructor() { }
+  @ViewChild('stepper') stepper: any;
+
+  constructor(
+    private homeService: HomeService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
   }
+
+  // ngAfterViewInit() {
+  //   this.stepper._getIndicatorType = () => STEP_STATE.NUMBER;
+  // }
 }

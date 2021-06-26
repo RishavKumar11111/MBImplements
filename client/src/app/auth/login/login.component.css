@@ -316,7 +316,7 @@ input.input100 {
 	width: 100%;
 	float: left;
 	text-align: center;
-	margin: 15px;
+	margin: 15px 0;
 }
 
 .focus-input100 {

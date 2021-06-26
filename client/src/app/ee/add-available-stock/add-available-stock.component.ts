@@ -90,7 +90,7 @@ export class AddAvailableStockComponent implements OnInit {
           district: {
             DistrictCode: this.selectedDistrict.DistrictCode, DistrictName: this.selectedDistrict.PDSDistrictName.substring(0, 3)
           },
-          implementStockDetails: this.implementStockList.filter((x: any) => "EnteredAvailableSurplusStocks" in x === true && x.EnteredAvailableSurplusStocks !== null && x.EnteredAvailableSurplusStocks !== undefined && x.EnteredAvailableSurplusStocks !== '' && x.EnteredAvailableSurplusStocks !== '0' && Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) === false && x.Status == null).map((x: any) => ({
+          implementStockDetails: this.implementStockList.filter((x: any) => "EnteredAvailableSurplusStocks" in x === true && x.EnteredAvailableSurplusStocks !== null && x.EnteredAvailableSurplusStocks !== undefined && x.EnteredAvailableSurplusStocks !== '' && x.EnteredAvailableSurplusStocks !== '0' && Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) === false && x.Status === null).map((x: any) => ({
             ImplementID: x.ImplementID, EnteredAvailableSurplusStocks: Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)
           }))
         };
@@ -106,7 +106,7 @@ export class AddAvailableStockComponent implements OnInit {
                 // this.selectedDistrict = { DistrictCode: result[0].DistrictCode, DistrictName: result[0].DistrictName };
                 this.implementStockList = result;
                 this.calculateTotalAvailableSurplusStocks();
-                this.foundNULL = this.implementStockList.some((x: any) => x.Status == null);
+                this.foundNULL = this.implementStockList.some((x: any) => x.Status === null);
               }, 1);
               this.submitted = true;
             } else {

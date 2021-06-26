@@ -11,7 +11,7 @@ export class AlphanumericOnlyDirective {
   @HostListener('input', ['$event']) onInputChange(event: any) {
     if (this.specialKeys.indexOf(event.key) !== -1) { return; }
     const initialValue1 = this._el.nativeElement.value;
-    const initialValue = initialValue1.trim().replace(/\s+/g, ' ');
+    const initialValue = initialValue1.replace(/\s+/g, ' ');
     this._el.nativeElement.value = initialValue.replace(/^[^\w\s@%&*()\-+/<,>.]+$/g, '');
     if (initialValue !== this._el.nativeElement.value) {
       event.stopPropagation();

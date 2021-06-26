@@ -16,7 +16,7 @@ import { Login } from '../../models/auth/login.model';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  captchaStatus: any = '';
+  // captchaStatus: any = '';
 
   captchaConfig: any = {
     type: 2,
@@ -42,9 +42,9 @@ export class LoginComponent implements OnInit {
   ) {
     // this.captchaService.captchStatus.subscribe((status) => {
     //   this.captchaStatus = status;
-    //   if (status == false) {
+    //   if (status === false) {
     //     alert('Opps!\nCaptcha mismatch');
-    //   } else if (status == true) {
+    //   } else if (status === true) {
     //     alert('Success!\nYou are right');
     //   }
     // });
