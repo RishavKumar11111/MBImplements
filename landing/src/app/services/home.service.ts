@@ -50,4 +50,18 @@ export class HomeService {
       withCredentials: true
     });
   }
+
+  checkProprietorEmailIDAvailability(proprietorEmailID: string): Observable<any> {
+    return this.http.get(`${serverURL}/checkProprietorEmailIDAvailability/${proprietorEmailID}`);
+  }
+
+  checkUniqueFarmIDAvailability(uniqueFarmID: string): Observable<any> {
+    return this.http.get(`${serverURL}/checkUniqueFarmIDAvailability/${uniqueFarmID}`);
+  }
+
+  submitManufacturerDetails(data: any): Observable<any> {
+    return this.http.post(`${serverURL}/submitManufacturerDetails`, data, {
+      withCredentials: true
+    });
+  }
 }

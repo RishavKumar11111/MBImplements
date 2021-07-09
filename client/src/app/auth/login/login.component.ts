@@ -17,6 +17,11 @@ import { Login } from '../../models/auth/login.model';
 })
 export class LoginComponent implements OnInit {
   // captchaStatus: any = '';
+  salt: string;
+  captchaValue: any;
+  captchaResult: any;
+  loading: boolean;
+  error: string;
 
   captchaConfig: any = {
     type: 2,
@@ -33,6 +38,11 @@ export class LoginComponent implements OnInit {
     }
   };
 
+  @Input() loginForm: FormGroup;
+  @ViewChild('loginFormID') lFormID: any;
+  @ViewChild('captchaFormID') cFormID: any;
+  @ViewChild(CaptchaComponent) private cc!: CaptchaComponent;
+
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
@@ -48,24 +58,20 @@ export class LoginComponent implements OnInit {
     //     alert('Success!\nYou are right');
     //   }
     // });
+
+    this.salt = '';
+    this.loading = false;
+    this.error = '';
+
+    this.loginForm = this.fb.group({
+      userID: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[\w]+$/)]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[#?!@$%^&*.-]).{8,50}$/)]]
+    });
   }
 
-  @Input() loginForm: any;
-  @ViewChild('loginFormID') lFormID: any;
-  @ViewChild('captchaFormID') cFormID: any;
-  @ViewChild(CaptchaComponent) private cc!: CaptchaComponent;
-
-  salt: any;
-  captchaValue: any;
-  captchaResult: any;
-  loading: any;
-  error: any;
-
   ngOnInit(): void {
-    this.salt = '';
     this.captchaValue = null;
     this.captchaResult = null;
-    this.loading = false;
 
     $(() => {
       $('.wrap-input100 .input100').on('focusout', function success() {
@@ -84,11 +90,6 @@ export class LoginComponent implements OnInit {
         $('.wrap-input100 .input100').addClass('has-content');
       });
     }, 1);
-
-    this.loginForm = this.fb.group({
-      userID: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[\w]+$/)]],
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[#?!@$%^&*.-]).{8,50}$/)]]
-    });
   }
 
   ngAfterViewInit() { }
@@ -117,12 +118,12 @@ export class LoginComponent implements OnInit {
       const cv = parseInt(this.captchaValue, 10);
       if (cv === this.captchaResult) {
         this.loginForm.patchValue({
-          password: sha512(sha512(this.password.value) + this.salt)
+          password: sha512(sha512(this.password!.value) + this.salt)
         });
-        this.password.setErrors(null);
+        this.password!.setErrors(null);
         const data = {
-          userID: this.userID.value,
-          password: this.password.value,
+          userID: this.userID!.value,
+          password: this.password!.value,
           captcha: cv
         };
         this.loading = true;

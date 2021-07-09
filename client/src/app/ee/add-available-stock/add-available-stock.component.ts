@@ -14,12 +14,14 @@ export class AddAvailableStockComponent implements OnInit {
   title: string;
   breadcrumbs: Array<string>;
   districtList: Array<{ DistrictCode: number, DistrictName: string, PDSDistrictName: string }>;
-  implementStockList: any;
+  implementStockList: Array<any>;
   selectedDistrict: any;
   submitted: boolean;
   btnID: string;
   totalAvailableSurplusStocks: any;
   foundNULL: boolean;
+
+  @ViewChild('addAvailableStockForm') aasForm: any;
 
   constructor(
     private eeService: EeService,
@@ -36,8 +38,6 @@ export class AddAvailableStockComponent implements OnInit {
     this.btnID = '';
     this.foundNULL = true;
   }
-
-  @ViewChild('addAvailableStockForm') aasForm: any;
 
   ngOnInit(): void {
     // this.layoutService.currentTitle.subscribe((t: string) => this.title = t);
@@ -90,7 +90,7 @@ export class AddAvailableStockComponent implements OnInit {
           district: {
             DistrictCode: this.selectedDistrict.DistrictCode, DistrictName: this.selectedDistrict.PDSDistrictName.substring(0, 3)
           },
-          implementStockDetails: this.implementStockList.filter((x: any) => "EnteredAvailableSurplusStocks" in x === true && x.EnteredAvailableSurplusStocks !== null && x.EnteredAvailableSurplusStocks !== undefined && x.EnteredAvailableSurplusStocks !== '' && x.EnteredAvailableSurplusStocks !== '0' && Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) === false && x.Status === null).map((x: any) => ({
+          implementStockDetails: this.implementStockList.filter((x: any) => "EnteredAvailableSurplusStocks" in x && x.EnteredAvailableSurplusStocks !== null && x.EnteredAvailableSurplusStocks !== undefined && x.EnteredAvailableSurplusStocks !== '' && x.EnteredAvailableSurplusStocks !== '0' && Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) === false && x.Status === null).map((x: any) => ({
             ImplementID: x.ImplementID, EnteredAvailableSurplusStocks: Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)
           }))
         };

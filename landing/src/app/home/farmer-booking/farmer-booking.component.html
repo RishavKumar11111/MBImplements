@@ -13,12 +13,12 @@
         <mat-error *ngIf="fbf.enteredFarmerID.hasError('required')">Please enter a Farmer ID</mat-error>
         <mat-error *ngIf="fbf.enteredFarmerID.hasError('pattern')">Please enter a valid Farmer ID</mat-error>
       </mat-form-field>
-      <button mat-raised-button mat-button type="button" color="warn" [disabled]="loading === true"
+      <button mat-raised-button mat-button type="button" color="warn" [disabled]="loading"
         *ngIf="fbf.enteredFarmerID.value !== null && fbf.enteredFarmerID.value !== undefined && fbf.enteredFarmerID.value !== '' && farmerDetails !== null && farmerDetails !== undefined"
         (click)="reset()">Reset</button>
       <button mat-raised-button mat-button color="primary" type="button" id="getFD"
         *ngIf="farmerDetails === null || farmerDetails === undefined"
-        [disabled]="fbf.enteredFarmerID.value === null || fbf.enteredFarmerID.value === undefined || fbf.enteredFarmerID.value === '' || loading === true || fbf.enteredFarmerID.hasError('required') || fbf.enteredFarmerID.hasError('pattern')"
+        [disabled]="fbf.enteredFarmerID.value === null || fbf.enteredFarmerID.value === undefined || fbf.enteredFarmerID.value === '' || loading || fbf.enteredFarmerID.hasError('required') || fbf.enteredFarmerID.hasError('pattern')"
         (click)="getFarmerDetails()">
         <mat-icon *ngIf="loading">
           <mat-spinner color="primary" diameter="20"></mat-spinner>
@@ -42,16 +42,16 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <mat-form-field appearance="fill">
-            <mat-label>Farmer Name</mat-label>
+            <mat-label>Farmer's Name</mat-label>
             <input matInput formControlName="enteredFarmerName" appAlphabetsOnly minlength="1" maxlength="50"
-              placeholder="Enter Farmer Name" style="text-transform: capitalize;" required>
+              placeholder="Enter Farmer's Name" style="text-transform: capitalize;" required>
             <mat-error *ngIf="fbf.enteredFarmerName.hasError('required')">Please enter Farmer's Name</mat-error>
             <mat-error *ngIf="fbf.enteredFarmerName.hasError('pattern')">Please enter a valid Farmer's Name</mat-error>
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <mat-label>Farmer Mobile No.</mat-label>
+            <mat-label>Farmer's Mobile No.</mat-label>
             <input matInput formControlName="enteredFarmerMobileNo" appNumbersOnly minlength="10" maxlength="10"
-              placeholder="Enter Farmer Mobile No." required>
+              placeholder="Enter Farmer's Mobile No." required>
             <mat-error *ngIf="fbf.enteredFarmerMobileNo.hasError('required')">Please enter Farmer's Mobile No.
             </mat-error>
             <mat-error *ngIf="fbf.enteredFarmerMobileNo.hasError('pattern')">Please enter a valid Mobile No.</mat-error>
@@ -60,7 +60,7 @@
           <mat-form-field appearance="fill">
             <mat-label>District</mat-label>
             <mat-select formControlName="selectedDistrict" placeholder="Select District" [(value)]="sd"
-              (ngModelChange)="loadBlocks(selectedDistrict.value)">
+              (ngModelChange)="loadBlocks(selectedDistrict!.value)">
               <mat-option disabled>Select District</mat-option>
               <mat-option *ngFor="let district of districtList" [value]="district">
                 {{district.DistrictName}}
@@ -71,7 +71,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Block</mat-label>
             <mat-select formControlName="selectedBlock" placeholder="Select Block" [(value)]="sb"
-              (ngModelChange)="loadGPs(selectedBlock.value)" required>
+              (ngModelChange)="loadGPs(selectedBlock!.value)" required>
               <mat-option disabled>Select Block</mat-option>
               <mat-option *ngFor="let block of blockList" [value]="block">
                 {{block.BlockName}}
@@ -82,7 +82,7 @@
           <mat-form-field appearance="fill">
             <mat-label>GP</mat-label>
             <mat-select formControlName="selectedGP" placeholder="Select GP" [(value)]="sg"
-              (ngModelChange)="loadVillages(selectedGP.value)" required>
+              (ngModelChange)="loadVillages(selectedGP!.value)" required>
               <mat-option disabled>Select GP</mat-option>
               <mat-option *ngFor="let gp of gpList" [value]="gp">
                 {{gp.GPName}}
@@ -128,7 +128,7 @@
           </mat-action-row>
           <mat-action-row>
             <button mat-raised-button mat-button color="accent" type="submit" id="submit"
-              [disabled]="farmerBookingForm.invalid || loading === true || farmerDetails === null || farmerDetails === undefined">Submit</button>
+              [disabled]="farmerBookingForm.invalid || loading || farmerDetails === null || farmerDetails === undefined">Submit</button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>

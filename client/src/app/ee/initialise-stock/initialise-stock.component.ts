@@ -19,8 +19,10 @@ export class InitialiseStockComponent implements OnInit {
   selectedBlock: any;
   implementStockSerialNoList: Array<any>;
   masterSelected: boolean;
-  checkedList: any;
+  checkedList: Array<any>;
   submitted: boolean;
+
+  @ViewChild('initialiseStockForm') isForm: any;
 
   constructor(
     private eeService: EeService,
@@ -39,8 +41,6 @@ export class InitialiseStockComponent implements OnInit {
     this.masterSelected = false;
     this.submitted = false;
   }
-
-  @ViewChild('initialiseStockForm') isForm: any;
 
   ngOnInit(): void {
     // this.layoutService.currentTitle.subscribe((t: string) => this.title = t);

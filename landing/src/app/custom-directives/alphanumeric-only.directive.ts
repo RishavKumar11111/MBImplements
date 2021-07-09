@@ -12,7 +12,7 @@ export class AlphanumericOnlyDirective {
     if (this.specialKeys.indexOf(event.key) !== -1) { return; }
     const initialValue1 = this._el.nativeElement.value;
     const initialValue = initialValue1.replace(/\s+/g, ' ');
-    this._el.nativeElement.value = initialValue.replace(/^[^\w\s@%&*()\-+/<,>.]+$/g, '');
+    this._el.nativeElement.value = initialValue.replace(/^[^\w\s@%()\-,.]+$/g, '');
     if (initialValue !== this._el.nativeElement.value) {
       event.stopPropagation();
     }

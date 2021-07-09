@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { STEP_STATE } from '@angular/cdk/stepper';
-import { HomeService } from 'src/app/services/home.service';
+import { HomeService } from '../../services/home.service';
 import { CaptchaComponent } from '../captcha/captcha.component';
 
 @Component({
@@ -25,8 +25,9 @@ export class FarmerBookingComponent implements OnInit {
   implementDetailList: Array<{ ImplementID: number, ImplementName: string, Cost: number, SubsidyPercentage: number }>;
   showImplementDetails: boolean;
   showProceedToPayment: boolean;
+  captchaValue: any;
+  captchaResult: any;
 
-  captchaStatus: any = '';
   captchaConfig: any = {
     type: 2,
     length: 6,
@@ -42,11 +43,8 @@ export class FarmerBookingComponent implements OnInit {
     }
   };
 
-  captchaValue: any;
-  captchaResult: any;
-
   @ViewChild('stepper') stepper: any;
-  farmerBookingForm: any;
+  farmerBookingForm: FormGroup;
   @ViewChild('farmerBookingFormID') fbfFormID: any;
   @ViewChild('captchaFormID') cFormID: any;
   @ViewChild(CaptchaComponent) private cc!: CaptchaComponent;
@@ -58,25 +56,18 @@ export class FarmerBookingComponent implements OnInit {
   ) {
     this.loading = false;
     this.keyName = '';
-    this.farmerDetails = null;
     this.districtList = [];
     this.blockList = [];
     this.gpList = [];
     this.villageList = [];
-    this.sd = null;
-    this.sb = null;
-    this.sg = null;
-    this.sv = null;
     this.implementDetailList = [];
     this.showImplementDetails = false;
     this.showProceedToPayment = false;
-    // this.captchaValue = null;
-    // this.captchaResult = null;
 
     this.farmerBookingForm = this.fb.group({
-      enteredFarmerID: ['', [Validators.required, Validators.pattern(/^([a-zA-Z]{1,3}\/[1-9][0-9]{0,6})$/)]],
+      enteredFarmerID: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{1,3}\/[1-9][0-9]{0,6}$/)]],
       enteredFarmerName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      enteredFarmerMobileNo: ['', [Validators.required, Validators.pattern(/^([6-9][0-9]{9})$/)]],
+      enteredFarmerMobileNo: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
       selectedDistrict: ['', Validators.required],
       selectedBlock: ['', Validators.required],
       selectedGP: ['', Validators.required],
@@ -88,16 +79,23 @@ export class FarmerBookingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.farmerDetails = null;
+    this.sd = null;
+    this.sb = null;
+    this.sg = null;
+    this.sv = null;
+    this.captchaValue = null;
+    this.captchaResult = null;
     this.loadDistricts();
     this.loadImplementDetails();
-    this.enteredFarmerName.disable();
-    this.enteredFarmerMobileNo.disable();
-    this.selectedDistrict.disable();
-    this.selectedBlock.disable();
-    this.selectedGP.disable();
-    this.selectedVillage.disable();
-    this.implementCost.disable();
-    this.implmenetSubsidyPercentage.disable();
+    this.enteredFarmerName!.disable();
+    this.enteredFarmerMobileNo!.disable();
+    this.selectedDistrict!.disable();
+    this.selectedBlock!.disable();
+    this.selectedGP!.disable();
+    this.selectedVillage!.disable();
+    this.implementCost!.disable();
+    this.implmenetSubsidyPercentage!.disable();
   }
 
   get fbf() { return this.farmerBookingForm.controls; }
@@ -117,12 +115,12 @@ export class FarmerBookingComponent implements OnInit {
   // }
 
   concatString(e: any) {
-    if (this.enteredFarmerID.value !== null && this.enteredFarmerID.value !== undefined && this.enteredFarmerID.value !== '') {
-      if (this.enteredFarmerID.value.length === 3 && this.keyName !== 'Backspace') {
+    if (this.enteredFarmerID!.value !== null && this.enteredFarmerID!.value !== undefined && this.enteredFarmerID!.value !== '') {
+      if (this.enteredFarmerID!.value.length === 3 && this.keyName !== 'Backspace') {
         this.farmerBookingForm.patchValue({
           enteredFarmerID: `${e}/`
         });
-      } else if ((this.enteredFarmerID.value.length === 3 && this.keyName === 'Backspace') || (this.enteredFarmerID.value.length === 5 && this.keyName === '/')) {
+      } else if ((this.enteredFarmerID!.value.length === 3 && this.keyName === 'Backspace') || (this.enteredFarmerID!.value.length === 5 && this.keyName === '/')) {
         this.farmerBookingForm.patchValue({
           enteredFarmerID: e.slice(0, -1)
         });
@@ -155,69 +153,71 @@ export class FarmerBookingComponent implements OnInit {
   }
 
   getFarmerDetails() {
-    if (this.enteredFarmerID.value !== null && this.enteredFarmerID.value !== '' && this.enteredFarmerID.value !== undefined) {
+    if (this.enteredFarmerID!.value !== null && this.enteredFarmerID!.value !== '' && this.enteredFarmerID!.value !== undefined) {
       this.loading = true;
-      this.homeService.getFarmerDetails(this.enteredFarmerID.value.toUpperCase()).subscribe((result: any) => {
+      this.homeService.getFarmerDetails(this.enteredFarmerID!.value.toUpperCase()).subscribe((result: any) => {
         this.loading = false;
         this.showProceedToPayment = false;
         if (result !== null || result !== undefined) {
           if (result.ErrorMessage === null) {
             if (result.VCHAADHARNO !== null) {
               if (result.VCHFARMERNAME !== null && result.VCHFARMERNAME !== '') {
-                this.enteredFarmerName.disable();
+                this.enteredFarmerName!.disable();
               } else {
-                this.enteredFarmerName.enable();
+                this.enteredFarmerName!.enable();
               }
               if (result.VCHMOBILENO !== null && result.VCHMOBILENO !== '') {
-                this.enteredFarmerMobileNo.disable();
+                this.enteredFarmerMobileNo!.disable();
               } else {
-                this.enteredFarmerMobileNo.enable();
+                this.enteredFarmerMobileNo!.enable();
               }
               if (result.LGDVillageCode !== null) {
                 this.loadFarmerAddress(result.LGDVillageCode);
-                this.selectedDistrict.clearValidators();
-                this.selectedDistrict.updateValueAndValidity();
-                this.selectedBlock.clearValidators();
-                this.selectedBlock.updateValueAndValidity();
-                this.selectedGP.clearValidators();
-                this.selectedGP.updateValueAndValidity();
-                this.selectedVillage.clearValidators();
-                this.selectedVillage.updateValueAndValidity();
-                this.selectedDistrict.disable();
-                this.selectedBlock.disable();
-                this.selectedGP.disable();
-                this.selectedVillage.disable();
+                this.selectedDistrict!.clearValidators();
+                this.selectedDistrict!.updateValueAndValidity();
+                this.selectedBlock!.clearValidators();
+                this.selectedBlock!.updateValueAndValidity();
+                this.selectedGP!.clearValidators();
+                this.selectedGP!.updateValueAndValidity();
+                this.selectedVillage!.clearValidators();
+                this.selectedVillage!.updateValueAndValidity();
+                this.selectedDistrict!.disable();
+                this.selectedBlock!.disable();
+                this.selectedGP!.disable();
+                this.selectedVillage!.disable();
               } else {
                 this.loadFarmerDistrict();
-                this.selectedDistrict.clearValidators();
-                this.selectedDistrict.updateValueAndValidity();
-                this.selectedBlock.setValidators([Validators.required]);
-                this.selectedBlock.updateValueAndValidity();
-                this.selectedGP.setValidators([Validators.required]);
-                this.selectedGP.updateValueAndValidity();
-                this.selectedVillage.setValidators([Validators.required]);
-                this.selectedVillage.updateValueAndValidity();
-                this.selectedDistrict.disable();
-                this.selectedBlock.enable();
-                this.selectedGP.enable();
-                this.selectedVillage.enable();
+                this.selectedDistrict!.clearValidators();
+                this.selectedDistrict!.updateValueAndValidity();
+                this.selectedBlock!.setValidators([Validators.required]);
+                this.selectedBlock!.updateValueAndValidity();
+                this.selectedGP!.setValidators([Validators.required]);
+                this.selectedGP!.updateValueAndValidity();
+                this.selectedVillage!.setValidators([Validators.required]);
+                this.selectedVillage!.updateValueAndValidity();
+                this.selectedDistrict!.disable();
+                this.selectedBlock!.enable();
+                this.selectedGP!.enable();
+                this.selectedVillage!.enable();
               }
               this.farmerDetails = result;
-              this.enteredFarmerID.disable();
+              this.enteredFarmerID!.disable();
               this.farmerBookingForm.patchValue({
-                enteredFarmerName: this.farmerDetails.VCHFARMERNAME !== null && this.farmerDetails.VCHFARMERNAME !== '' ? this.farmerDetails.VCHFARMERNAME.trim().replace(/\s+/g, ' ') : this.enteredFarmerName.value,
-                enteredFarmerMobileNo: this.farmerDetails.VCHMOBILENO !== null && this.farmerDetails.VCHMOBILENO !== '' ? this.farmerDetails.VCHMOBILENO.trim().slice(-10) : this.enteredFarmerMobileNo.value
+                enteredFarmerName: this.farmerDetails.VCHFARMERNAME !== null && this.farmerDetails.VCHFARMERNAME !== '' ? this.farmerDetails.VCHFARMERNAME.trim().replace(/\s+/g, ' ').toLowerCase().split(' ')
+                  .map((x: string) => x.charAt(0).toUpperCase() + x.slice(1))
+                  .join(' ') : this.enteredFarmerName!.value.toLowerCase().split(' ').map((x: string) => x.charAt(0).toUpperCase() + x.slice(1)).join(' '),
+                enteredFarmerMobileNo: this.farmerDetails.VCHMOBILENO !== null && this.farmerDetails.VCHMOBILENO !== '' ? this.farmerDetails.VCHMOBILENO.trim().slice(-10) : this.enteredFarmerMobileNo!.value
               });
             } else {
-              this.toastr.warning(`The Aadhaar No. is not linked with the entered <b>Farmer ID: ${this.enteredFarmerID.value.toUpperCase()}</b>.\nPlease update your Aadhaar No. at the nearest AAO.`);
+              this.toastr.warning(`The Aadhaar No. is not linked with the entered <b>Farmer ID: ${this.enteredFarmerID!.value.toUpperCase()}</b>.\nPlease update your Aadhaar No. at the nearest AAO.`);
               this.reset();
             }
           } else {
-            this.toastr.warning(`The <b>Farmer ID: ${this.enteredFarmerID.value.toUpperCase()}</b> is invalid.`);
+            this.toastr.warning(`The <b>Farmer ID: ${this.enteredFarmerID!.value.toUpperCase()}</b> is invalid.`);
             this.reset();
           }
         } else {
-          this.toastr.warning(`No record found for the <b>Farmer ID: ${this.enteredFarmerID.value.toUpperCase()}</b>.`);
+          this.toastr.warning(`No record found for the <b>Farmer ID: ${this.enteredFarmerID!.value.toUpperCase()}</b>.`);
           this.reset();
         }
       }, (error) => this.toastr.error(error.statusText, error.status));
@@ -235,19 +235,20 @@ export class FarmerBookingComponent implements OnInit {
     this.sb = null;
     this.sg = null;
     this.sv = null;
-    this.enteredFarmerID.enable();
-    this.enteredFarmerName.disable();
-    this.enteredFarmerMobileNo.disable();
-    this.selectedDistrict.disable();
-    this.selectedBlock.disable();
-    this.selectedGP.disable();
-    this.selectedVillage.disable();
-    this.farmerBookingForm.reset();
+    this.enteredFarmerID!.enable();
+    this.enteredFarmerName!.disable();
+    this.enteredFarmerMobileNo!.disable();
+    this.selectedDistrict!.disable();
+    this.selectedBlock!.disable();
+    this.selectedGP!.disable();
+    this.selectedVillage!.disable();
     this.showImplementDetails = false;
     setTimeout(() => {
+      this.farmerBookingForm.reset();
       this.farmerBookingForm.patchValue({
         enteredFarmerID: ''
       });
+      this.farmerBookingForm.markAsPristine();
     }, 1);
   }
 
@@ -304,7 +305,7 @@ export class FarmerBookingComponent implements OnInit {
 
   loadFarmerDistrict() {
     setTimeout(() => {
-      this.sd = this.districtList.find((x: any) => x.PDSDistrictName.substring(0, 3) === this.enteredFarmerID.value.toUpperCase().substring(0, 3));
+      this.sd = this.districtList.find((x: any) => x.PDSDistrictName.substring(0, 3) === this.enteredFarmerID!.value.toUpperCase().substring(0, 3));
       this.loadBlocks(this.sd);
     }, 1);
   }
@@ -334,11 +335,11 @@ export class FarmerBookingComponent implements OnInit {
   }
 
   displayImplementDetails() {
-    if (this.selectedImplement.value !== null && this.selectedImplement.value !== undefined && this.selectedImplement.value !== '') {
+    if (this.selectedImplement!.value !== null && this.selectedImplement!.value !== undefined && this.selectedImplement!.value !== '') {
       this.showImplementDetails = true;
       this.farmerBookingForm.patchValue({
-        implementCost: `₹ ${this.selectedImplement.value.Cost}`,
-        implmenetSubsidyPercentage: `${this.selectedImplement.value.SubsidyPercentage} %`
+        implementCost: `₹ ${this.selectedImplement!.value.Cost}`,
+        implmenetSubsidyPercentage: `${this.selectedImplement!.value.SubsidyPercentage} %`
       });
     }
   }
@@ -349,14 +350,16 @@ export class FarmerBookingComponent implements OnInit {
         const cv = parseInt(this.captchaValue, 10);
         if (cv === this.captchaResult) {
           const data = {
-            FarmerID: this.enteredFarmerID.value.toUpperCase(),
-            FarmerName: this.farmerDetails.VCHFARMERNAME !== null && this.farmerDetails.VCHFARMERNAME !== '' ? this.farmerDetails.VCHFARMERNAME.trim().replace(/\s+/g, ' ') : this.enteredFarmerName.value,
-            FarmerMobileNo: this.farmerDetails.VCHMOBILENO !== null && this.farmerDetails.VCHMOBILENO !== '' ? this.farmerDetails.VCHMOBILENO.trim().slice(-10) : this.enteredFarmerMobileNo.value,
+            FarmerID: this.enteredFarmerID!.value.toUpperCase(),
+            FarmerName: this.farmerDetails.VCHFARMERNAME !== null && this.farmerDetails.VCHFARMERNAME !== '' ? this.farmerDetails.VCHFARMERNAME.trim().replace(/\s+/g, ' ').toLowerCase().split(' ')
+              .map((x: string) => x.charAt(0).toUpperCase() + x.slice(1))
+              .join(' ') : this.enteredFarmerName!.value.toLowerCase().split(' ').map((x: string) => x.charAt(0).toUpperCase() + x.slice(1)).join(' '),
+            FarmerMobileNo: this.farmerDetails.VCHMOBILENO !== null && this.farmerDetails.VCHMOBILENO !== '' ? this.farmerDetails.VCHMOBILENO.trim().slice(-10) : this.enteredFarmerMobileNo!.value,
             DistrictCode: this.sd.DistrictCode,
             BlockCode: this.sb.BlockCode,
             GPCode: this.sg.GPCode,
             VillageCode: this.sv.VillageCode,
-            ImplementID: this.selectedImplement.value.ImplementID,
+            ImplementID: this.selectedImplement!.value.ImplementID,
             Captcha: cv
           };
           this.homeService.submitFarmerBooking(data).subscribe((result: any) => {
@@ -371,12 +374,14 @@ export class FarmerBookingComponent implements OnInit {
             } else {
               this.toastr.error(`Please enter the correct <b>Captcha</b> value to complete the booking process.`);
               this.cFormID.captchaForm.reset();
+              this.cFormID.captchaForm.markAsPristine();
               this.cc.generateCaptchaAndSalt();
             }
           }, (error) => this.toastr.error(error.statusText, error.status));
         } else {
           this.toastr.error(`Please enter the correct <b>Captcha</b> value to complete the booking process.`);
           this.cFormID.captchaForm.reset();
+          this.cFormID.captchaForm.markAsPristine();
           this.cc.generateCaptchaAndSalt();
         }
       } else {

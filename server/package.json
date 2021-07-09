@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "csurf": "^1.11.0",
-    "debug": "^4.3.1",
+    "debug": "^4.3.2",
     "express": "~4.17.1",
     "express-device": "^0.4.2",
     "express-promise-router": "^4.1.0",
@@ -43,16 +43,16 @@
     "pg-hstore": "^2.3.4",
     "pg-promise": "^10.10.2",
     "request": "^2.88.2",
-    "sequelize": "^6.6.2",
+    "sequelize": "^6.6.5",
     "serve-favicon": "^2.5.0",
-    "soap": "^0.39.0",
+    "soap": "^0.40.0",
     "svg-captcha": "^1.4.0",
     "ua-parser-js": "^0.7.28",
     "uuid": "^8.3.2",
     "x-frame-options": "^1.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.29.0",
+    "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4"
   }

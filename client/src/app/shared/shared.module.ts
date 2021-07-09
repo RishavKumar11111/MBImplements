@@ -6,6 +6,7 @@ import { AlphanumericOnlyDirective } from '../custom-directives/alphanumeric-onl
 import { DecimalOnlyUptoTwoDigitsDirective } from '../custom-directives/decimal-only-upto-two-digits.directive';
 import { NumbersOnlyDirective } from '../custom-directives/numbers-only.directive';
 import { FarmerIdOnlyDirective } from '../custom-directives/farmer-id-only.directive';
+import { UniqueFarmIdDirective } from '../custom-directives/unique-farm-id.directive';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { FarmerIdOnlyDirective } from '../custom-directives/farmer-id-only.direc
     AlphanumericOnlyDirective,
     DecimalOnlyUptoTwoDigitsDirective,
     NumbersOnlyDirective,
-    FarmerIdOnlyDirective
+    FarmerIdOnlyDirective,
+    UniqueFarmIdDirective
   ],
   imports: [
     CommonModule
@@ -22,7 +24,9 @@ import { FarmerIdOnlyDirective } from '../custom-directives/farmer-id-only.direc
     AlphabetsOnlyDirective,
     AlphanumericOnlyDirective,
     DecimalOnlyUptoTwoDigitsDirective,
-    NumbersOnlyDirective
+    NumbersOnlyDirective,
+    FarmerIdOnlyDirective,
+    UniqueFarmIdDirective
   ]
 })
 export class SharedModule { }

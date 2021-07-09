@@ -12,18 +12,18 @@
           <span class="focus-input100"></span>
           <span class="label-input100">Enter User ID</span>
         </div>
-        <div *ngIf="userID.invalid && (userID.dirty || userID.touched)" class="alert alert-danger"
+        <div *ngIf="userID!.invalid && (userID!.dirty || userID!.touched)" class="alert alert-danger"
           style="margin-top: -15px; padding: 5px;">
-          <div *ngIf="userID.errors.required">
+          <div *ngIf="userID!.errors!.required">
             User ID is required.
           </div>
-          <div *ngIf="userID.errors.pattern">
+          <div *ngIf="userID!.errors!.pattern">
             Please enter a valid User ID.
           </div>
-          <div *ngIf="userID.errors.minlength">
+          <div *ngIf="userID!.errors!.minlength">
             User ID must be at least 2 characters long.
           </div>
-          <div *ngIf="userID.errors.maxlength">
+          <div *ngIf="userID!.errors!.maxlength">
             User ID must be at most 50 characters long.
           </div>
         </div>
@@ -33,12 +33,12 @@
           <span class="focus-input100"></span>
           <span class="label-input100">Enter Password</span>
         </div>
-        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger"
+        <div *ngIf="password!.invalid && (password!.dirty || password!.touched)" class="alert alert-danger"
           style="margin-top: -15px; padding: 5px;">
-          <div *ngIf="password.errors.required">
+          <div *ngIf="password!.errors!.required">
             Password is required.
           </div>
-          <div *ngIf="password.errors.pattern">
+          <div *ngIf="password!.errors!.pattern">
             Please enter a valid Password. Password must have minimum eight characters, maximum fifty characters, at
             least one uppercase letter, one lowercase letter, one number and one special character (# ? ! @ $ % ^ & * .
             -).
@@ -58,7 +58,7 @@
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span> Login
           </button>
         </div>
-        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        <div *ngIf="error !== null && error !== undefined && error !== ''" class="alert alert-danger mt-3 mb-0">{{error}}</div>
         <div style="text-align: center;">
           <a href="http://localhost:3600" class="txt1">Back to Home</a>
         </div>

@@ -15,9 +15,9 @@
             <option *ngFor="let x of financialYears" [ngValue]="x">{{x}}
             </option>
           </select>
-          <div *ngIf="selectedFinancialYear.invalid && (selectedFinancialYear.dirty || selectedFinancialYear.touched)"
+          <div *ngIf="selectedFinancialYear!.invalid && (selectedFinancialYear!.dirty || selectedFinancialYear!.touched)"
             class="alert alert-danger">
-            <div *ngIf="selectedFinancialYear.errors.required">
+            <div *ngIf="selectedFinancialYear!.errors!.required">
               Financial Year is required
             </div>
           </div>
@@ -30,8 +30,8 @@
             <option *ngFor="let x of implementDetailsList" [ngValue]="x">{{x.ImplementName}}
             </option>
           </select>
-          <div *ngIf="selectedImplement.invalid && (selectedImplement.dirty || selectedImplement.touched)" class="alert alert-danger">
-            <div *ngIf="selectedImplement.errors.required">
+          <div *ngIf="selectedImplement!.invalid && (selectedImplement!.dirty || selectedImplement!.touched)" class="alert alert-danger">
+            <div *ngIf="selectedImplement!.errors!.required">
               Implement is required
             </div>
           </div>
@@ -40,11 +40,11 @@
           <label for="txtImplement" class="control-label">Implement <span class="text-danger">*</span></label>
           <input type="text" class="form-control" placeholder="Enter Implement" id="txtImplement"
             formControlName="enteredImplement" (keypress)="keyPress($event)" minlength="1" maxlength="300">
-            <div *ngIf="enteredImplement.invalid && (enteredImplement.dirty || enteredImplement.touched)" class="alert alert-danger">
-              <div *ngIf="enteredImplement.errors.required">
+            <div *ngIf="enteredImplement!.invalid && (enteredImplement!.dirty || enteredImplement!.touched)" class="alert alert-danger">
+              <div *ngIf="enteredImplement!.errors!.required">
                 Implement is required
               </div>
-              <div *ngIf="enteredImplement.errors.pattern">
+              <div *ngIf="enteredImplement!.errors!.pattern">
                 Implement must contain characters within (a-z), (A-Z), (0-9) and (space , @, %, &, *, (, ), -, +, /, <, >, ,, .)
               </div>
             </div>
@@ -59,8 +59,8 @@
               formControlName="enteredPrice" (keypress)="keyPress($event)" appDecimalOnlyUptoTwoDigits minlength="1"
               maxlength="10">
           </div>
-          <div *ngIf="enteredPrice.invalid && (enteredPrice.dirty || enteredPrice.touched)" class="alert alert-danger">
-            <div *ngIf="enteredPrice.errors.required">
+          <div *ngIf="enteredPrice!.invalid && (enteredPrice!.dirty || enteredPrice!.touched)" class="alert alert-danger">
+            <div *ngIf="enteredPrice!.errors!.required">
               Price is required
             </div>
           </div>

@@ -116,3 +116,66 @@ exports.submitFarmerBooking = (data) => new Promise(async (resolve, reject) => {
     client.release();
   }
 });
+
+exports.checkProprietorEmailIDAvailability = ({ proprietorEmailID }) => new Promise(async (resolve, reject) => {
+  const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
+  try {
+    const query = `select "ManufacturerEmailID" from "ManufacturerDetails" where "ManufacturerEmailID" = $1`;
+    const values = [proprietorEmailID];
+    const response = await client.query(query, values);
+    resolve(response.rows);
+  } catch (e) {
+    reject(new Error(`Oops! An error occurred: ${e}`));
+  } finally {
+    client.release();
+  }
+});
+
+exports.checkUniqueFarmIDAvailability = ({ uniqueFarmID }) => new Promise(async (resolve, reject) => {
+  const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
+  try {
+    const query = `select "UniqueFarmID" from "ManufacturerDetails" where "UniqueFarmID" = $1`;
+    const values = [uniqueFarmID];
+    const response = await client.query(query, values);
+    resolve(response.rows);
+  } catch (e) {
+    reject(new Error(`Oops! An error occurred: ${e}`));
+  } finally {
+    client.release();
+  }
+});
+
+exports.submitManufacturerDetails = (data) => new Promise(async (resolve, reject) => {
+  const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
+  try {
+    await client.query('begin');
+    const query1 = `select "ManufacturerEmailID" from "ManufacturerDetails" where "ManufacturerEmailID" = $1`;
+    const values1 = [data.ManufacturerEmailID];
+    const response1 = await client.query(query1, values1);
+    if (response1.rowCount === 0) {
+      const query2 = `select "UniqueFarmID" from "ManufacturerDetails" where "UniqueFarmID" = $1`;
+      const values2 = [data.UniqueFarmID];
+      const response2 = await client.query(query2, values2);
+      if (response2.rowCount === 0) {
+        const query3 = `insert into "ManufacturerDetails" ("ManufacturerEmailID", "ManufacturerName", "ManufacturerMobileNo", "ManufacturerAadhaarNo", "DistrictCode", "BlockCode", "ManufacturerAddress", "FarmName", "UniqueFarmID", "GSTINNo", "PANNo", "DICMSMERegistrationCertificate", "UdyogAadhaar", "BSIRegistrationCertificate", "OAICOSICOFMRDCRegistrationConsent", "ManufacturingUnitPhoto", "FinancialYear", "DateTime", "IPAddress", "Status", "RejectionReason") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) returning *`;
+        const values3 = [data.ManufacturerEmailID, data.ManufacturerName, data.ManufacturerMobileNo, data.ManufacturerAadhaarNo, data.DistrictCode, data.BlockCode, data.ManufacturerAddress, data.FarmName, data.UniqueFarmID, data.GSTINNo, data.PANNo, data.DICMSMERegistrationCertificate, data.UdyogAadhaar, data.BSIRegistrationCertificate, data.OAICOSICOFMRDCRegistrationConsent, data.ManufacturingUnitPhoto, data.FinancialYear, data.DateTime, data.IPAddress, data.Status, data.RejectionReason];
+        const response3 = await client.query(query3, values3);
+        await client.query('commit');
+        resolve(response3.rows);
+      } else {
+        resolve([{
+          Error: 'Duplicate Unique Farm ID is found. Please register with a different Unique Farm ID.'
+        }]);
+      }
+    } else {
+      resolve([{
+        Error: 'Duplicate Manufacturer Email ID is found. Please register with a different Manufacturer Email ID.'
+      }]);
+    }
+  } catch (e) {
+    await client.query('rollback');
+    reject(new Error(`Oops! An error occurred: ${e}`));
+  } finally {
+    client.release();
+  }
+});

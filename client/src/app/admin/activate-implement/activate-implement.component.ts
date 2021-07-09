@@ -14,8 +14,10 @@ export class ActivateImplementComponent implements OnInit {
   title: string;
   breadcrumbs: Array<string>;
   implementPriceListFinancialYearWise: Array<any>;
-  checkedList: any;
+  checkedList: Array<any>;
   submitted: boolean;
+
+  @ViewChild('activateImplementForm') ariForm: any;
 
   constructor(
     private adminService: AdminService,
@@ -29,8 +31,6 @@ export class ActivateImplementComponent implements OnInit {
     this.checkedList = [];
     this.submitted = false;
   }
-
-  @ViewChild('activateImplementForm') ariForm: any;
 
   ngOnInit(): void {
     // this.layoutService.currentTitle.subscribe((t: string) => this.title = t);

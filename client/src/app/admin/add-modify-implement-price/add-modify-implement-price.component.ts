@@ -20,7 +20,7 @@ export class AddModifyImplementPriceComponent implements OnInit {
   btnID: string;
   showImplementText: boolean;
 
-  addModifyImplementPriceForm: any;
+  addModifyImplementPriceForm: FormGroup;
   @ViewChild('addModifyImplementPriceFormID') amipFormID: any;
 
   constructor(
@@ -64,15 +64,15 @@ export class AddModifyImplementPriceComponent implements OnInit {
   implementConditionalValidation(msg: string) {
     if (msg === 'add') {
       this.showImplementText = true;
-      this.enteredImplement.setValidators([Validators.required, Validators.pattern('^[\\w\\s@%&*()\\-+/<,>.]+$')]);
-      this.selectedImplement.clearValidators();
+      this.enteredImplement!.setValidators([Validators.required, Validators.pattern('^[\\w\\s@%()\\-+,.]+$')]);
+      this.selectedImplement!.clearValidators();
     } else {
       this.showImplementText = false;
-      this.selectedImplement.setValidators([Validators.required]);
-      this.enteredImplement.clearValidators();
+      this.selectedImplement!.setValidators([Validators.required]);
+      this.enteredImplement!.clearValidators();
     }
-    this.selectedImplement.updateValueAndValidity();
-    this.enteredImplement.updateValueAndValidity();
+    this.selectedImplement!.updateValueAndValidity();
+    this.enteredImplement!.updateValueAndValidity();
     this.addModifyImplementPriceForm.reset();
     setTimeout(() => {
       this.addModifyImplementPriceForm.patchValue({
@@ -111,8 +111,8 @@ export class AddModifyImplementPriceComponent implements OnInit {
   }
 
   populateImplements() {
-    if (this.selectedFinancialYear.value !== '' && this.selectedFinancialYear.value !== null && this.selectedFinancialYear.value !== undefined) {
-      this.implementDetailsList = this.idl.filter((i: any) => i.FinancialYear === this.selectedFinancialYear.value);
+    if (this.selectedFinancialYear!.value !== '' && this.selectedFinancialYear!.value !== null && this.selectedFinancialYear!.value !== undefined) {
+      this.implementDetailsList = this.idl.filter((i: any) => i.FinancialYear === this.selectedFinancialYear!.value);
       this.addModifyImplementPriceForm.patchValue({
         selectedImplement: '',
         enteredPrice: ''
@@ -121,14 +121,14 @@ export class AddModifyImplementPriceComponent implements OnInit {
   }
 
   populateImplementCost() {
-    if (this.selectedImplement.value !== '' && this.selectedImplement.value !== null && this.selectedImplement.value !== undefined && this.selectedFinancialYear.value !== '' && this.selectedFinancialYear.value !== null && this.selectedFinancialYear.value !== undefined) {
-      const ep = this.implementDetailsList.filter((e: any) => e.ImplementID === this.selectedImplement.value.ImplementID);
+    if (this.selectedImplement!.value !== '' && this.selectedImplement!.value !== null && this.selectedImplement!.value !== undefined && this.selectedFinancialYear!.value !== '' && this.selectedFinancialYear!.value !== null && this.selectedFinancialYear!.value !== undefined) {
+      const ep = this.implementDetailsList.filter((e: any) => e.ImplementID === this.selectedImplement!.value.ImplementID);
       if (ep.length > 0) {
         this.addModifyImplementPriceForm.patchValue({
           enteredPrice: ep[0].Cost
         });
       } else {
-        this.toastr.warning(`Price for the implement: "<b>${this.selectedImplement.value.ImplementName}</b>" and financial year: "<b>${this.selectedFinancialYear.value}</b>" is not entered.`);
+        this.toastr.warning(`Price for the implement: "<b>${this.selectedImplement!.value.ImplementName}</b>" and financial year: "<b>${this.selectedFinancialYear!.value}</b>" is not entered.`);
         this.addModifyImplementPriceForm.reset();
         setTimeout(() => {
           this.addModifyImplementPriceForm.patchValue({
@@ -160,9 +160,9 @@ export class AddModifyImplementPriceComponent implements OnInit {
       if ((this.btnID === 'submit') || document.activeElement!.id === 'submit') {
         this.adminService.submitImplementPrice(this.addModifyImplementPriceForm.value).subscribe((result: any) => {
           if (result.length === 1) {
-            this.toastr.success(`Price for the implement: "<b>${this.enteredImplement.value}</b>" has been entered successfully for the financial year: "<b>${this.selectedFinancialYear.value}</b>".`);
+            this.toastr.success(`Price for the implement: "<b>${this.enteredImplement!.value}</b>" has been entered successfully for the financial year: "<b>${this.selectedFinancialYear!.value}</b>".`);
           } else {
-            this.toastr.warning(`The implement: "<b>${this.enteredImplement.value}</b>" is already entered for the financial year: "<b>${this.selectedFinancialYear.value}</b>".`);
+            this.toastr.warning(`The implement: "<b>${this.enteredImplement!.value}</b>" is already entered for the financial year: "<b>${this.selectedFinancialYear!.value}</b>".`);
           }
           this.addModifyImplementPriceForm.reset();
           setTimeout(() => {
@@ -175,9 +175,9 @@ export class AddModifyImplementPriceComponent implements OnInit {
           this.loadAllImplementPrices();
         }, (error) => this.toastr.error(error.statusText, error.status));
       } else if ((this.btnID === 'update') || document.activeElement!.id === 'update') {
-        if (this.enteredPrice.value !== this.selectedImplement.value.Cost) {
+        if (this.enteredPrice!.value !== this.selectedImplement!.value.Cost) {
           this.adminService.updateImplementPrice(this.addModifyImplementPriceForm.value).subscribe((result: any) => {
-            this.toastr.success(`Price for the implement: "<b>${this.selectedImplement.value.ImplementName}</b>" has been modified successfully for the financial year: "<b>${this.selectedFinancialYear.value}</b>".`);
+            this.toastr.success(`Price for the implement: "<b>${this.selectedImplement!.value.ImplementName}</b>" has been modified successfully for the financial year: "<b>${this.selectedFinancialYear!.value}</b>".`);
             this.addModifyImplementPriceForm.reset();
             setTimeout(() => {
               this.addModifyImplementPriceForm.patchValue({

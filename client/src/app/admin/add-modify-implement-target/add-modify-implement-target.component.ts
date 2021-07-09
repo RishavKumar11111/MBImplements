@@ -25,6 +25,8 @@ export class AddModifyImplementTargetComponent implements OnInit {
   totalTASP: any;
   grandTotal: any;
 
+  @ViewChild('addModifyImplementTargetForm') amitForm: any;
+
   constructor(
     private adminService: AdminService,
     private layoutService: LayoutService,
@@ -41,8 +43,6 @@ export class AddModifyImplementTargetComponent implements OnInit {
     this.btnID = '';
     this.selectedImplement = '';
   }
-
-  @ViewChild('addModifyImplementTargetForm') amitForm: any;
 
   ngOnInit(): void {
     // this.layoutService.currentTitle.subscribe((t: string) => this.title = t);

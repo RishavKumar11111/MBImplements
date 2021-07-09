@@ -9,28 +9,28 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./captcha.component.css']
 })
 export class CaptchaComponent implements OnChanges {
-  constructor(
-    private authService: AuthService,
-    private toastr: ToastrService,
-    private fb: FormBuilder
-  ) { }
+  captchaSaltResult: any;
 
   @Input('config') config: any = {
   };
 
+  @Input() captchaForm: FormGroup;
+  @ViewChild('captchaFormID') cFormID: any;
   @Output() enteredCaptcha: EventEmitter<any> = new EventEmitter<any>();
   @Output() generatedSalt: EventEmitter<any> = new EventEmitter<any>();
-  @Input() captchaForm: any;
-  @ViewChild('captchaFormID') cFormID: any;
 
-  captchaSaltResult: any;
-
-  ngOnInit(): void {
-    this.captchaSaltResult = null;
-
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
+  ) {
     this.captchaForm = this.fb.group({
       captchaInput: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(3), Validators.pattern(/^[\d]+$/)]]
     });
+  }
+
+  ngOnInit(): void {
+    this.captchaSaltResult = null;
   }
 
   get f() { return this.captchaForm.controls; }
