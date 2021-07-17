@@ -149,3 +149,47 @@ exports.submitActivatedImplements = async (req, res) => {
     throw e;
   }
 };
+
+exports.getAllManufacturerDetails = async (req, res) => {
+  try {
+    const result = await adminDAL.getAllManufacturerDetails();
+    res.send(result);
+  } catch (e) {
+    res.status(500).send(e);
+    throw e;
+  }
+};
+
+exports.approveRejectManufacturerRecords = async (req, res) => {
+  try {
+    const array1 = [];
+    const array2 = [];
+    if (req.body.obj.Status === 1) {
+      for (let i = 0; i < req.body.array.length; i++) {
+        req.body.array[i].Password = 'b42458de550ef94801e7df33778c436d93bb78d3962f1020f3659db75b72cb8e3a4bb75f972c500d5a3626f74f6b69436d515b55a0344c4b29f28ad0cba56c3b';
+        req.body.array[i].RoleID = 'Role-11';
+        req.body.array[i].AccessFailedCount = null;
+        req.body.array[i].IsLoggedIn = null;
+        req.body.array[i].Status = true;
+        req.body.array[i].RoleID = 'Role-11';
+        req.body.array[i].DateTime = 'now()';
+        req.body.array[i].IPAddress = ip.address();
+        req.body.array[i].FinancialYear = getFinancialYear();
+        array1.push(Object.values(req.body.array[i]));
+      }
+    }
+    for (let i = 0; i < req.body.array.length; i++) {
+      array2.push(Object.values({
+        ManufacturerEmailID: req.body.array[i].UserID,
+        Status: req.body.obj.Status,
+        RejectionReason: req.body.obj.RejectionReason
+      }));
+    }
+    const result = await adminDAL.approveRejectManufacturerRecords(array1, array2);
+    adminDAL.addActivityLog('/approveRejectManufacturerRecords', 'UPDATE', 'POST', req.session.userID, ip.address(), getURL(req), req.device.type.toUpperCase(), `${parser.setUA(req.headers['user-agent']).getOS().name} ${parser.setUA(req.headers['user-agent']).getOS().version}`, `${parser.setUA(req.headers['user-agent']).getBrowser().name} ${parser.setUA(req.headers['user-agent']).getBrowser().version}`);
+    res.send(result);
+  } catch (e) {
+    res.status(500).send(e);
+    throw e;
+  }
+};

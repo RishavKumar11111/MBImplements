@@ -1,0 +1,127 @@
+<h1 mat-dialog-title *ngIf="data.targetElement.includes('View Details')">Address and other details</h1>
+<h1 mat-dialog-title *ngIf="data.targetElement.includes('View Documents')">Uploaded Documents</h1>
+<mat-dialog-content class="mat-typography">
+  <div class="table-responsive">
+    <table style="width: 100%;" class="table table-hover table-striped table-bordered text-center">
+      <thead>
+        <tr>
+          <th>Manufacturer Email ID</th>
+          <th>Manufacturer Name</th>
+          <th>Farm Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ data.obj.ManufacturerEmailID }}</td>
+          <td>{{ data.obj.ManufacturerName }}</td>
+          <td>{{ data.obj.FarmName }}</td>
+        </tr>
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div class="table-responsive">
+    <table style="width: 100%;" class="table table-hover table-striped table-bordered text-center">
+      <thead></thead>
+      <tbody *ngIf="data.targetElement.includes('View Details')">
+        <tr>
+          <th>District</th>
+          <td>{{ data.obj.DistrictName }}</td>
+        </tr>
+        <tr>
+          <th>Block</th>
+          <td>{{ data.obj.BlockName }}</td>
+        </tr>
+        <tr>
+          <th>Manufacturer Address</th>
+          <td>{{ data.obj.ManufacturerAddress }}</td>
+        </tr>
+        <tr>
+          <th>Manufacturer Mobile No.</th>
+          <td>{{ data.obj.ManufacturerMobileNo }}</td>
+        </tr>
+        <tr>
+          <th>Unique Farm ID</th>
+          <td>{{ data.obj.UniqueFarmID }}</td>
+        </tr>
+        <tr>
+          <th>GSTIN No.</th>
+          <td>{{ data.obj.GSTINNo }}</td>
+        </tr>
+        <tr>
+          <th>PAN No.</th>
+          <td>{{ data.obj.PANNo }}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="data.targetElement.includes('View Documents')">
+        <tr>
+          <th>DIC / MSME Registration Certificate</th>
+          <td>
+            <a [href]=data.obj.DICMSMERegistrationCertificate target="_blank">
+              <button type="button" class="btn mr-2 mb-2 btn-info">
+                <i class="fa fa-file-pdf" aria-hidden="true">
+                  View PDF File
+                </i>
+              </button>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>Udyog Aadhaar</th>
+          <td>
+            <a [href]=data.obj.UdyogAadhaar target="_blank">
+              <button type="button" class="btn mr-2 mb-2 btn-info">
+                <i class="fa fa-file-pdf" aria-hidden="true">
+                  View PDF File
+                </i>
+              </button>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>BSI Registration Certificate from DA&FP(O)</th>
+          <td>
+            <a [href]=data.obj.BSIRegistrationCertificate target="_blank">
+              <button type="button" class="btn mr-2 mb-2 btn-info">
+                <i class="fa fa-file-pdf" aria-hidden="true">
+                  View PDF File
+                </i>
+              </button>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>Consent of OAIC / OSIC / OFMRDC regarding Registration with them</th>
+          <td>
+            <a [href]=data.obj.OAICOSICOFMRDCRegistrationConsent target="_blank">
+              <button type="button" class="btn mr-2 mb-2 btn-info">
+                <i class="fa fa-file-pdf" aria-hidden="true">
+                  View PDF File
+                </i>
+              </button>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>Photograph of the Manufacturing Unit</th>
+          <td>
+            <img [src]=data.obj.ManufacturingUnitPhoto alt="Manufacturing Unit Photo" style="height: 100px; width: 150px;">
+            &nbsp;|&nbsp;
+            <a [href]=data.obj.ManufacturingUnitPhoto target="_blank">
+              <button type="button" class="btn mr-2 mb-2 btn-info">
+                <i class="fa fa-file-image" aria-hidden="true">
+                  View Enlarged Image
+                </i>
+              </button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="true" (click)="onCloseClick()" cdkFocusInitial>Close</button>
+</mat-dialog-actions>

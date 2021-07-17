@@ -1,0 +1,72 @@
+<form #approveRejectManufacturerForm="ngForm" novalidate autocomplete="off" role="form">
+  <div class="main-card mb-3 card">
+    <div class="card-header">
+      <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>List of Registered Manufacturers and their
+      details
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <div class="table-responsive">
+        <table style="width: 100%;" class="table table-hover table-striped table-bordered text-center">
+          <thead>
+            <tr>
+              <th>
+                <div class="custom-checkbox custom-control">
+                  <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input"
+                    [(ngModel)]="isMasterSelected" name="chkbxAll" value="selectUnselectAll"
+                    (change)="checkUncheckAll();">
+                  <label class="custom-control-label" for="exampleCustomCheckbox">Select / Unselect
+                    All</label>
+                </div>
+              </th>
+              <th>Serial No.</th>
+              <th>Manufacturer Email ID</th>
+              <th>Manufacturer Name</th>
+              <th>Farm Name</th>
+              <th>Address & other details</th>
+              <th>Uploaded Documents</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let x of manufacturerDetailsList; let i = index">
+              <td>
+                <div class="custom-checkbox custom-control">
+                  <input type="checkbox" id="exampleCustomCheckbox{{ x.UniqueFarmID }}" class="custom-control-input"
+                    [(ngModel)]="x.isSelected" name="chkbx{{ x.UniqueFarmID }}" value="{{ x.UniqueFarmID }}"
+                    (change)="isAllSelected(x);">
+                  <label class="custom-control-label" for="exampleCustomCheckbox{{ x.UniqueFarmID }}"></label>
+                </div>
+              </td>
+              <td>{{ i + 1 }}</td>
+              <td>{{ x.ManufacturerEmailID }}</td>
+              <td>{{ x.ManufacturerName }}</td>
+              <td>{{ x.FarmName }}</td>
+              <td>
+                <button type="button" class="btn mr-2 mb-2 btn-primary" (click)=openDetailsDialog(x,$event)>
+                  <i class="fa fa-eye" aria-hidden="true">
+                    View Details
+                  </i>
+                </button>
+              </td>
+              <td>
+                <button type="button" class="btn mr-2 mb-2 btn-primary" (click)=openDetailsDialog(x,$event)>
+                  <i class="fa fa-eye" aria-hidden="true">
+                    View Documents
+                  </i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="d-block text-right card-footer">
+      <button type="button" id="reject" class="btn btn-danger"
+        [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0" (click)="openRejectionReasonDialog()">Reject</button>
+      &nbsp;|&nbsp;
+      <button type="button" id="approve" class="btn btn-success"
+        [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0" (click)="onSubmit($event)">Approve</button>
+    </div>
+  </div>
+</form>

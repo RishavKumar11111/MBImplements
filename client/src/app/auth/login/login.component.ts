@@ -173,6 +173,10 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['ofmrdc']);
                 break;
               }
+              case 'Manufacturer': {
+                this.router.navigate(['manufacturer']);
+                break;
+              }
               default: {
                 this.router.navigate(['']);
               }

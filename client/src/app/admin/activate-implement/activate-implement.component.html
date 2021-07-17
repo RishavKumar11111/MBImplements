@@ -7,38 +7,43 @@
       <h5 class="card-title"></h5>
       <div *ngFor="let x of implementPriceListFinancialYearWise">
         <strong>Financial Year: {{ x.FinancialYear }}</strong>
-        <table style="width: 100%;" class="table table-hover table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>
-                <div class="custom-checkbox custom-control">
-                  <input type="checkbox" id="exampleCustomCheckbox{{ x.FinancialYear }}" class="custom-control-input"
-                    [(ngModel)]="x.isMasterSelected" name="chkbx{{ x.FinancialYear }}" value="{{ x.FinancialYear }}" (change)="checkUncheckAll(x);">
-                  <label class="custom-control-label" for="exampleCustomCheckbox{{ x.FinancialYear }}">Select / Unselect All</label>
-                </div>
-              </th>
-              <th>Serial No.</th>
-              <th>Implement</th>
-              <th>Price (₹)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let y of x.ImplementDetails; let i = index">
-              <td>
-                <div class="custom-checkbox custom-control">
-                  <input type="checkbox" id="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}" class="custom-control-input"
-                    [(ngModel)]="y.isSelected" name="chkbx{{ y.ImplementID }}{{ i + 1 }}" value="{{ y.ImplementID }}"
-                    (change)="isAllSelected(x);">
-                  <label class="custom-control-label" for="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"></label>
-                </div>
-              </td>
-              <td>{{ i + 1 }}</td>
-              <td>{{ y.ImplementName }}</td>
-              <td>{{ y.Cost === null ? 'N/A' : y.Cost }}</td>
-            </tr>
-          </tbody>
-          <tfoot></tfoot>
-        </table>
+        <div class="table-responsive">
+          <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>
+                  <div class="custom-checkbox custom-control">
+                    <input type="checkbox" id="exampleCustomCheckbox{{ x.FinancialYear }}" class="custom-control-input"
+                      [(ngModel)]="x.isMasterSelected" name="chkbx{{ x.FinancialYear }}" value="{{ x.FinancialYear }}"
+                      (change)="checkUncheckAll(x);">
+                    <label class="custom-control-label" for="exampleCustomCheckbox{{ x.FinancialYear }}">Select /
+                      Unselect All</label>
+                  </div>
+                </th>
+                <th>Serial No.</th>
+                <th>Implement</th>
+                <th>Price (₹)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let y of x.ImplementDetails; let i = index">
+                <td>
+                  <div class="custom-checkbox custom-control">
+                    <input type="checkbox" id="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"
+                      class="custom-control-input" [(ngModel)]="y.isSelected" name="chkbx{{ y.ImplementID }}{{ i + 1 }}"
+                      value="{{ y.ImplementID }}" (change)="isAllSelected(x);">
+                    <label class="custom-control-label"
+                      for="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"></label>
+                  </div>
+                </td>
+                <td>{{ i + 1 }}</td>
+                <td>{{ y.ImplementName }}</td>
+                <td>{{ y.Cost === null ? 'N/A' : y.Cost }}</td>
+              </tr>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
       </div>
     </div>
     <div class="d-block text-right card-footer">

@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { VaccineRoutingModule } from './vaccine-routing.module';
 
@@ -57,6 +58,7 @@ import { SlotAvailabilityByCentresComponent } from './slot-availability-by-centr
     MatProgressSpinnerModule,
     MatDividerModule,
     MatExpansionModule,
+    MatDialogModule,
     VaccineRoutingModule,
     SharedModule
   ]

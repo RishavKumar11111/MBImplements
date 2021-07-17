@@ -215,11 +215,11 @@ exports.submitManufacturerDetails = async (req, res) => {
             UniqueFarmID: data.UniqueFarmID,
             GSTINNo: data.GSTINNo,
             PANNo: data.PANNo,
-            DICMSMERegistrationCertificate: files.DICMSMERegistrationCertificate[0].path.replace('public', url).replace(/\\/g, '/'),
-            UdyogAadhaar: files.UdyogAadhaar[0].path.replace('public', url).replace(/\\/g, '/'),
-            BSIRegistrationCertificate: files.BSIRegistrationCertificate[0].path.replace('public', url).replace(/\\/g, '/'),
-            OAICOSICOFMRDCRegistrationConsent: files.OAICOSICOFMRDCRegistrationConsent[0].path.replace('public', url).replace(/\\/g, '/'),
-            ManufacturingUnitPhoto: files.ManufacturingUnitPhoto[0].path.replace('public', url).replace(/\\/g, '/'),
+            DICMSMERegistrationCertificate: files.DICMSMERegistrationCertificate[0].path.replace('public', url).replace(/\\/g, '/').replace('temporary', 'manufacturer-documents'),
+            UdyogAadhaar: files.UdyogAadhaar[0].path.replace('public', url).replace(/\\/g, '/').replace('temporary', 'manufacturer-documents'),
+            BSIRegistrationCertificate: files.BSIRegistrationCertificate[0].path.replace('public', url).replace(/\\/g, '/').replace('temporary', 'manufacturer-documents'),
+            OAICOSICOFMRDCRegistrationConsent: files.OAICOSICOFMRDCRegistrationConsent[0].path.replace('public', url).replace(/\\/g, '/').replace('temporary', 'manufacturer-documents'),
+            ManufacturingUnitPhoto: files.ManufacturingUnitPhoto[0].path.replace('public', url).replace(/\\/g, '/').replace('temporary', 'manufacturer-documents'),
             FinancialYear: getFinancialYear(),
             DateTime: 'now()',
             IPAddress: ip.address(),
@@ -236,12 +236,14 @@ exports.submitManufacturerDetails = async (req, res) => {
             }
             files1.forEach((file) => {
               if ('UniqueFarmID' in result[0]) {
-                fs.rename(path.join(temporaryPath, file), path.join(manufacturerDocumentPath, file), (err2) => {
-                  if (err2) {
-                    console.log(`Unable to move files in directory: ${err2}`);
-                  }
-                });
-              } else {
+                if (file.substring(0, 3) === result[0].UniqueFarmID) {
+                  fs.rename(path.join(temporaryPath, file), path.join(manufacturerDocumentPath, file), (err2) => {
+                    if (err2) {
+                      console.log(`Unable to move files in directory: ${err2}`);
+                    }
+                  });
+                }
+              } else if (file.substring(0, 3) === data.UniqueFarmID) {
                 fs.unlink(path.join(temporaryPath, file), (err2) => {
                   if (err2) {
                     console.log(`Unable to delete directory: ${err2}`);

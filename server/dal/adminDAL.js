@@ -148,7 +148,6 @@ exports.updateImplementPrice = (data) => new Promise(async (resolve, reject) => 
 });
 
 exports.submitActivatedImplements = (data) => new Promise(async (resolve, reject) => {
-  console.log(data);
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
     await client.query('begin');
@@ -160,6 +159,50 @@ exports.submitActivatedImplements = (data) => new Promise(async (resolve, reject
     const response3 = await client.query(query3);
     await client.query('commit');
     resolve(response3.rows);
+  } catch (e) {
+    await client.query('rollback');
+    reject(new Error(`Oops! An error occurred: ${e}`));
+  } finally {
+    client.release();
+  }
+});
+
+exports.getAllManufacturerDetails = () => new Promise(async (resolve, reject) => {
+  const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
+  try {
+    const response = await client.query(`select "ManufacturerEmailID", "ManufacturerName", "ManufacturerMobileNo", "DistrictName", "BlockName", "ManufacturerAddress", "FarmName", "UniqueFarmID", "GSTINNo", "PANNo", "DICMSMERegistrationCertificate", "UdyogAadhaar", "BSIRegistrationCertificate", "OAICOSICOFMRDCRegistrationConsent", "ManufacturingUnitPhoto" from "ManufacturerDetails" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" inner join "LGDBlock" c on a."BlockCode" = c."BlockCode" where "Status" is null`);
+    resolve(response.rows);
+  } catch (e) {
+    reject(new Error(`Oops! An error occurred: ${e}`));
+  } finally {
+    client.release();
+  }
+});
+
+exports.approveRejectManufacturerRecords = (arr1, arr2) => new Promise(async (resolve, reject) => {
+  console.log(arr1, arr2);
+  const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
+  try {
+    await client.query('begin');
+    const query1 = `drop table if exists "ManufacturerDetailsTemp"; create temp table "ManufacturerDetailsTemp" ("ManufacturerEmailID" character varying(50) not null, "Status" smallint not null, "RejectionReason" character varying(300) null, constraint "ManufacturerDetailsTemp_pkey" primary key ("ManufacturerEmailID"))`;
+    await client.query(query1);
+    const query2 = format(`insert into "ManufacturerDetailsTemp" ("ManufacturerEmailID", "Status", "RejectionReason") values %L returning *`, arr2);
+    await client.query(query2);
+    const query3 = `update "ManufacturerDetails" md set "Status" = mdt."Status", "RejectionReason" = mdt."RejectionReason" from "ManufacturerDetailsTemp" mdt where md."ManufacturerEmailID" = mdt."ManufacturerEmailID" returning *`;
+    const response3 = await client.query(query3);
+    if (response3.rowCount === arr2.length) {
+      if (arr2[0][1] === 1) {
+        const query4 = format(`insert into "UserLogin" ("UserID", "PasswordHash", "RoleID", "AccessFailedCount", "IsLoggedIn", "Status", "DateTime", "IPAddress", "FinancialYear") values %L returning *`, arr1);
+        const response4 = await client.query(query4);
+        await client.query('commit');
+        resolve(response4.rows);
+      } else {
+        await client.query('commit');
+        resolve(response3.rows);
+      }
+    } else {
+      resolve([]);
+    }
   } catch (e) {
     await client.query('rollback');
     reject(new Error(`Oops! An error occurred: ${e}`));

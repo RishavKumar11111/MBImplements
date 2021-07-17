@@ -56,4 +56,14 @@ export class AdminService {
       withCredentials: true
     });
   }
+
+  getAllManufacturerDetails(): Observable<any> {
+    return this.http.get(`${serverURL}/admin/getAllManufacturerDetails`);
+  }
+
+  approveRejectManufacturerRecords(data: any): Observable<any> {
+    return this.http.post(`${serverURL}/admin/approveRejectManufacturerRecords`, data, {
+      withCredentials: true
+    });
+  }
 }

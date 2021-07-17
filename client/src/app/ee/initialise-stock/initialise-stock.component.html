@@ -43,44 +43,47 @@
       Block-wise
     </div>
     <div class="card-body">
-      <table style="width: 100%;" class="table table-hover table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Serial No.</th>
-            <th>Implement</th>
-            <th>Serial Nos. of the Stocks</th>
-            <th>
-              <div class="custom-checkbox custom-control">
-                <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input"
-                  [(ngModel)]="masterSelected" name="chkbx" value="all" (change)="checkUncheckAll();">
-                <label class="custom-control-label" for="exampleCustomCheckbox">Select / Unselect All</label>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let x of implementStockSerialNoList; let i = index;">
+      <div class="table-responsive">
+        <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+          <thead>
             <tr>
-              <td>{{ i + 1 }}</td>
-              <td>{{ x.ImplementName }}</td>
-            </tr>
-            <tr *ngFor="let y of x.StocksSerialNos; let i = index;">
-              <td></td>
-              <td></td>
-              <td>{{ y.StockSerialNo }}</td>
-              <td>
+              <th>Serial No.</th>
+              <th>Implement</th>
+              <th>Serial Nos. of the Stocks</th>
+              <th>
                 <div class="custom-checkbox custom-control">
-                  <input type="checkbox" id="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}" class="custom-control-input"
-                    [(ngModel)]="y.isSelected" name="chkbx{{ y.ImplementID }}{{ i + 1 }}" value="{{ y.StockSerialNo }}"
-                    (change)="isAllSelected();">
-                  <label class="custom-control-label" for="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"></label>
+                  <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input"
+                    [(ngModel)]="isMasterSelected" name="chkbx" value="all" (change)="checkUncheckAll();">
+                  <label class="custom-control-label" for="exampleCustomCheckbox">Select / Unselect All</label>
                 </div>
-              </td>
+              </th>
             </tr>
-          </ng-container>
-        </tbody>
-        <tfoot></tfoot>
-      </table>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let x of implementStockSerialNoList; let i = index;">
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ x.ImplementName }}</td>
+              </tr>
+              <tr *ngFor="let y of x.StocksSerialNos; let i = index;">
+                <td></td>
+                <td></td>
+                <td>{{ y.StockSerialNo }}</td>
+                <td>
+                  <div class="custom-checkbox custom-control">
+                    <input type="checkbox" id="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"
+                      class="custom-control-input" [(ngModel)]="y.isSelected" name="chkbx{{ y.ImplementID }}{{ i + 1 }}"
+                      value="{{ y.StockSerialNo }}" (change)="isAllSelected();">
+                    <label class="custom-control-label"
+                      for="exampleCustomCheckbox{{ y.ImplementID }}{{ i + 1 }}"></label>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
     </div>
     <div class="d-block text-right card-footer">
       <button *ngIf="!submitted" type="submit" id="submit" class="btn btn-success"

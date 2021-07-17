@@ -18,7 +18,7 @@ export class InitialiseStockComponent implements OnInit {
   blockList: Array<{ BlockCode: number, BlockName: string }>;
   selectedBlock: any;
   implementStockSerialNoList: Array<any>;
-  masterSelected: boolean;
+  isMasterSelected: boolean;
   checkedList: Array<any>;
   submitted: boolean;
 
@@ -38,7 +38,7 @@ export class InitialiseStockComponent implements OnInit {
     this.selectedBlock = '';
     this.implementStockSerialNoList = [];
     this.checkedList = [];
-    this.masterSelected = false;
+    this.isMasterSelected = false;
     this.submitted = false;
   }
 
@@ -86,12 +86,12 @@ export class InitialiseStockComponent implements OnInit {
   }
 
   checkUncheckAll() {
-    this.implementStockSerialNoList.map((i: any) => i.StocksSerialNos.forEach((j: any) => { j.isSelected = this.masterSelected; }));
+    this.implementStockSerialNoList.map((i: any) => i.StocksSerialNos.forEach((j: any) => { j.isSelected = this.isMasterSelected; }));
     this.getCheckedItemList();
   }
 
   isAllSelected() {
-    this.masterSelected = this.implementStockSerialNoList.reduce((acc: any, curr: any) => {
+    this.isMasterSelected = this.implementStockSerialNoList.reduce((acc: any, curr: any) => {
       const res = curr.StocksSerialNos.every((j: any) => j.isSelected);
       acc.push(res);
       return acc;

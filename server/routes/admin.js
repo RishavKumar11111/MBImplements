@@ -12,5 +12,7 @@ router.get('/getAllImplementPrices', adminBAL.getAllImplementPrices);
 router.post('/submitImplementPrice', adminBAL.submitImplementPrice);
 router.post('/updateImplementPrice', adminBAL.updateImplementPrice);
 router.post('/submitActivatedImplements', adminBAL.submitActivatedImplements);
+router.get('/getAllManufacturerDetails', adminBAL.getAllManufacturerDetails);
+router.post('/approveRejectManufacturerRecords', adminBAL.approveRejectManufacturerRecords);
 
 module.exports = router;

@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HomeRoutingModule } from './home-routing.module';
 
@@ -53,6 +54,7 @@ import { ManufacturerRegistrationComponent } from './manufacturer-registration/m
     MatProgressSpinnerModule,
     MatDividerModule,
     MatExpansionModule,
+    MatDialogModule,
     HomeRoutingModule,
     SharedModule
   ]
