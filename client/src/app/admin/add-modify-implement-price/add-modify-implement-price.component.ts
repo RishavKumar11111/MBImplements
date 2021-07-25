@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { LayoutService } from '../../services/layout.service';
-import { ImplementPrice } from '../../models/admin/implement-price.model';
+import { Implement } from '../../models/admin/implement.model';
 
 @Component({
   selector: 'app-add-modify-implement-price',

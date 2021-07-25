@@ -48,7 +48,7 @@ exports.submitStockAvailability = (data) => new Promise(async (resolve, reject) 
     await client.query('begin');
     const query1 = format(`insert into "StockInitialisation" ("DistrictCode", "ImplementID", "StockSerialNo", "Status", "FinancialYear", "AvailabilityDateTime", "IPAddress", "UserID") values %L returning *`, data);
     const response1 = await client.query(query1);
-    const query2 = `select "DistrictCode", "DistrictName", a."ImplementID", "ImplementName", "EnteredAvailableSurplusStocks", "Status" from "Implement" a left join (select a."DistrictCode", "DistrictName", a."ImplementID", count("StockSerialNo") "EnteredAvailableSurplusStocks", "Status" from "StockInitialisation" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" inner join "Implement" c on a."ImplementID" = c."ImplementID" where a."DistrictCode" = $1 and a."UserID" = $2 group by a."DistrictCode", "DistrictName", a."ImplementID", "Status") b on a."ImplementID" = b."ImplementID" order by "ImplementName"`;
+    const query2 = `select "DistrictCode", "DistrictName", a."ImplementID", "ImplementName", "EnteredAvailableSurplusStocks", b."Status" from "Implement" a left join (select a."DistrictCode", "DistrictName", a."ImplementID", count("StockSerialNo") "EnteredAvailableSurplusStocks", a."Status" from "StockInitialisation" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" inner join "Implement" c on a."ImplementID" = c."ImplementID" where a."DistrictCode" = $1 and a."UserID" = $2 group by a."DistrictCode", "DistrictName", a."ImplementID", a."Status") b on a."ImplementID" = b."ImplementID" order by "ImplementName"`;
     const values2 = [response1.rows[0].DistrictCode, response1.rows[0].UserID];
     const response2 = await client.query(query2, values2);
     await client.query('commit');
@@ -93,7 +93,7 @@ exports.submitStockInitialisation = (obj, array) => new Promise(async (resolve, 
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
     await client.query('begin');
-    const query1 = `create temp table "StockInitialisationTemp" ("ImplementID" integer not null, "StockSerialNo" character varying(30) not null, constraint "StockInitialisationTemp_pkey" primary key ("ImplementID", "StockSerialNo"))`;
+    const query1 = `drop table if exists "StockInitialisationTemp"; create temp table "StockInitialisationTemp" ("ImplementID" integer not null, "StockSerialNo" character varying(30) not null, constraint "StockInitialisationTemp_pkey" primary key ("ImplementID", "StockSerialNo"))`;
     await client.query(query1);
     const query2 = format(`insert into "StockInitialisationTemp" ("ImplementID", "StockSerialNo") values %L returning *`, array);
     await client.query(query2);

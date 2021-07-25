@@ -101,14 +101,32 @@ exports.submitFarmerBooking = (data) => new Promise(async (resolve, reject) => {
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
     await client.query('begin');
-    const query1 = `select coalesce(max(cast(substring("ReferenceNo", 15) as integer)), 0) + 1 "NewReferenceNoCount" from "FarmerBooking" where substring("ReferenceNo", 1, 14) = $1`;
-    const values1 = [data.PartReferenceNo];
+    const query1 = `select "Normal", "SCP", "TASP" from "ImplementTarget" where "DistrictCode" = $1 and "ImplementID" = $2 and "FinancialYear" = $3 and ("Normal" > 0 or "SCP" > 0 or "TASP" > 0)`;
+    const values1 = [data.DistrictCode, data.ImplementID, data.FinancialYear];
     const response1 = await client.query(query1, values1);
-    const query2 = `insert into "FarmerBooking" ("ReferenceNo", "FarmerID", "FarmerName", "FarmerMobileNo", "DistrictCode", "BlockCode", "GPCode", "VillageCode", "ImplementID", "FinancialYear", "DateTime", "IPAddress", "Status") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *`;
-    const values2 = [data.PartReferenceNo + response1.rows[0].NewReferenceNoCount, data.FarmerID, data.FarmerName, data.FarmerMobileNo, data.DistrictCode, data.BlockCode, data.GPCode, data.VillageCode, data.ImplementID, data.FinancialYear, data.DateTime, data.IPAddress, data.Status];
-    const response2 = await client.query(query2, values2);
-    await client.query('commit');
-    resolve(response2.rows);
+    if (response1.rowCount > 0) {
+      const query2 = `select count("ReferenceNo") "FarmerBookingCount" from "FarmerBooking" where "FarmerCategory" = $1 and "DistrictCode" = $2 and "ImplementID" = $3 and "FinancialYear" = $4`;
+      const values2 = [data.FarmerCategory, data.DistrictCode, data.ImplementID, data.FinancialYear];
+      const response2 = await client.query(query2, values2);
+      if ((data.FarmerCategory === 'General' && response2.rows[0].FarmerBookingCount < response1.rows[0].Normal) || (data.FarmerCategory === 'SC' && response2.rows[0].FarmerBookingCount < response1.rows[0].SC) || (data.FarmerCategory === 'ST' && response2.rows[0].FarmerBookingCount < response1.rows[0].ST)) {
+        const query3 = `select coalesce(max(cast(substring("ReferenceNo", 15) as integer)), 0) + 1 "NewReferenceNoCount" from "FarmerBooking" where substring("ReferenceNo", 1, 14) = $1`;
+        const values3 = [data.PartReferenceNo];
+        const response3 = await client.query(query3, values3);
+        const query4 = `insert into "FarmerBooking" ("ReferenceNo", "FarmerID", "FarmerName", "FarmerMobileNo", "FarmerCategory", "DistrictCode", "BlockCode", "GPCode", "VillageCode", "ImplementID", "FinancialYear", "DateTime", "IPAddress", "Status") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning *`;
+        const values4 = [data.PartReferenceNo + response3.rows[0].NewReferenceNoCount, data.FarmerID, data.FarmerName, data.FarmerMobileNo, data.FarmerCategory, data.DistrictCode, data.BlockCode, data.GPCode, data.VillageCode, data.ImplementID, data.FinancialYear, data.DateTime, data.IPAddress, data.Status];
+        const response4 = await client.query(query4, values4);
+        await client.query('commit');
+        resolve(response4.rows);
+      } else {
+        resolve([{
+          Error: 'No more Farmer Booking is allowed as the Target for the selected Implement in the selected District has been reached.'
+        }]);
+      }
+    } else {
+      resolve([{
+        Error: 'Target has not been entered for the selected Implement in the selected District for this Financial Year. Please contact administrator.'
+      }]);
+    }
   } catch (e) {
     await client.query('rollback');
     reject(new Error(`Oops! An error occurred: ${e}`));

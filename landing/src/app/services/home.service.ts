@@ -19,6 +19,7 @@ export class HomeService {
 
   getFarmerDetails(farmerID: string): Observable<any> {
     return this.http.get(`https://apicol.nic.in/api/FarmerData?farmerID=${farmerID}`);
+    // `https://www.apicol.nic.in/api/FarmerData1/Get?farmerID=${farmerID}&apiKey=4e6f7833f9aa5e58b872e515c5d77e427f88ec4dce341388daa2e6819230bb12`
   }
 
   getDistricts(): Observable<any> {

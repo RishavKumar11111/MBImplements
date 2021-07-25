@@ -24,22 +24,22 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AddModifyImplementTargetComponent } from './add-modify-implement-target/add-modify-implement-target.component';
 import { ApproveRejectManufacturerComponent } from './approve-reject-manufacturer/approve-reject-manufacturer.component';
 import { AddModifyImplementPriceComponent } from './add-modify-implement-price/add-modify-implement-price.component';
 import { ActivateImplementComponent } from './activate-implement/activate-implement.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DetailsDialogComponent } from './approve-reject-manufacturer/details-dialog/details-dialog.component';
 import { RejectionReasonDialogComponent } from './approve-reject-manufacturer/rejection-reason-dialog/rejection-reason-dialog.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
+    ChangePasswordComponent,
     AddModifyImplementTargetComponent,
     ApproveRejectManufacturerComponent,
     AddModifyImplementPriceComponent,
     ActivateImplementComponent,
-    ChangePasswordComponent,
     DetailsDialogComponent,
     RejectionReasonDialogComponent
   ],

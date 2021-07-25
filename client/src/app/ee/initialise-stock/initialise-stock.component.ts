@@ -128,7 +128,7 @@ export class InitialiseStockComponent implements OnInit {
             const sd = this.selectedDistrict;
             this.isForm.reset();
             setTimeout(() => {
-              this.selectedDistrict = sd;
+              this.selectedDistrict = result.length === 0 ? '' : sd;
               this.selectedBlock = '';
               this.implementStockSerialNoList = [];
               this.implementStockSerialNoList = result.reduce((acc: any, curr: any) => {

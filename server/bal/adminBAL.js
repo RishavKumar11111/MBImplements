@@ -10,6 +10,11 @@ const getFinancialYear = () => {
   return financialYear;
 };
 
+const getURL = (req) => {
+  const fullURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+  return fullURL;
+};
+
 exports.getAllImplements = async (req, res) => {
   try {
     const financialYear = getFinancialYear();
@@ -39,11 +44,6 @@ exports.getImplementTargets = async (req, res) => {
     res.status(500).send(e);
     throw e;
   }
-};
-
-const getURL = (req) => {
-  const fullURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-  return fullURL;
 };
 
 exports.submitImplementTarget = async (req, res) => {

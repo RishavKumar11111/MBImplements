@@ -138,6 +138,7 @@ export class ApproveRejectManufacturerComponent implements OnInit {
             this.toastr.success(`The selected manufacturer's records are rejected.`);
           }
           this.loadAllManufacturerDetails();
+          this.isMasterSelected = false;
         }
       }, (error) => this.toastr.error(error.statusText, error.status));
     } else {

@@ -31,6 +31,42 @@
   </div>
   <div class="scrollbar-sidebar">
     <div class="app-sidebar__inner">
+      <ul class="vertical-nav-menu" *ngIf="role === 'AAE'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/aae/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/aae/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
       <ul class="vertical-nav-menu" *ngIf="role === 'Admin'">
         <li class="app-sidebar__heading">Menu</li>
         <li class="mm-active">
@@ -87,11 +123,93 @@
           </a>
         </li>
       </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'AEE'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/aee/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/aee/preDeliveryInspection">
+            <i class="metismenu-icon pe-7s-rocket"></i>Pre-delivery Inspection
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/aee/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'AO'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/ao/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/ao/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
       <ul class="vertical-nav-menu" *ngIf="role === 'EE'">
         <li class="app-sidebar__heading">Menu</li>
         <li class="mm-active">
           <a routerLinkActive="active" routerLink="/ee/dashboard">
             <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/ee/addStockSupplyData">
+            <i class="metismenu-icon pe-7s-browser"></i>Add Stock's Supply Data
           </a>
         </li>
         <li>
@@ -130,6 +248,229 @@
         <li>
           <a routerLinkActive="active" routerLink="/ee/changePassword">
             <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'Manufacturer'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/manufacturer/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/manufacturer/addStock">
+            <i class="metismenu-icon pe-7s-browser"></i>Add Stocks
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/manufacturer/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'OAIC'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/oaic/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/oaic/addStockSupplyData">
+            <i class="metismenu-icon pe-7s-browser"></i>Add Stock's Supply Data
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/oaic/deliverStock">
+            <i class="metismenu-icon pe-7s-browser"></i>Deliver Stocks
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/oaic/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'OFMRDC'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/ofmrdc/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/ofmrdc/addStockSupplyData">
+            <i class="metismenu-icon pe-7s-browser"></i>Add Stock's Supply Data
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/ofmrdc/deliverStock">
+            <i class="metismenu-icon pe-7s-browser"></i>Deliver Stock
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/ofmrdc/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'OSIC'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/osic/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/osic/addStockSupplyData">
+            <i class="metismenu-icon pe-7s-browser"></i>Add Stock's Supply Data
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/osic/deliverStock">
+            <i class="metismenu-icon pe-7s-browser"></i>Deliver Stock
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/osic/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'SE'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/se/dashboard">
+            <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="">
+            <i class="metismenu-icon pe-7s-display2"></i>Reports
+            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+          </a>
+          <ul>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 1
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 2
+              </a>
+            </li>
+            <li>
+              <a routerLinkActive="active" routerLink="">
+                <i class="metismenu-icon"></i>Report 3
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a routerLinkActive="active" routerLink="/se/changePassword">
+            <i class="metismenu-icon pe-7s-browser"></i>Change your Password
+          </a>
+        </li>
+      </ul>
+      <ul class="vertical-nav-menu" *ngIf="role === 'SuperAdmin'">
+        <li class="app-sidebar__heading">Menu</li>
+        <li class="mm-active">
+          <a routerLinkActive="active" routerLink="/superAdmin/activityLogReport">
+            <i class="metismenu-icon pe-7s-rocket"></i>Activity Log Report
           </a>
         </li>
       </ul>

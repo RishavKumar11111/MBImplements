@@ -16,14 +16,20 @@ const http = require('http');
 const favicon = require('serve-favicon');
 
 // let indexRouter = require('./routes/index');
-// let usersRouter = require('./routes/users');
 
-const homeRouter = require('./routes/home');
-const authRouter = require('./routes/auth');
+const aaeRouter = require('./routes/aae');
 const adminRouter = require('./routes/admin');
+const aeeRouter = require('./routes/aee');
+const aoRouter = require('./routes/ao');
+const authRouter = require('./routes/auth');
 const eeRouter = require('./routes/ee');
+const homeRouter = require('./routes/home');
+const manufacturerRouter = require('./routes/manufacturer');
+const oaicRouter = require('./routes/oaic');
+const ofmrdcRouter = require('./routes/ofmrdc');
+const osicRouter = require('./routes/osic');
+const seRouter = require('./routes/se');
 const superAdminRouter = require('./routes/superAdmin');
-const changePasswordRouter = require('./routes/changePassword');
 
 const app = express();
 
@@ -80,15 +86,21 @@ app.use(cookieParser(crypto.randomBytes(64).toString('hex')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'favicon.ico')));
 
-app.use('/', homeRouter);
-app.use('/auth', authRouter);
-app.use('/admin', adminRouter);
-app.use('/ee', eeRouter);
-app.use('/superAdmin', superAdminRouter);
-app.use('/changePassword', changePasswordRouter);
-
 // app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+
+app.use('/aae', aaeRouter);
+app.use('/admin', adminRouter);
+app.use('/aee', aeeRouter);
+app.use('/ao', aoRouter);
+app.use('/auth', authRouter);
+app.use('/ee', eeRouter);
+app.use('/', homeRouter);
+app.use('/manufacturer', manufacturerRouter);
+app.use('/oaic', oaicRouter);
+app.use('/ofmrdc', ofmrdcRouter);
+app.use('/osic', osicRouter);
+app.use('/se', seRouter);
+app.use('/superAdmin', superAdminRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

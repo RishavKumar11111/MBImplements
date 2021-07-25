@@ -56,6 +56,12 @@
             </mat-error>
             <mat-error *ngIf="fbf.enteredFarmerMobileNo.hasError('pattern')">Please enter a valid Mobile No.</mat-error>
           </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Farmer's Category</mat-label>
+            <input matInput formControlName="enteredFarmerCategory" appAlphabetsOnly minlength="1" maxlength="10"
+              placeholder="Enter Farmer's Category" style="text-transform: capitalize;" required>
+            <mat-error *ngIf="fbf.enteredFarmerCategory.hasError('required')">Please enter Farmer's Category</mat-error>
+          </mat-form-field>
           <mat-divider [vertical]="true"></mat-divider>
           <mat-form-field appearance="fill">
             <mat-label>District</mat-label>

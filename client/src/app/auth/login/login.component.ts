@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     this.error = '';
 
     this.loginForm = this.fb.group({
-      userID: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[\w]+$/)]],
+      userID: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^([\w]+|(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))$/)]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[#?!@$%^&*.-]).{8,50}$/)]]
     });
   }
@@ -133,48 +133,48 @@ export class LoginComponent implements OnInit {
             this.authService.setRole(result.role);
             this.authService.setUsername(result.username);
             switch (result.role) {
-              case 'Admin': {
-                this.router.navigate(['admin']);
-                break;
-              }
-              case 'SuperAdmin': {
-                this.router.navigate(['superAdmin']);
-                break;
-              }
-              case 'AO': {
-                this.router.navigate(['ao']);
-                break;
-              }
               case 'AAE': {
                 this.router.navigate(['aae']);
+                break;
+              }
+              case 'Admin': {
+                this.router.navigate(['admin']);
                 break;
               }
               case 'AEE': {
                 this.router.navigate(['aee']);
                 break;
               }
+              case 'AO': {
+                this.router.navigate(['ao']);
+                break;
+              }
               case 'EE': {
                 this.router.navigate(['ee']);
                 break;
               }
-              case 'SE': {
-                this.router.navigate(['se']);
+              case 'Manufacturer': {
+                this.router.navigate(['manufacturer']);
                 break;
               }
               case 'OAIC': {
                 this.router.navigate(['oaic']);
                 break;
               }
-              case 'OSIC': {
-                this.router.navigate(['osic']);
-                break;
-              }
               case 'OFMRDC': {
                 this.router.navigate(['ofmrdc']);
                 break;
               }
-              case 'Manufacturer': {
-                this.router.navigate(['manufacturer']);
+              case 'OSIC': {
+                this.router.navigate(['osic']);
+                break;
+              }
+              case 'SE': {
+                this.router.navigate(['se']);
+                break;
+              }
+              case 'SuperAdmin': {
+                this.router.navigate(['superAdmin']);
                 break;
               }
               default: {

@@ -11,9 +11,18 @@ import { BackButtonDisableModule } from 'angular-disable-browser-back-button';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { AuthModule } from './auth/auth.module';
+import { AaeModule } from './aae/aae.module';
 import { AdminModule } from './admin/admin.module';
+import { AeeModule } from './aee/aee.module';
+import { AoModule } from './ao/ao.module';
+import { AuthModule } from './auth/auth.module';
 import { EeModule } from './ee/ee.module';
+import { ManufacturerModule } from './manufacturer/manufacturer.module';
+import { OaicModule } from './oaic/oaic.module';
+import { OfmrdcModule } from './ofmrdc/ofmrdc.module';
+import { OsicModule } from './osic/osic.module';
+import { SeModule } from './se/se.module';
+import { SuperAdminModule } from './super-admin/super-admin.module';
 import { VaccineModule } from './vaccine/vaccine.module';
 
 // import { CookieService } from 'ngx-cookie-service';
@@ -57,9 +66,18 @@ import { ThemeSettingComponent } from './layout/theme-setting/theme-setting.comp
     }),
     // RxReactiveFormsModule,
     AppRoutingModule,
-    AuthModule,
+    AaeModule,
     AdminModule,
+    AeeModule,
+    AoModule,
+    AuthModule,
     EeModule,
+    ManufacturerModule,
+    OaicModule,
+    OfmrdcModule,
+    OsicModule,
+    SeModule,
+    SuperAdminModule,
     VaccineModule
   ],
   providers: [

@@ -6,6 +6,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
 import { HomeService } from '../../services/home.service';
 import { CaptchaComponent } from '../captcha/captcha.component';
+import { ManufacturerDetails } from '../../models/home/manufacturer-details.model';
 
 @Component({
   selector: 'app-manufacturer-registration',

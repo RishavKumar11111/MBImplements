@@ -7,6 +7,17 @@ const homeDAL = require('../dal/homeDAL');
 
 const parser = new UAParser();
 
+const getFinancialYear = () => {
+  const today = new Date();
+  const financialYear = (today.getMonth() + 1) <= 3 ? `${today.getFullYear() - 1}-${today.getFullYear().toString().substr(2, 3)}` : `${today.getFullYear()}-${(today.getFullYear() + 1).toString().substr(2, 3)}`;
+  return financialYear;
+};
+
+const getURL = (req) => {
+  const fullURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+  return fullURL;
+};
+
 exports.getDistricts = async (req, res) => {
   try {
     const result = await homeDAL.getDistricts();
@@ -57,12 +68,6 @@ exports.getFarmerAddress = async (req, res) => {
   }
 };
 
-const getFinancialYear = () => {
-  const today = new Date();
-  const financialYear = (today.getMonth() + 1) <= 3 ? `${today.getFullYear() - 1}-${today.getFullYear().toString().substr(2, 3)}` : `${today.getFullYear()}-${(today.getFullYear() + 1).toString().substr(2, 3)}`;
-  return financialYear;
-};
-
 exports.getImplementDetails = async (req, res) => {
   try {
     const financialYear = getFinancialYear();
@@ -74,11 +79,6 @@ exports.getImplementDetails = async (req, res) => {
   }
 };
 
-const getURL = (req) => {
-  const fullURL = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-  return fullURL;
-};
-
 exports.submitFarmerBooking = async (req, res) => {
   try {
     if (req.body.Captcha === req.session.captcha) {
@@ -87,6 +87,7 @@ exports.submitFarmerBooking = async (req, res) => {
         FarmerID: req.body.FarmerID,
         FarmerName: req.body.FarmerName,
         FarmerMobileNo: req.body.FarmerMobileNo,
+        FarmerCategory: req.body.FarmerCategory,
         DistrictCode: req.body.DistrictCode,
         BlockCode: req.body.BlockCode,
         GPCode: req.body.GPCode,

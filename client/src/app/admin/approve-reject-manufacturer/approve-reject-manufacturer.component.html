@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
       <h5 class="card-title"></h5>
-      <div class="table-responsive">
+      <div class="table-responsive" *ngIf="manufacturerDetailsList.length > 0">
         <table style="width: 100%;" class="table table-hover table-striped table-bordered text-center">
           <thead>
             <tr>
@@ -60,13 +60,18 @@
           <tfoot></tfoot>
         </table>
       </div>
+      <div class="text-center text-danger" *ngIf="manufacturerDetailsList.length === 0">
+        <strong>No registered manufacturers are found!</strong>
+      </div>
     </div>
     <div class="d-block text-right card-footer">
-      <button type="button" id="reject" class="btn btn-danger"
+      <div *ngIf="manufacturerDetailsList.length > 0">
+        <button type="button" id="reject" class="btn btn-danger"
         [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0" (click)="openRejectionReasonDialog()">Reject</button>
       &nbsp;|&nbsp;
       <button type="button" id="approve" class="btn btn-success"
         [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0" (click)="onSubmit($event)">Approve</button>
+      </div>
     </div>
   </div>
 </form>

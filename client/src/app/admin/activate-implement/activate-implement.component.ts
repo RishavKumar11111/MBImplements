@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { LayoutService } from '../../services/layout.service';
-import { ImplementPrice } from '../../models/admin/implement-price.model';
+import { Implement } from '../../models/admin/implement.model';
 
 @Component({
   selector: 'app-activate-implement',
@@ -42,13 +42,13 @@ export class ActivateImplementComponent implements OnInit {
 
   loadAllImplementPrices() {
     this.adminService.getAllImplementPrices().subscribe((result: any) => {
-      const filteredFinancialYears = result.filter((x: any) => x.Status === false).map((x: any) => ({
+      const filteredFinancialYears = result.filter((x: any) => x.Status === false || x.Status === null).map((x: any) => ({
         FinancialYear: x.FinancialYear
       }));
       this.implementPriceListFinancialYearWise = result.reduce((acc: any, curr: any) => {
         const found = acc.find((x: any) => x.FinancialYear === curr.FinancialYear);
         const implementDetails = {
-          ImplementID: curr.ImplementID, ImplementName: curr.ImplementName, Cost: curr.Cost, isSelected: curr.Status
+          ImplementID: curr.ImplementID, ImplementName: curr.ImplementName, Cost: curr.Cost, isSelected: curr.Status === null ? false : curr.Status
         };
         if (!found) {
           const foundIndex = filteredFinancialYears.findIndex((x: any) => x.FinancialYear === curr.FinancialYear);
