@@ -53,7 +53,7 @@
                 <input type="text" class="form-control" placeholder="Enter No. of Available Surplus Stocks"
                   id="availableSurplusStocks[{{i}}]" name="availableSurplusStocks[{{i}}]"
                   [(ngModel)]="x.EnteredAvailableSurplusStocks" [disabled]="x.Status === 0"
-                  (ngModelChange)="calculateTotalAvailableSurplusStocks();" (keypress)="keyPress($event)" appNumbersOnly
+                  (ngModelChange)="calculateTotalAvailableSurplusStocks();" appNumbersOnly
                   minlength="1" maxlength="4">
               </td>
             </tr>
@@ -69,10 +69,8 @@
       </div>
     </div>
     <div class="d-block text-right card-footer">
-      <button *ngIf="!submitted || foundNULL" type="submit" id="submit" class="btn btn-success"
+      <button *ngIf="foundNULL" type="submit" id="submit" class="btn btn-success"
         [disabled]="!addAvailableStockForm.form.valid">Submit</button>
-      <!-- <button *ngIf="submitted" type="submit" id="update" class="btn btn-info"
-        [disabled]="!addAvailableStockForm.form.valid">Update</button> -->
     </div>
   </div>
 </form>

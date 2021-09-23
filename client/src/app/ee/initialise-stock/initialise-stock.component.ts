@@ -20,7 +20,6 @@ export class InitialiseStockComponent implements OnInit {
   implementStockSerialNoList: Array<any>;
   isMasterSelected: boolean;
   checkedList: Array<any>;
-  submitted: boolean;
 
   @ViewChild('initialiseStockForm') isForm: any;
 
@@ -39,7 +38,6 @@ export class InitialiseStockComponent implements OnInit {
     this.implementStockSerialNoList = [];
     this.checkedList = [];
     this.isMasterSelected = false;
-    this.submitted = false;
   }
 
   ngOnInit(): void {
@@ -146,10 +144,8 @@ export class InitialiseStockComponent implements OnInit {
                 return acc;
               }, []);
             }, 1);
-            this.submitted = false;
           } else {
             this.toastr.error(`An error occurred! Please try again.`);
-            this.submitted = true;
           }
         }, (error) => this.toastr.error(error.statusText, error.status));
       } else {

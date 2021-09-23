@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Reason for Rejection</h1>
+<mat-dialog-content class="mat-typography">
+  <form #rejectionReasonForm="ngForm" novalidate autocomplete="off" role="form">
+    <div class="form-group">
+      <label for="txtRejectionReason" class="control-label">Rejection Reason <span class="text-danger">*</span></label>
+      <textarea name="rejectionReason" id="txtRejectionReason" [(ngModel)]="data.enteredRejectionReason" class="form-control"
+        #rejectionReason="ngModel" rows="6" placeholder="Enter Reason for Rejection" required></textarea>
+      <div *ngIf="rejectionReason.invalid && (rejectionReason.dirty || rejectionReason.touched)" class="alert alert-danger">
+        <div *ngIf="rejectionReason.errors?.required">
+          Rejection Reason is required
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="onCloseClick()" cdkFocusInitial>Close</button>
+  <button mat-button [disabled]="!rejectionReasonForm.form.valid" [mat-dialog-close]="data.enteredRejectionReason">Submit</button>
+</mat-dialog-actions>

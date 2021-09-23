@@ -3,6 +3,7 @@ const UAParser = require('ua-parser-js');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const axios = require('axios').default;
 const homeDAL = require('../dal/homeDAL');
 
 const parser = new UAParser();

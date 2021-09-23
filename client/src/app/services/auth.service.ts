@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { serverURL } from '../../environments/environment';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { serverURL } from '../../environments/environment';
 export class AuthService {
   // captchSource = new BehaviorSubject(null);
   // captchStatus = this.captchSource.asObservable();
-
+  serverURL: string = environment.serverURL;
   constructor(
     private http: HttpClient
   ) { }
@@ -40,25 +40,25 @@ export class AuthService {
   }
 
   generateCaptchaAndSalt(type: number, length: number): Observable<any> {
-    return this.http.get(`${serverURL}/auth/generateCaptchaAndSalt/${type}/${length}`, {
+    return this.http.get(`${this.serverURL}/auth/generateCaptchaAndSalt/${type}/${length}`, {
       withCredentials: true
     });
   }
 
   signIn(data: any): Observable<any> {
-    return this.http.post(`${serverURL}/auth/signIn`, data, {
+    return this.http.post(`${this.serverURL}/auth/signIn`, data, {
       withCredentials: true
     });
   }
 
   getUserDetails(role: string): Observable<any> {
-    return this.http.get(`${serverURL}/auth/getUserDetails/${role}/${this.getUsername()}`, {
+    return this.http.get(`${this.serverURL}/auth/getUserDetails/${role}/${this.getUsername()}`, {
       withCredentials: true
     });
   }
 
   signOut(): Observable<any> {
-    return this.http.post(`${serverURL}/auth/signOut`, {
+    return this.http.post(`${this.serverURL}/auth/signOut`, {
     }, {
       withCredentials: true
     });

@@ -26,12 +26,14 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AddStockComponent } from './add-stock/add-stock.component';
+import { StockSerialNosDialogComponent } from './add-stock/stock-serial-nos-dialog/stock-serial-nos-dialog.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ChangePasswordComponent,
-    AddStockComponent
+    AddStockComponent,
+    StockSerialNosDialogComponent
   ],
   imports: [
     CommonModule,

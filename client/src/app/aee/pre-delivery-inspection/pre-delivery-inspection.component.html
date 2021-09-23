@@ -1,1 +1,102 @@
-<p>pre-delivery-inspection works!</p>
+<form #preDeliveryInspectionForm="ngForm" novalidate autocomplete="off" role="form">
+  <div class="main-card mb-3 card">
+    <div class="card-header">
+      <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>List of Stock Serial Nos. for Pre-delivery
+      Inspection Block-wise, Manufacturer-wise and Implement-wise
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <div *ngFor="let x of manufacturerStockSerialNoList">
+        <strong>Block: {{ x.BlockName }}</strong>
+        <div class="table-responsive">
+          <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Manufacturer User ID</th>
+                <th>Implements & Stock Serial Nos.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let y of x.manufacturerUserIDs; let i = index">
+                <td>{{ y.ManufacturerUserID }}</td>
+                <td>
+                  <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Implement</th>
+                        <th>Stock Serial Nos.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let z of y.implementDetails; let i = index">
+                        <td>{{ z.ImplementName }}</td>
+                        <td>
+                          <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Serial No.</th>
+                                <th>Stock Serial No.</th>
+                                <th>
+                                  <div class="custom-checkbox custom-control">
+                                    <input type="checkbox"
+                                      id="exampleCustomCheckbox{{ x.BlockCode }}{{ y.ManufacturerUserID }}{{ z.ImplementID }}"
+                                      class="custom-control-input" [(ngModel)]="z.isMasterSelected"
+                                      name="chkbx{{ x.BlockCode }}{{ y.ManufacturerUserID }}{{ z.ImplementID }}"
+                                      value="{{ x.BlockCode }}{{ y.ManufacturerUserID }}{{ z.ImplementID }}"
+                                      (change)="checkUncheckAll(x.BlockCode, z.isMasterSelected, y.ManufacturerUserID, z.ImplementID);">
+                                    <label class="custom-control-label"
+                                      for="exampleCustomCheckbox{{ x.BlockCode }}{{ y.ManufacturerUserID }}{{ z.ImplementID }}">Select
+                                      / Unselect All</label>
+                                  </div>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let w of z.stockSerialNos; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ w.StockSerialNo }}</td>
+                                <td>
+                                  <div class="custom-checkbox custom-control">
+                                    <input type="checkbox"
+                                      id="exampleCustomCheckbox{{ w.BlockCode }}{{ w.ManufacturerUserID }}{{ w.ImplementID }}{{ w.StockSerialNo }}{{ i + 1 }}"
+                                      class="custom-control-input" [(ngModel)]="w.isSelected"
+                                      name="chkbx{{ w.BlockCode }}{{ w.ManufacturerUserID }}{{ w.ImplementID }}{{ w.StockSerialNo }}{{ i + 1 }}"
+                                      value="{{ w.BlockCode }}{{ w.ManufacturerUserID }}{{ w.ImplementID }}{{ w.StockSerialNo }}{{ i + 1 }}"
+                                      (change)="isAllSelected(w.BlockCode, z, w.ManufacturerUserID, w.ImplementID);">
+                                    <label class="custom-control-label"
+                                      for="exampleCustomCheckbox{{ w.BlockCode }}{{ w.ManufacturerUserID }}{{ w.ImplementID }}{{ w.StockSerialNo }}{{ i + 1 }}"></label>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                            <tfoot></tfoot>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot></tfoot>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="text-center text-danger" *ngIf="manufacturerStockSerialNoList.length === 0">
+        <strong>No Stock Serial Nos. for Pre-delivery Inspection are found!</strong>
+      </div>
+    </div>
+    <div class="d-block text-right card-footer">
+      <div *ngIf="manufacturerStockSerialNoList.length > 0">
+        <button type="button" id="reject" class="btn btn-danger"
+          [disabled]="!preDeliveryInspectionForm.form.valid || checkedList.length === 0"
+          (click)="openRejectionReasonDialog()">Reject</button>
+        &nbsp;|&nbsp;
+        <button type="button" id="approve" class="btn btn-success"
+          [disabled]="!preDeliveryInspectionForm.form.valid || checkedList.length === 0"
+          (click)="onSubmit($event)">Approve</button>
+      </div>
+    </div>
+  </div>
+</form>

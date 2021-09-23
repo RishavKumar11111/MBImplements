@@ -71,27 +71,29 @@ export class CaptchaComponent implements OnChanges {
       this.captchaSaltResult = result;
       this.generatedSalt.emit(this.captchaSaltResult.salt);
       const captchaCanvas: any = document.getElementById('captchaCanvas');
-      const ctx = captchaCanvas.getContext('2d');
-      ctx.fillStyle = this.config.back.solid;
-      ctx.fillRect(0, 0, captchaCanvas.width, captchaCanvas.height);
-      ctx.beginPath();
-      captchaCanvas.style.letterSpacing = `${1}px`;
-      captchaCanvas.style.width = `${50}%`;
-      captchaCanvas.style.height = `${7}vh`;
-      ctx.font = `${this.config.font.size} ${this.config.font.family}`;
-      ctx.fillStyle = this.config.font.color;
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = 'center';
-      ctx.fillText(this.captchaSaltResult.code, 150, 85);
-      if (this.config.back.stroke) {
-        ctx.strokeStyle = this.config.back.stroke;
-        for (let i = 0; i < 150; i++) {
-          ctx.moveTo(Math.random() * 300, Math.random() * 300);
-          ctx.lineTo(Math.random() * 300, Math.random() * 300);
+      if (captchaCanvas !== null && captchaCanvas !== undefined && captchaCanvas !== '') {
+        const ctx = captchaCanvas.getContext('2d');
+        ctx.fillStyle = this.config.back.solid;
+        ctx.fillRect(0, 0, captchaCanvas.width, captchaCanvas.height);
+        ctx.beginPath();
+        captchaCanvas.style.letterSpacing = `${1}px`;
+        captchaCanvas.style.width = `${50}%`;
+        captchaCanvas.style.height = `${7}vh`;
+        ctx.font = `${this.config.font.size} ${this.config.font.family}`;
+        ctx.fillStyle = this.config.font.color;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.fillText(this.captchaSaltResult.code, 150, 85);
+        if (this.config.back.stroke) {
+          ctx.strokeStyle = this.config.back.stroke;
+          for (let i = 0; i < 150; i++) {
+            ctx.moveTo(Math.random() * 300, Math.random() * 300);
+            ctx.lineTo(Math.random() * 300, Math.random() * 300);
+          }
+          ctx.stroke();
         }
-        ctx.stroke();
+        ctx.closePath();
       }
-      ctx.closePath();
     }, (error) => this.toastr.error(error.statusText, error.status));
   }
 

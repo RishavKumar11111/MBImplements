@@ -29,12 +29,12 @@ export class AddModifyImplementPriceComponent implements OnInit {
     private toastr: ToastrService,
     private fb: FormBuilder
   ) {
+    this.title = 'Add or Modify Implement\'s Price';
+    this.breadcrumbs = ['Add or Modify Implement\'s Price', 'Price entry of Implements Financial Year-wise'];
     this.idl = [];
     this.implementDetailsList = [];
     this.implementPriceListFinancialYearWise = [];
     this.btnID = '';
-    this.title = 'Add or Modify Implement\'s Price';
-    this.breadcrumbs = ['Add or Modify Implement\'s Price', 'Price entry of Implements Financial Year-wise'];
     this.financialYears = [];
     this.showImplementText = false;
 

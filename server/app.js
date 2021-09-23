@@ -76,6 +76,8 @@ app.disable('x-powered-by');
 
 // static paths
 app.use('/public', express.static('public'));
+app.use(express.static(path.join(__dirname, 'landing-app')));
+app.use('/login', express.static(path.join(__dirname, 'login-app')));
 
 app.use(logger('dev'));
 app.use(express.json());

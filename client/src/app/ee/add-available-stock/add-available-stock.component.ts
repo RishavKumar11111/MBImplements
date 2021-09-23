@@ -16,8 +16,6 @@ export class AddAvailableStockComponent implements OnInit {
   districtList: Array<{ DistrictCode: number, DistrictName: string, PDSDistrictName: string }>;
   implementStockList: Array<any>;
   selectedDistrict: any;
-  submitted: boolean;
-  btnID: string;
   totalAvailableSurplusStocks: any;
   foundNULL: boolean;
 
@@ -34,8 +32,6 @@ export class AddAvailableStockComponent implements OnInit {
     this.districtList = [];
     this.implementStockList = [];
     this.selectedDistrict = '';
-    this.submitted = false;
-    this.btnID = '';
     this.foundNULL = true;
   }
 
@@ -69,54 +65,37 @@ export class AddAvailableStockComponent implements OnInit {
     }
   }
 
-  keyPress(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      if (document.getElementById('submit')) {
-        this.btnID = document.getElementById('submit')!.id;
-        return this.btnID;
-      } if (document.getElementById('update')) {
-        this.btnID = document.getElementById('update')!.id;
-        return this.btnID;
-      }
-    }
-    this.btnID = '';
-    return this.btnID;
-  }
-
   onSubmit() {
     if (this.selectedDistrict !== undefined && this.selectedDistrict !== null && this.selectedDistrict !== '') {
-      if ((this.btnID === 'submit') || document.activeElement!.id === 'submit') {
-        const data = {
-          district: {
-            DistrictCode: this.selectedDistrict.DistrictCode, DistrictName: this.selectedDistrict.PDSDistrictName.substring(0, 3)
-          },
-          implementStockDetails: this.implementStockList.filter((x: any) => "EnteredAvailableSurplusStocks" in x && x.EnteredAvailableSurplusStocks !== null && x.EnteredAvailableSurplusStocks !== undefined && x.EnteredAvailableSurplusStocks !== '' && x.EnteredAvailableSurplusStocks !== '0' && Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) === false && x.Status === null).map((x: any) => ({
-            ImplementID: x.ImplementID, EnteredAvailableSurplusStocks: Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)
-          }))
-        };
-        if (this.totalAvailableSurplusStocks !== 0 && data.implementStockDetails.length !== 0) {
-          this.eeService.submitStockAvailability(data).subscribe((result: any) => {
-            const totalEASS = result.filter((x: any) => x.EnteredAvailableSurplusStocks !== null).reduce((acc: any, curr: any) => acc + parseInt(curr.EnteredAvailableSurplusStocks, 10), 0);
-            if (this.totalAvailableSurplusStocks === totalEASS) {
-              this.toastr.success(`The amount of available surplus stocks for the implements and district "<b>${this.selectedDistrict.DistrictName}</b>" are entered successfully.`);
-              const sd = this.selectedDistrict;
-              this.aasForm.reset();
-              setTimeout(() => {
-                this.selectedDistrict = sd;
-                // this.selectedDistrict = { DistrictCode: result[0].DistrictCode, DistrictName: result[0].DistrictName };
-                this.implementStockList = result;
-                this.calculateTotalAvailableSurplusStocks();
-                this.foundNULL = this.implementStockList.some((x: any) => x.Status === null);
-              }, 1);
-              this.submitted = true;
-            } else {
-              this.toastr.error(`An error occurred! Please try again.`);
-            }
-          }, (error) => this.toastr.error(error.statusText, error.status));
-        } else {
-          this.toastr.warning('Please enter atleast one available surplus stock for an implement.');
-        }
-      } else if ((this.btnID === 'update') || document.activeElement!.id === 'update') {}
+      const data = {
+        district: {
+          DistrictCode: this.selectedDistrict.DistrictCode, DistrictName: this.selectedDistrict.PDSDistrictName.substring(0, 3)
+        },
+        implementStockDetails: this.implementStockList.filter((x: any) => "EnteredAvailableSurplusStocks" in x && x.EnteredAvailableSurplusStocks !== null && x.EnteredAvailableSurplusStocks !== undefined && x.EnteredAvailableSurplusStocks !== '' && x.EnteredAvailableSurplusStocks !== '0' && Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) === false && x.Status === null).map((x: any) => ({
+          ImplementID: x.ImplementID, EnteredAvailableSurplusStocks: Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)
+        }))
+      };
+      if (this.totalAvailableSurplusStocks !== 0 && data.implementStockDetails.length !== 0) {
+        this.eeService.submitStockAvailability(data).subscribe((result: any) => {
+          const totalEASS = result.filter((x: any) => x.EnteredAvailableSurplusStocks !== null).reduce((acc: any, curr: any) => acc + parseInt(curr.EnteredAvailableSurplusStocks, 10), 0);
+          if (this.totalAvailableSurplusStocks === totalEASS) {
+            this.toastr.success(`The amount of available surplus stocks for the implements and district "<b>${this.selectedDistrict.DistrictName}</b>" are entered successfully.`);
+            const sd = this.selectedDistrict;
+            this.aasForm.reset();
+            setTimeout(() => {
+              this.selectedDistrict = sd;
+              // this.selectedDistrict = { DistrictCode: result[0].DistrictCode, DistrictName: result[0].DistrictName };
+              this.implementStockList = result;
+              this.calculateTotalAvailableSurplusStocks();
+              this.foundNULL = this.implementStockList.some((x: any) => x.Status === null);
+            }, 1);
+          } else {
+            this.toastr.error(`An error occurred! Please try again.`);
+          }
+        }, (error) => this.toastr.error(error.statusText, error.status));
+      } else {
+        this.toastr.warning('Please enter atleast one available surplus stock for an implement.');
+      }
     } else {
       this.toastr.warning('Please select the District.');
     }

@@ -139,6 +139,9 @@ export class ApproveRejectManufacturerComponent implements OnInit {
           }
           this.loadAllManufacturerDetails();
           this.isMasterSelected = false;
+          this.submitObj.Status = null;
+          this.submitObj.RejectionReason = null;
+          this.checkedList = [];
         }
       }, (error) => this.toastr.error(error.statusText, error.status));
     } else {

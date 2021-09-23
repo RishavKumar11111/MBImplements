@@ -19,7 +19,6 @@ export class FarmerBookingComponent implements OnInit {
   blockList: Array<{ BlockCode: number, BlockName: string }>;
   gpList: Array<{ GPCode: number, GPName: string }>;
   villageList: Array<{ VillageCode: number, VillageName: string }>;
-  fc: any;
   sd: any;
   sb: any;
   sg: any;
@@ -83,7 +82,6 @@ export class FarmerBookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.farmerDetails = null;
-    this.fc = null;
     this.sd = null;
     this.sb = null;
     this.sg = null;
@@ -120,7 +118,7 @@ export class FarmerBookingComponent implements OnInit {
   //   this.stepper._getIndicatorType = () => STEP_STATE.NUMBER;
   // }
 
-  concatString(e: any) {
+  concatString(e: string) {
     if (this.enteredFarmerID!.value !== null && this.enteredFarmerID!.value !== undefined && this.enteredFarmerID!.value !== '') {
       if (this.enteredFarmerID!.value.length === 3 && this.keyName !== 'Backspace') {
         this.farmerBookingForm.patchValue({
@@ -172,20 +170,13 @@ export class FarmerBookingComponent implements OnInit {
               } else {
                 this.enteredFarmerName!.enable();
               }
-              if (result.VCHMOBILENO1 !== null && result.VCHMOBILENO1 !== '') {
+              if (result.VCHMOBILENO !== null && result.VCHMOBILENO !== '') {
                 this.enteredFarmerMobileNo!.disable();
               } else {
                 this.enteredFarmerMobileNo!.enable();
               }
-              if (result.INTCATEGOGY === 1) {
-                this.fc = 'General';
-              } else if (result.INTCATEGOGY === 2) {
-                this.fc = 'SC';
-              } else if (result.INTCATEGOGY === 3) {
-                this.fc = 'ST';
-              }
               if (result.LGDVillageCode !== null) {
-                this.loadFarmerAddress(result.LGDVillageCode);
+                this.loadFarmerAddress(result.lgd_village_code);
                 this.selectedDistrict!.clearValidators();
                 this.selectedDistrict!.updateValueAndValidity();
                 this.selectedBlock!.clearValidators();
@@ -219,8 +210,8 @@ export class FarmerBookingComponent implements OnInit {
                 enteredFarmerName: this.farmerDetails.VCHFARMERNAME !== null && this.farmerDetails.VCHFARMERNAME !== '' ? this.farmerDetails.VCHFARMERNAME.trim().replace(/\s+/g, ' ').toLowerCase().split(' ')
                   .map((x: string) => x.charAt(0).toUpperCase() + x.slice(1))
                   .join(' ') : this.enteredFarmerName!.value.toLowerCase().split(' ').map((x: string) => x.charAt(0).toUpperCase() + x.slice(1)).join(' '),
-                enteredFarmerMobileNo: this.farmerDetails.VCHMOBILENO1 !== null && this.farmerDetails.VCHMOBILENO1 !== '' ? `******${this.farmerDetails.VCHMOBILENO1.trim().slice(-4)}` : this.enteredFarmerMobileNo!.value,
-                enteredFarmerCategory: this.fc
+                enteredFarmerMobileNo: this.farmerDetails.VCHMOBILENO !== null && this.farmerDetails.VCHMOBILENO !== '' ? `******${atob(this.farmerDetails.VCHMOBILENO).trim().slice(-4)}` : this.enteredFarmerMobileNo!.value,
+                enteredFarmerCategory: this.farmerDetails.Category_Value
               });
             } else {
               this.toastr.warning(`The Aadhaar No. is not linked with the entered <b>Farmer ID: ${this.enteredFarmerID!.value.toUpperCase()}</b>.\nPlease update your Aadhaar No. at the nearest AAO.`);
@@ -369,8 +360,8 @@ export class FarmerBookingComponent implements OnInit {
             FarmerName: this.farmerDetails.VCHFARMERNAME !== null && this.farmerDetails.VCHFARMERNAME !== '' ? this.farmerDetails.VCHFARMERNAME.trim().replace(/\s+/g, ' ').toLowerCase().split(' ')
               .map((x: string) => x.charAt(0).toUpperCase() + x.slice(1))
               .join(' ') : this.enteredFarmerName!.value.toLowerCase().split(' ').map((x: string) => x.charAt(0).toUpperCase() + x.slice(1)).join(' '),
-            FarmerMobileNo: this.farmerDetails.VCHMOBILENO1 !== null && this.farmerDetails.VCHMOBILENO1 !== '' ? this.farmerDetails.VCHMOBILENO1.trim().slice(-10) : this.enteredFarmerMobileNo!.value,
-            FarmerCategory: this.fc,
+            FarmerMobileNo: this.farmerDetails.VCHMOBILENO !== null && this.farmerDetails.VCHMOBILENO !== '' ? atob(this.farmerDetails.VCHMOBILENO).trim().slice(-10) : this.enteredFarmerMobileNo!.value,
+            FarmerCategory: this.farmerDetails.Category_Value,
             DistrictCode: this.sd.DistrictCode,
             BlockCode: this.sb.BlockCode,
             GPCode: this.sg.GPCode,
@@ -384,6 +375,8 @@ export class FarmerBookingComponent implements OnInit {
                 if (result[0].Error === 'Target has not been entered for the selected Implement in the selected District for this Financial Year. Please contact administrator.') {
                   this.toastr.error(result[0].Error);
                 } else if (result[0].Error === 'No more Farmer Booking is allowed as the Target for the selected Implement in the selected District has been reached.') {
+                  this.toastr.error(result[0].Error);
+                } else if (result[0].Error === 'The selected implement has already been booked by the same Farmer ID in the current financial year. Farmer Booking can only be done in the next financial year.') {
                   this.toastr.error(result[0].Error);
                 } else {
                   this.toastr.success(`The Booking is done successfully. Your Reference No. is "<b>${result[0].ReferenceNo}</b>". Please note the above Reference No. and proceed to payement.`);

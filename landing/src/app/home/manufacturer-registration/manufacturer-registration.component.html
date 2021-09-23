@@ -68,7 +68,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Unique Farm ID</mat-label>
-        <input matInput formControlName="enteredUniqueFarmID" appUniqueFarmId minlength="3" maxlength="3"
+        <input matInput formControlName="enteredUniqueFarmID" appUniqueFarmIdOnly minlength="3" maxlength="3"
           placeholder="Enter Unique Farm ID" style="text-transform: uppercase;" (focusout)="checkUniqueFarmIDAvailability()" required>
         <mat-error *ngIf="mrf.enteredUniqueFarmID.hasError('required')">Please enter the Unique Farm ID</mat-error>
         <mat-error *ngIf="mrf.enteredUniqueFarmID.hasError('pattern')">Please enter a valid Unique Farm ID

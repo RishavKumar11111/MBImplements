@@ -26,12 +26,14 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { PreDeliveryInspectionComponent } from './pre-delivery-inspection/pre-delivery-inspection.component';
+import { RejectionReasonDialogComponent } from './pre-delivery-inspection/rejection-reason-dialog/rejection-reason-dialog.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ChangePasswordComponent,
-    PreDeliveryInspectionComponent
+    PreDeliveryInspectionComponent,
+    RejectionReasonDialogComponent
   ],
   imports: [
     CommonModule,

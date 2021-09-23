@@ -15,7 +15,6 @@ export class ActivateImplementComponent implements OnInit {
   breadcrumbs: Array<string>;
   implementPriceListFinancialYearWise: Array<any>;
   checkedList: Array<any>;
-  submitted: boolean;
 
   @ViewChild('activateImplementForm') ariForm: any;
 
@@ -29,7 +28,6 @@ export class ActivateImplementComponent implements OnInit {
     this.breadcrumbs = ['Activate Implements', 'Activation - De-activation or Removal of Implements'];
     this.implementPriceListFinancialYearWise = [];
     this.checkedList = [];
-    this.submitted = false;
   }
 
   ngOnInit(): void {

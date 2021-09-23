@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>List of generated Stock Serial Nos.</h1>
+<mat-dialog-content class="mat-typography">
+  <div class="table-responsive">
+    <table style="width: 100%;" class="table table-hover table-striped table-bordered text-center">
+      <thead>
+        <tr>
+          <th>Serial No.</th>
+          <th>Stock Serial No.</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let x of data.stockSerialNos; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ x.StockSerialNo }}</td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="removeStockSerialNo(x)" style="white-space: nowrap;">
+              <i class="fas fa-trash"></i> Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="true" (click)="onCloseClick()" cdkFocusInitial>Close</button>
+</mat-dialog-actions>

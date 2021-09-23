@@ -109,14 +109,23 @@ exports.submitFarmerBooking = (data) => new Promise(async (resolve, reject) => {
       const values2 = [data.FarmerCategory, data.DistrictCode, data.ImplementID, data.FinancialYear];
       const response2 = await client.query(query2, values2);
       if ((data.FarmerCategory === 'General' && response2.rows[0].FarmerBookingCount < response1.rows[0].Normal) || (data.FarmerCategory === 'SC' && response2.rows[0].FarmerBookingCount < response1.rows[0].SC) || (data.FarmerCategory === 'ST' && response2.rows[0].FarmerBookingCount < response1.rows[0].ST)) {
-        const query3 = `select coalesce(max(cast(substring("ReferenceNo", 15) as integer)), 0) + 1 "NewReferenceNoCount" from "FarmerBooking" where substring("ReferenceNo", 1, 14) = $1`;
-        const values3 = [data.PartReferenceNo];
+        const query3 = `select count(*) "Count" from "FarmerBooking" where "FarmerID" = $1 and "ImplementID" = $2 and "FinancialYear" = $3`;
+        const values3 = [data.FarmerID, data.ImplementID, data.FinancialYear];
         const response3 = await client.query(query3, values3);
-        const query4 = `insert into "FarmerBooking" ("ReferenceNo", "FarmerID", "FarmerName", "FarmerMobileNo", "FarmerCategory", "DistrictCode", "BlockCode", "GPCode", "VillageCode", "ImplementID", "FinancialYear", "DateTime", "IPAddress", "Status") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning *`;
-        const values4 = [data.PartReferenceNo + response3.rows[0].NewReferenceNoCount, data.FarmerID, data.FarmerName, data.FarmerMobileNo, data.FarmerCategory, data.DistrictCode, data.BlockCode, data.GPCode, data.VillageCode, data.ImplementID, data.FinancialYear, data.DateTime, data.IPAddress, data.Status];
-        const response4 = await client.query(query4, values4);
-        await client.query('commit');
-        resolve(response4.rows);
+        if (parseInt(response3.rows[0].Count, 10) === 0) {
+          const query4 = `select coalesce(max(cast(substring("ReferenceNo", 15) as integer)), 0) + 1 "NewReferenceNoCount" from "FarmerBooking" where substring("ReferenceNo", 1, 14) = $1`;
+          const values4 = [data.PartReferenceNo];
+          const response4 = await client.query(query4, values4);
+          const query5 = `insert into "FarmerBooking" ("ReferenceNo", "FarmerID", "FarmerName", "FarmerMobileNo", "FarmerCategory", "DistrictCode", "BlockCode", "GPCode", "VillageCode", "ImplementID", "FinancialYear", "DateTime", "IPAddress", "Status") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning *`;
+          const values5 = [data.PartReferenceNo + response4.rows[0].NewReferenceNoCount, data.FarmerID, data.FarmerName, data.FarmerMobileNo, data.FarmerCategory, data.DistrictCode, data.BlockCode, data.GPCode, data.VillageCode, data.ImplementID, data.FinancialYear, data.DateTime, data.IPAddress, data.Status];
+          const response5 = await client.query(query5, values5);
+          await client.query('commit');
+          resolve(response5.rows);
+        } else {
+          resolve([{
+            Error: 'The selected implement has already been booked by the same Farmer ID in the current financial year. Farmer Booking can only be done in the next financial year.'
+          }]);
+        }
       } else {
         resolve([{
           Error: 'No more Farmer Booking is allowed as the Target for the selected Implement in the selected District has been reached.'

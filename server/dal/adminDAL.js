@@ -180,7 +180,6 @@ exports.getAllManufacturerDetails = () => new Promise(async (resolve, reject) =>
 });
 
 exports.approveRejectManufacturerRecords = (arr1, arr2) => new Promise(async (resolve, reject) => {
-  console.log(arr1, arr2);
   const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
   try {
     await client.query('begin');

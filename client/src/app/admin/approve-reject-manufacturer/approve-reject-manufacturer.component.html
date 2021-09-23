@@ -67,10 +67,12 @@
     <div class="d-block text-right card-footer">
       <div *ngIf="manufacturerDetailsList.length > 0">
         <button type="button" id="reject" class="btn btn-danger"
-        [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0" (click)="openRejectionReasonDialog()">Reject</button>
-      &nbsp;|&nbsp;
-      <button type="button" id="approve" class="btn btn-success"
-        [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0" (click)="onSubmit($event)">Approve</button>
+          [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0"
+          (click)="openRejectionReasonDialog()">Reject</button>
+        &nbsp;|&nbsp;
+        <button type="button" id="approve" class="btn btn-success"
+          [disabled]="!approveRejectManufacturerForm.form.valid || checkedList.length === 0"
+          (click)="onSubmit($event)">Approve</button>
       </div>
     </div>
   </div>
