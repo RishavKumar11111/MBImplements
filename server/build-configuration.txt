@@ -1,0 +1,2 @@
+ng build --configuration=production --outputPath=F:\NIC\MBImplements\server\landing-app
+ng build --base-href /users/ --deploy-url /users/ --outputPath=F:\NIC\MBImplements\server\login-app

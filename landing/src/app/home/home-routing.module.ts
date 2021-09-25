@@ -5,13 +5,13 @@ import { HomeComponent } from './home/home.component';
 import { ManufacturerRegistrationComponent } from './manufacturer-registration/manufacturer-registration.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: '',
+  //   pathMatch: 'full'
+  // },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
     component: HomeComponent
   },
   {
