@@ -108,7 +108,7 @@ exports.submitFarmerBooking = (data) => new Promise(async (resolve, reject) => {
       const query2 = `select count("ReferenceNo") "FarmerBookingCount" from "FarmerBooking" where "FarmerCategory" = $1 and "DistrictCode" = $2 and "ImplementID" = $3 and "FinancialYear" = $4`;
       const values2 = [data.FarmerCategory, data.DistrictCode, data.ImplementID, data.FinancialYear];
       const response2 = await client.query(query2, values2);
-      if ((data.FarmerCategory === 'General' && response2.rows[0].FarmerBookingCount < response1.rows[0].Normal) || (data.FarmerCategory === 'SC' && response2.rows[0].FarmerBookingCount < response1.rows[0].SC) || (data.FarmerCategory === 'ST' && response2.rows[0].FarmerBookingCount < response1.rows[0].ST)) {
+      if ((data.FarmerCategory === 'General' && response2.rows[0].FarmerBookingCount < response1.rows[0].Normal) || (data.FarmerCategory === 'SC' && response2.rows[0].FarmerBookingCount < response1.rows[0].SCP) || (data.FarmerCategory === 'ST' && response2.rows[0].FarmerBookingCount < response1.rows[0].TASP)) {
         const query3 = `select count(*) "Count" from "FarmerBooking" where "FarmerID" = $1 and "ImplementID" = $2 and "FinancialYear" = $3`;
         const values3 = [data.FarmerID, data.ImplementID, data.FinancialYear];
         const response3 = await client.query(query3, values3);
