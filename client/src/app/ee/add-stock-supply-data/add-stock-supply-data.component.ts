@@ -12,7 +12,12 @@ import { LayoutService } from '../../services/layout.service';
 export class AddStockSupplyDataComponent implements OnInit {
   title: string;
   breadcrumbs: Array<string>;
-
+  districtList: Array<{ DistrictCode: number, DistrictName: string, PDSDistrictName: string }>;
+  selectedDistrict: any;
+  implementStockList: Array<any>;
+  totalAvailableSurplusStocks: any;
+  foundNULL: boolean;
+  @ViewChild('addAvailableStockForm') aasForm: any;
   constructor(
     private eeService: EeService,
     private layoutService: LayoutService,
@@ -21,6 +26,11 @@ export class AddStockSupplyDataComponent implements OnInit {
   ) {
     this.title = 'Add Stock\'s Supply Data';
     this.breadcrumbs = ['Add Stock\'s Supply Data', 'Approve the total no. of Stocks to be supplied by the Suppliers based on various requirements Implement-wise'];
+    this.districtList = [];
+    this.selectedDistrict = '';
+    this.implementStockList = [];
+    this.selectedDistrict = '';
+    this.foundNULL = true;
   }
 
   ngOnInit(): void {
@@ -28,5 +38,63 @@ export class AddStockSupplyDataComponent implements OnInit {
     this.layoutService.setTitle(this.title);
     // this.layoutService.currentBreadcrumbs.subscribe((bc: Array<string>) => this.breadcrumbs = bc);
     this.layoutService.setBreadcrumbs(this.breadcrumbs);
+    this.layoutService.setTitle(this.title);
+    // this.layoutService.currentBreadcrumbs.subscribe((bc: Array<string>) => this.breadcrumbs = bc);
+    this.layoutService.setBreadcrumbs(this.breadcrumbs);
+    this.loadEEDistricts();
+  }
+  loadEEDistricts() {
+    this.eeService.getEEDistricts().subscribe((result: any) => {
+      this.districtList = result;
+    }, (error) => this.toastr.error(error.statusText, error.status));
+  }
+  loadImplementStockDetails() {
+    this.eeService.getImplementStockDetails(this.selectedDistrict.DistrictCode).subscribe((result: any) => {
+      this.implementStockList = result;
+      this.calculateTotalAvailableSurplusStocks();
+    }, (error) => this.toastr.error(error.statusText, error.status));
+  }
+  calculateTotalAvailableSurplusStocks() {
+    this.totalAvailableSurplusStocks = 0;
+    for (let i = 0; i < this.implementStockList.length; i++) {
+      if (this.implementStockList[i].EnteredAvailableSurplusStocks !== undefined && this.implementStockList[i].EnteredAvailableSurplusStocks !== null && this.implementStockList[i].EnteredAvailableSurplusStocks !== '') {
+        this.totalAvailableSurplusStocks += Number.isNaN(parseInt(this.implementStockList[i].EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(this.implementStockList[i].EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10);
+      }
+    }
+  }
+  onSubmit() {
+    if (this.selectedDistrict !== undefined && this.selectedDistrict !== null && this.selectedDistrict !== '') {
+      const data = {
+        district: {
+          DistrictCode: this.selectedDistrict.DistrictCode, DistrictName: this.selectedDistrict.PDSDistrictName.substring(0, 3)
+        },
+        implementStockDetails: this.implementStockList.filter((x: any) => "EnteredAvailableSurplusStocks" in x && x.EnteredAvailableSurplusStocks !== null && x.EnteredAvailableSurplusStocks !== undefined && x.EnteredAvailableSurplusStocks !== '' && x.EnteredAvailableSurplusStocks !== '0' && Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) === false && x.Status === null).map((x: any) => ({
+          ImplementID: x.ImplementID, EnteredAvailableSurplusStocks: Number.isNaN(parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)) ? 0 : parseInt(x.EnteredAvailableSurplusStocks.toString().replace(/[^0-9]*/g, ''), 10)
+        }))
+      };
+      if (this.totalAvailableSurplusStocks !== 0 && data.implementStockDetails.length !== 0) {
+        this.eeService.submitStockAvailability(data).subscribe((result: any) => {
+          const totalEASS = result.filter((x: any) => x.EnteredAvailableSurplusStocks !== null).reduce((acc: any, curr: any) => acc + parseInt(curr.EnteredAvailableSurplusStocks, 10), 0);
+          if (this.totalAvailableSurplusStocks === totalEASS) {
+            this.toastr.success(`The amount of available surplus stocks for the implements and district "<b>${this.selectedDistrict.DistrictName}</b>" are entered successfully.`);
+            const sd = this.selectedDistrict;
+            this.aasForm.reset();
+            setTimeout(() => {
+              this.selectedDistrict = sd;
+              // this.selectedDistrict = { DistrictCode: result[0].DistrictCode, DistrictName: result[0].DistrictName };
+              this.implementStockList = result;
+              this.calculateTotalAvailableSurplusStocks();
+              this.foundNULL = this.implementStockList.some((x: any) => x.Status === null);
+            }, 1);
+          } else {
+            this.toastr.error(`An error occurred! Please try again.`);
+          }
+        }, (error) => this.toastr.error(error.statusText, error.status));
+      } else {
+        this.toastr.warning('Please enter atleast one available surplus stock for an implement.');
+      }
+    } else {
+      this.toastr.warning('Please select the District.');
+    }
   }
 }
