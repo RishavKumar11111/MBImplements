@@ -10,5 +10,6 @@ router.get('/getBlocks/:districtCode', eeBAL.getBlocks);
 router.get('/getImplementsStockSerialNos/:districtCode', eeBAL.getImplementsStockSerialNos);
 router.post('/submitStockInitialisation', eeBAL.submitStockInitialisation);
 router.get('/getStockSupplyData/:districtCode/:implementID', eeBAL.getStockSupplyData);
+router.get('/getAllImplements', manufacturerBAL.getAllImplements);
 
 module.exports = router;

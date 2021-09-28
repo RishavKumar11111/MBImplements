@@ -124,3 +124,14 @@ exports.getStockSupplyData = async (req, res) => {
     throw e;
   }
 };
+
+exports.getAllImplements = async (req, res) => {
+  try {
+    const financialYear = getFinancialYear();
+    const result = await eeDAL.getAllImplements(financialYear);
+    res.send(result);
+  } catch (e) {
+    res.status(500).send(e);
+    throw e;
+  }
+};

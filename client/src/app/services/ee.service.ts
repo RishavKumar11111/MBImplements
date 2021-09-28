@@ -45,4 +45,14 @@ export class EeService {
       withCredentials: true
     });
   }
+
+  getAllImplements(): Observable<any> {
+    return this.http.get(`${this.serverURL}/ee/getAllImplements`);
+  }
+
+  getStockSupplyData(districtCode: number, implementID: number): Observable<any> {
+    return this.http.get(`${this.serverURL}/ee/getStockSupplyData/${districtCode}/${implementID}`, {
+      withCredentials: true
+    });
+  }
 }
