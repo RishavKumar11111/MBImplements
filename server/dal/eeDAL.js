@@ -116,3 +116,17 @@ exports.submitStockInitialisation = (obj, array) => new Promise(async (resolve, 
     client.release();
   }
 });
+
+exports.getStockSupplyData = ({ districtCode, implementID }, userID) => new Promise(async (resolve, reject) => {
+  const client = await pool.connect().catch((err) => { reject(new Error(`Unable to connect to the database: ${err}`)); });
+  try {
+    const query = `select a."DistrictCode", b."DistrictName", a."ImplementID", c."ImplementName", count("ReferenceNo") "FarmerBookingCount", d."InitializedStocks", coalesce("StockSuppliedOAIC"::text, 'NA') "StockSuppliedOAIC", coalesce("StockSuppliedOSIC"::text, 'NA') "StockSuppliedOSIC", coalesce("StockSuppliedOFMRDC"::text, 'NA') "StockSuppliedOFMRDC", coalesce("SupplyDateOAIC"::text, 'NA') "SupplyDateOAIC", coalesce("SupplyDateOSIC"::text, 'NA') "SupplyDateOSIC", coalesce("SupplyDateOFMRDC"::text, 'NA') "SupplyDateOFMRDC", coalesce("ApprovedSupplyOAIC"::text, 'NA') "ApprovedSupplyOAIC", coalesce("ApprovedSupplyOSIC"::text, 'NA') "ApprovedSupplyOSIC", coalesce("ApprovedSupplyOFMRDC"::text, 'NA') "ApprovedSupplyOFMRDC" from "FarmerBooking" a inner join "LGDDistrict" b on a."DistrictCode" = b."DistrictCode" inner join "Implement" c on a."ImplementID" = c."ImplementID" inner join "EEDistrictMapping" f on a."DistrictCode" = f."DistrictCode" inner join (select "DistrictCode", "ImplementID", count("StockSerialNo") "InitializedStocks" from "StockInitialisation" group by "DistrictCode", "ImplementID") d on a."DistrictCode" = d."DistrictCode" and a."ImplementID" = d."ImplementID" left join (select "DistrictCode", "ImplementID", "StockSuppliedOAIC", "StockSuppliedOSIC", "StockSuppliedOFMRDC", "SupplyDateOAIC", "SupplyDateOSIC", "SupplyDateOFMRDC", "ApprovedSupplyOAIC", "ApprovedSupplyOSIC", "ApprovedSupplyOFMRDC", "EEStatus" from "StockSupplyData" where (date(date_trunc('week', "OAICDateTime")) <= date(date_trunc('week', now())) or date(date_trunc('week', "OSICDateTime")) <= date(date_trunc('week', now())) or date(date_trunc('week', "OFMRDCDateTime")) <= date(date_trunc('week', now()))) and "EEStatus" is null) e on a."DistrictCode" = e."DistrictCode" and a."ImplementID" = e."ImplementID" where date(a."DateTime") < date(date_trunc('week', now())) and a."Status" is null and a."EEStatus" is null and "EEUserID" = $1 and ($2 = 0 or a."DistrictCode" = $2) and ($3 = 0 or a."ImplementID" = $3) group by a."DistrictCode", b."DistrictName", a."ImplementID", c."ImplementName", d."InitializedStocks", "StockSuppliedOAIC", "StockSuppliedOSIC", "StockSuppliedOFMRDC", "SupplyDateOAIC", "SupplyDateOSIC", "SupplyDateOFMRDC", "ApprovedSupplyOAIC", "ApprovedSupplyOSIC", "ApprovedSupplyOFMRDC" order by b."DistrictName", c."ImplementName"`;
+    const values = [userID, districtCode, implementID];
+    const response = await client.query(query, values);
+    resolve(response.rows);
+  } catch (e) {
+    reject(new Error(`Oops! An error occurred: ${e}`));
+  } finally {
+    client.release();
+  }
+});

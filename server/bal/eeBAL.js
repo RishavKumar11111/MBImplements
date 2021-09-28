@@ -114,3 +114,13 @@ exports.submitStockInitialisation = async (req, res) => {
     throw e;
   }
 };
+
+exports.getStockSupplyData = async (req, res) => {
+  try {
+    const result = await eeDAL.getStockSupplyData(req.params, req.session.userID);
+    console.log(result);
+  } catch (e) {
+    res.status(500).send(e);
+    throw e;
+  }
+};
