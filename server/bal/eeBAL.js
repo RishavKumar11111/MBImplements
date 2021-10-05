@@ -115,20 +115,20 @@ exports.submitStockInitialisation = async (req, res) => {
   }
 };
 
-exports.getStockSupplyData = async (req, res) => {
+exports.getAllImplements = async (req, res) => {
   try {
-    const result = await eeDAL.getStockSupplyData(req.params, req.session.userID);
-    console.log(result);
+    const financialYear = getFinancialYear();
+    const result = await eeDAL.getAllImplements(financialYear);
+    res.send(result);
   } catch (e) {
     res.status(500).send(e);
     throw e;
   }
 };
 
-exports.getAllImplements = async (req, res) => {
+exports.getStockSupplyData = async (req, res) => {
   try {
-    const financialYear = getFinancialYear();
-    const result = await eeDAL.getAllImplements(financialYear);
+    const result = await eeDAL.getStockSupplyData(req.params, req.session.userID);
     res.send(result);
   } catch (e) {
     res.status(500).send(e);

@@ -9,7 +9,7 @@ router.post('/submitStockAvailability', eeBAL.submitStockAvailability);
 router.get('/getBlocks/:districtCode', eeBAL.getBlocks);
 router.get('/getImplementsStockSerialNos/:districtCode', eeBAL.getImplementsStockSerialNos);
 router.post('/submitStockInitialisation', eeBAL.submitStockInitialisation);
+router.get('/getAllImplements', eeBAL.getAllImplements);
 router.get('/getStockSupplyData/:districtCode/:implementID', eeBAL.getStockSupplyData);
-router.get('/getAllImplements', manufacturerBAL.getAllImplements);
 
 module.exports = router;

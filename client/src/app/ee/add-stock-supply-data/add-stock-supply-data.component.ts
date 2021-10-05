@@ -14,11 +14,11 @@ export class AddStockSupplyDataComponent implements OnInit {
   breadcrumbs: Array<string>;
   districtList: Array<{ DistrictCode: number, DistrictName: string, PDSDistrictName: string }>;
   implementList: Array<{ ImplementID: number, ImplementName: string }>;
-  selectedDistrict: any;
-  implementStockList: Array<any>;
-  totalAvailableSurplusStocks: any;
-  foundNULL: boolean;
-  @ViewChild('addAvailableStockForm') aasForm: any;
+  stockSupplyData: Array<any>;
+
+  addStockSupplyDataForm: FormGroup;
+  @ViewChild('addStockSupplyDataFormID') assdFormID: any;
+
   constructor(
     private eeService: EeService,
     private layoutService: LayoutService,
@@ -29,10 +29,12 @@ export class AddStockSupplyDataComponent implements OnInit {
     this.breadcrumbs = ['Add Stock\'s Supply Data', 'Approve the total no. of Stocks to be supplied by the Suppliers based on various requirements Implement-wise'];
     this.districtList = [];
     this.implementList = [];
-    this.selectedDistrict = '';
-    this.implementStockList = [];
-    this.selectedDistrict = '';
-    this.foundNULL = true;
+    this.stockSupplyData = [];
+
+    this.addStockSupplyDataForm = this.fb.group({
+      selectedDistrict: ['', Validators.required],
+      selectedImplement: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
@@ -46,41 +48,38 @@ export class AddStockSupplyDataComponent implements OnInit {
     this.loadEEDistricts();
     this.loadAllImplements();
   }
+
+  get f() { return this.addStockSupplyDataForm.controls; }
+  get selectedDistrict() { return this.addStockSupplyDataForm.get('selectedDistrict'); }
+  get selectedImplement() { return this.addStockSupplyDataForm.get('selectedImplement'); }
+
   loadEEDistricts() {
     this.eeService.getEEDistricts().subscribe((result: any) => {
       this.districtList = result;
+      this.districtList.unshift({
+        DistrictCode: 0, DistrictName: 'All', PDSDistrictName: 'All'
+      });
     }, (error) => this.toastr.error(error.statusText, error.status));
   }
+
   loadAllImplements() {
     this.eeService.getAllImplements().subscribe((result: any) => {
       this.implementList = result;
+      this.implementList.unshift({
+        ImplementID: 0, ImplementName: 'All'
+      });
     }, (error) => this.toastr.error(error.statusText, error.status));
   }
- 
-  populateStockSupplyData() {
-    // this.eeService.getStockSupplyData(this.selectedDistrict.DistrictCode).subscribe((result: any) => {
-    //   if (result.length > 0) {
-    //     this.implementStockSerialNoList = result.reduce((acc: any, curr: any) => {
-    //       const found = acc.find((x: any) => x.ImplementID === curr.ImplementID && x.ImplementName === curr.ImplementName);
-    //       const stocksSerialNos = {
-    //         ImplementID: curr.ImplementID, StockSerialNo: curr.StockSerialNo
-    //       };
-    //       if (!found) {
-    //         acc.push({
-    //           ImplementID: curr.ImplementID, ImplementName: curr.ImplementName, StocksSerialNos: [stocksSerialNos]
-    //         });
-    //       } else {
-    //         found.StocksSerialNos.push(stocksSerialNos);
-    //       }
-    //       return acc;
-    //     }, []);
-    //   } else {
-    //     this.toastr.info(`Either the Stocks have not been made available to districts or have already been initialised.`);
-    //   }
-    // }, (error) => this.toastr.error(error.statusText, error.status));
+
+  loadStockSupplyData() {
+    const dc = (this.selectedDistrict?.value === null || this.selectedDistrict?.value === undefined || this.selectedDistrict?.value === '') ? 0 : this.selectedDistrict?.value.DistrictCode;
+    const iid = (this.selectedImplement?.value === null || this.selectedImplement?.value === undefined || this.selectedImplement?.value === '') ? 0 : this.selectedImplement?.value.ImplementID;
+    this.eeService.getStockSupplyData(dc, iid).subscribe((result: any) => {
+      this.stockSupplyData = result;
+    }, (error) => this.toastr.error(error.statusText, error.status));
   }
 
   onSubmit() {
-   
+
   }
 }
